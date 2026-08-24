@@ -1,0 +1,109 @@
+app/
+│
+├── (public)/
+│   │
+│   ├── page.tsx
+│   │   └── /
+│   │
+│   ├── login/
+│   │   └── page.tsx
+│   │       └── /login
+│   │
+│   ├── auth/
+│   │   │
+│   │   ├── callback/
+│   │   │   └── route.ts
+│   │   │       └── /auth/callback
+│   │   │
+│   │   └── invite/
+│   │       └── page.tsx
+│   │           └── /auth/invite
+│   │
+│   └── invite/
+│       └── [token]/
+│           └── page.tsx
+│               └── /invite/:token
+│
+├── (protected)/
+│   │
+│   ├── layout.tsx
+│   │   └── Authenticated application shell
+│   │
+│   ├── page.tsx
+│   │   └── /
+│   │
+│   ├── users/
+│   │   │
+│   │   ├── page.tsx
+│   │   │   └── /users
+│   │   │
+│   │   ├── new/
+│   │   │   └── page.tsx
+│   │   │       └── /users/new
+│   │   │
+│   │   └── [userId]/
+│   │       ├── page.tsx
+│   │       │   └── /users/:userId
+│   │       │
+│   │       └── edit/
+│   │           └── page.tsx
+│   │               └── /users/:userId/edit
+│   │
+│   ├── schedule/
+│   │   │
+│   │   ├── page.tsx
+│   │   │   └── /schedule
+│   │   │
+│   │   ├── [week]/
+│   │   │   ├── page.tsx
+│   │   │   │   └── /schedule/:week
+│   │   │   │
+│   │   │   ├── area/
+│   │   │   │   └── [areaId]/
+│   │   │   │       └── page.tsx
+│   │   │   │           └── /schedule/:week/area/:areaId
+│   │   │   │
+│   │   │   └── coverage/
+│   │   │       └── page.tsx
+│   │   │           └── /schedule/:week/coverage
+│   │   │
+│   │   └── settings/
+│   │       └── page.tsx
+│   │           └── /schedule/settings
+│   │           └── Coverage requirements
+│   │
+│   ├── messages/
+│   │   │
+│   │   ├── page.tsx
+│   │   │   └── /messages
+│   │   │
+│   │   └── [conversationId]/
+│   │       └── page.tsx
+│   │           └── /messages/:conversationId
+│   │
+│   └── account/
+│       ├── page.tsx
+│       │   └── /account
+│       │
+│       └── edit/
+│           └── page.tsx
+│               └── /account/edit
+│
+├── api/
+│   │
+│   ├── auth/
+│   │   └── ...
+│   │
+│   ├── users/
+│   │   └── ...
+│   │
+│   ├── schedule/
+│   │   └── ...
+│   │
+│   ├── messages/
+│   │   └── ...
+│   │
+│   └── invitations/
+│       └── ...
+│
+└── globals.css

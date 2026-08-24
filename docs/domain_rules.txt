@@ -1,0 +1,17 @@
+User
+├── MANAGER
+└── END_USER
+
+Schedule
+└── exactly ONE schedule per week
+    │
+    └── Shift[]
+        ├── exactly ONE User
+        ├── exactly ONE Area
+        ├── startsAt
+        └── endsAt
+
+Conversation
+└── exactly ONE Manager + ONE EndUser
+    │
+    └── Message[]

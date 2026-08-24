@@ -1,0 +1,14 @@
+IDENTITY
+└── User
+
+ORGANIZATION
+└── Area
+
+SCHEDULING
+├── Schedule
+└── Shift
+
+COMMUNICATION
+├── Conversation
+├── ConversationParticipant
+└── Message

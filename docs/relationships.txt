@@ -1,0 +1,23 @@
+User
+│
+├── Manager
+│    └── creates → Schedule
+│
+└── EndUser
+     └── assigned → Shift
+
+
+Schedule
+│
+└── Shift[]
+     ├── User
+     └── Area
+
+
+Manager
+   │
+   └── Conversation
+          │
+          ├── EndUser
+          │
+          └── Message[]

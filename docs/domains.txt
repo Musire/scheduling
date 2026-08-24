@@ -1,0 +1,46 @@
+APPLICATION
+│
+├── IDENTITY
+│   │
+│   └── User
+│       ├── id
+│       ├── email
+│       ├── name
+│       └── role
+│           ├── MANAGER
+│           └── END_USER
+│
+├── ORGANIZATION
+│   │
+│   └── Area
+│       ├── id
+│       ├── name
+│       └── active
+│
+├── SCHEDULING
+│   │
+│   ├── Schedule
+│   │   ├── weekStart
+│   │   ├── createdBy → User
+│   │   └── shifts[]
+│   │
+│   └── Shift
+│       ├── schedule → Schedule
+│       ├── user → User
+│       ├── area → Area
+│       ├── startsAt
+│       └── endsAt
+│
+└── COMMUNICATION
+    │
+    ├── Conversation
+    │   ├── manager → User
+    │   ├── endUser → User
+    │   └── messages[]
+    │
+    └── Message
+        ├── conversation → Conversation
+        ├── sender → User
+        ├── body
+        ├── createdAt
+        └── readAt

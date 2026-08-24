@@ -1,0 +1,13 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+/* ---plugins---*/
+@custom-variant dark (&:is(.dark *));
+@plugin 'tailwind-scrollbar';
+@plugin "@tailwindcss/typography";
+
+@import "./styles/theme.css";
+@import "./styles/base.css";
+@import "./styles/animations.css";
+@import "./styles/utilities.css";
+@import "./styles/shadcn.css";

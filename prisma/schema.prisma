@@ -1,0 +1,227 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  MANAGER
+  END_USER
+}
+
+enum UserStatus {
+  PENDING
+  ACTIVE
+  DISABLED
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  EXPIRED
+  REVOKED
+}
+
+model User {
+  // Internal application ID.
+  // This exists even before the user accepts an invitation.
+  id String @id @default(uuid())
+
+  // Supabase Auth UUID.
+  // Null until the EndUser accepts their invitation and creates an account.
+  authUserId String? @unique
+
+  email String @unique
+  name  String
+
+  role   UserRole
+  status UserStatus @default(PENDING)
+
+  // Hourly pay rate for EndUsers.
+  // Managers can leave this null.
+  payRate Decimal? @db.Decimal(10, 2)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Scheduling
+  createdSchedules Schedule[]
+  shifts           Shift[]
+
+  // Invitations
+  invitationsSent Invitation[] @relation("InvitationSender")
+  invitation     Invitation?   @relation("UserInvitation")
+
+  // Communication
+  managerConversations Conversation[] @relation("ManagerConversations")
+  endUserConversations Conversation[] @relation("EndUserConversations")
+  sentMessages         Message[]
+
+  @@index([role])
+  @@index([status])
+  @@index([email])
+}
+
+model Invitation {
+  id String @id @default(uuid())
+
+  userId String @unique
+
+  invitedById String
+
+  email String
+
+  status    InvitationStatus @default(PENDING)
+  expiresAt DateTime
+  acceptedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // The pending/registered EndUser this invitation belongs to.
+  user User @relation("UserInvitation", fields: [userId], references: [id], onDelete: Cascade)
+
+  // The Manager who created the invitation.
+  invitedBy User @relation("InvitationSender", fields: [invitedById], references: [id])
+
+  @@index([email])
+  @@index([status])
+  @@index([expiresAt])
+  @@index([invitedById])
+}
+
+model Area {
+  id String @id @default(uuid())
+
+  name   String
+  active Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  shifts Shift[]
+
+  @@unique([name])
+  @@index([active])
+}
+
+model CoverageRequirement {
+  id String @id @default(uuid())
+
+  areaId Int
+
+  // 0 = Sunday
+  // 1 = Monday
+  // ...
+  // 6 = Saturday
+  dayOfWeek Int
+
+  startsAt DateTime
+  endsAt   DateTime
+
+  // Number of EndUsers required during this period.
+  requiredUsers Int
+
+  active Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  area Area @relation(fields: [areaId], references: [id], onDelete: Cascade)
+
+  @@index([areaId, dayOfWeek])
+  @@index([active])
+}
+
+model Schedule {
+  id String @id @default(uuid())
+
+  // Start of the business week represented by this schedule.
+  weekStart DateTime
+
+  createdById String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  createdBy User @relation(fields: [createdById], references: [id])
+
+  shifts Shift[]
+
+  // Exactly one schedule per week.
+  @@unique([weekStart])
+  @@index([createdById])
+}
+
+model Shift {
+  id String @id @default(uuid())
+
+  scheduleId String
+  userId     String
+  areaId     String
+
+  startsAt DateTime
+  endsAt   DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  schedule Schedule @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
+
+  // Can point to a PENDING EndUser.
+  user User @relation(fields: [userId], references: [id])
+
+  area Area @relation(fields: [areaId], references: [id])
+
+  @@index([scheduleId])
+  @@index([userId])
+  @@index([areaId])
+  @@index([startsAt, endsAt])
+}
+
+model Conversation {
+  id String @id @default(uuid())
+
+  // Exactly one Manager.
+  managerId String
+
+  // Exactly one EndUser.
+  endUserId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  manager User @relation("ManagerConversations", fields: [managerId], references: [id])
+
+  endUser User @relation("EndUserConversations", fields: [endUserId], references: [id])
+
+  messages Message[]
+
+  // One conversation per Manager + EndUser pair.
+  @@unique([managerId, endUserId])
+  @@index([managerId])
+  @@index([endUserId])
+}
+
+model Message {
+  id String @id @default(uuid())
+
+  conversationId String
+  senderId       String
+
+  body String
+
+  createdAt DateTime @default(now())
+  readAt    DateTime?
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  sender User @relation(fields: [senderId], references: [id])
+
+  @@index([conversationId, createdAt])
+  @@index([senderId])
+}

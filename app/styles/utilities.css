@@ -1,0 +1,186 @@
+@utility centered {
+  @apply flex flex-row justify-center items-center;
+}
+
+@utility centered {
+  @apply flex flex-row justify-center items-center;
+}
+
+@utility centered-col {
+  @apply flex flex-col justify-center items-center;
+}
+
+@utility stacked {
+  @apply flex flex-col space-y-6;
+}
+
+@utility spaced {
+  @apply flex flex-row justify-between items-center;
+}
+
+@utility spaced-col {
+  @apply flex flex-col justify-between items-center;
+}
+
+@utility evenly {
+  @apply flex flex-row justify-evenly items-center;
+}
+
+@utility evenly-col {
+  @apply flex flex-col justify-evenly items-center;
+}
+
+@utility scrollbar-adjust {
+  @apply scrollbar-thin scrollbar-track-transparent scrollbar-thumb-darker  hover:scrollbar-thumb-dark;
+}
+
+@utility blip {
+  @apply duration-150 transition-transform hover:cursor-pointer ease-in-out;
+}
+
+@utility snappy {
+  @apply duration-300 hover:cursor-pointer ease-in-out;
+}
+
+@utility sluggish {
+  @apply duration-500 transition-transform hover:cursor-pointer ease-in-out;
+}
+
+@utility bg-img {
+  @apply bg-center bg-no-repeat;
+}
+
+@utility normal-space {
+  @apply px-3 py-2;
+}
+
+@utility p-fluid {
+  @apply xs:px-4 md:px-[clamp(1.5rem,10vw,17rem)];
+}
+
+@utility border-adjust {
+  @apply border-disabled;
+}
+
+@utility border-disabled {
+  @apply dark:border-white/8 border-black/12;
+}
+
+@utility ring-adjust {
+  @apply ring-2 ring-whitesmoke/20;
+}
+
+@utility page-layout {
+  @apply min-h-dvh w-dvw centered bg-darker;
+}
+
+@utility display-layout {
+  @apply min-h-dvh bg-deeper relative xs:w-screen  md:w-[85dvw] lg:w-[70dvw] px-6 text-whitesmoke  flex flex-col py-6;
+}
+
+@utility surface-1 {
+  @apply bg-surface-1 shadow-(--shadow-surface-1);
+}
+
+@utility surface-2 {
+  @apply bg-surface-2 shadow-(--shadow-surface-2);
+}
+
+@utility surface-3 {
+  @apply bg-surface-3 shadow-(--shadow-surface-3);
+}
+
+@utility surface-4 {
+  @apply bg-surface-4 shadow-(--shadow-surface-4);
+}
+
+@utility heading-1 {
+  font-size: var(--text-fluid-4xl);
+  font-weight: var(--font-bold);
+  line-height: var(--leading-tight);
+}
+
+@utility heading-2 {
+  font-size: var(--text-fluid-3xl);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-tight);
+}
+
+@utility heading-3 {
+  font-size: var(--text-fluid-xl);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-tight);
+}
+
+@utility body {
+  font-size: var(--text-fluid);
+  line-height: var(--leading-normal);
+}
+
+@utility body-sm {
+  font-size: var(--text-fluid-sm);
+  line-height: var(--leading-normal);
+}
+
+@utility caption {
+  font-size: var(--text-fluid-xs);
+  line-height: var(--leading-normal);
+}
+
+@utility label {
+  font-size: var(--text-fluid-sm);
+  font-weight: var(--font-medium);
+  line-height: var(--leading-tight);
+}
+
+@utility legend {
+  font-size: var(--text-fluid-sm);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-tight);
+}
+
+@utility bg-darken-* {
+  --mix-percentage: calc(--value(integer) * 10%);
+
+  background-color: color-mix(
+    in srgb,
+    black var(--mix-percentage),
+    --modifier(--color-*)
+  );
+}
+
+@utility bg-lighten-* {
+  --mix-percentage: calc(--value(integer) * 10%);
+
+  background-color: color-mix(
+    in srgb,
+    white var(--mix-percentage),
+    --modifier(--color-*)
+  );
+}
+
+@utility text-auto {
+  --bg-lightness: oklch(from var(--tw-bg-color, white) l 0 0);
+
+  --threshold: 0.62;
+
+  color: hwb(
+    from var(--bg-lightness) h calc((w - var(--threshold)) * -99999%)
+      calc((w - var(--threshold)) * 99999%)
+  );
+}
+
+@utility mix-* {
+  --mix-target: --value(--color-*);
+}
+
+@utility bg-mix-* {
+  --mix-base: --value(--color-*);
+  --mix-ratio: calc(--modifier(integer) * 10%);
+
+  background-color: color-mix(
+    in srgb,
+    var(--mix-target, transparent) var(--mix-ratio, 50%),
+    var(--mix-base)
+  );
+}
