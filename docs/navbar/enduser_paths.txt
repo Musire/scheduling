@@ -1,0 +1,27 @@
+END USER
+│
+├── Schedule
+│   │
+│   ├── My Schedule
+│   │   └── /schedule
+│   │
+│   └── Week
+│       └── /schedule/[week]
+│           │
+│           └── My Shifts
+│
+├── Messages
+│   │
+│   ├── Conversations
+│   │   └── /messages
+│   │
+│   └── Conversation
+│       └── /messages/[conversationId]
+│
+└── Account
+    │
+    ├── Account
+    │   └── /account
+    │
+    └── Edit
+        └── /account/edit

@@ -1,10 +1,8 @@
 'use server'; 
 
-import { prisma } from "@/lib/prisma";
 import { supabaseAdminClient } from "@/lib/supabase/admin";
 import { createSupabaseServerClient, createSupabaseServerClientReadOnly } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { safeAction } from "../auth/safeAction";
 
 export async function logout() {
 
@@ -80,20 +78,7 @@ export async function getCurrentUser() {
   return user
 }
 
-export async function hasStaffProfile() {
-    return safeAction( async () => {
-      const user = await getCurrentUser()
-      if (!user) {
-        throw new Error('not signed in')
-      }
-      const exists = await prisma.staffProfile.findUnique({
-        where: { userId: user.id },
-        select: { id: true },
-      })
 
-      return Boolean(exists)
-    })
-}
 
 export async function signup(
   _: FormState, 

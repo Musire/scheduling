@@ -1,4 +1,6 @@
-export type RoleType = "MANAGER" | "ENDUSER"
+import { UserRole } from "@/generated/prisma/enums";
+
+export type RoleType = UserRole
 
 
 export type SecureActionConfig = {

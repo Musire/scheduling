@@ -21,3 +21,35 @@ Manager
           ├── EndUser
           │
           └── Message[]
+
+
+
+
+
+┌─────────────────────────────────────────────┐
+│                  RESTAURANT                 │
+│                                             │
+│  Identity                                   │
+│     │                                       │
+│     ├── Restaurant                          │
+│     │      ├── Areas                        │
+│     │      └── Roles                        │
+│     │                                       │
+│     ├── Users / Employees                   │
+│     │                                       │
+│     ├── Requirements                        │
+│     │                                       │
+│     └── Scheduling                          │
+│            │                                │
+│            ├── Shifts                       │
+│            ├── Validation                   │
+│            ├── Gaps                         │
+│            └── Publishing                   │
+│                                             │
+│  Communication                              │
+│     └── Messages                            │
+│                                             │
+│  Notifications                              │
+│                                             │
+│  Account                                     │
+└─────────────────────────────────────────────┘

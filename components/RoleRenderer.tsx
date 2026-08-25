@@ -1,8 +1,8 @@
-'use client';
+'use client'
 
 import { useAuth } from "@/context";
 import { RoleType } from "@/domains/identity/types";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 
 type Props = {
@@ -10,8 +10,10 @@ type Props = {
   fallback?: React.ReactNode;
 };
 
-export function RoleRenderer({ roles, fallback }: Props) {
+export default function RoleRenderer({ roles, fallback }: Props) {
   const { role } = useAuth();
+  const router = useRouter()
+
 
   if (!role) {
     return null
@@ -20,7 +22,8 @@ export function RoleRenderer({ roles, fallback }: Props) {
   const component = roles[role] ?? fallback;
 
   if (!component) {
-    redirect("/unauthorized");
+    router.push("/unauthorized");
+    return
   }
 
   return component;

@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
-import { Michroma, Poppins, Playfair_Display, Great_Vibes, Roboto, Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./main.css";
 
 const inter = Inter({subsets:['latin'],variable:'--font-sans'});
@@ -18,21 +18,39 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={cn("font-sans", inter.variable)}>
       <head>
+        <template
+          id="theme-script"
+          dangerouslySetInnerHTML={{
+            __html: `
+              <script>
+                (function () {
+                  try {
+                    const theme = localStorage.getItem("theme");
+                    if (theme === "dark") {
+                      document.documentElement.classList.add("dark");
+                    } else {
+                      document.documentElement.classList.remove("dark");
+                    }
+                  } catch (e) {}
+                })();
+              </script>
+            `,
+          }}
+        />
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              (function() {
-                const theme = localStorage.getItem('theme');
-                if (theme === 'dark') {
-                  document.documentElement.classList.add('dark');
-                }
-              })();
+              // This immediately runs and executes the script inside the template above
+              const template = document.getElementById('theme-script');
+              if (template) {
+                document.head.appendChild(template.content.cloneNode(true));
+              }
             `,
           }}
         />
       </head>
       <body
-        className="font-poppins text-main"
+        className="font-poppins text-auto"
       >
         {children}
       </body>

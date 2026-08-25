@@ -1,0 +1,60 @@
+MANAGER
+│
+├── Schedule
+│   │
+│   ├── Overview
+│   │   └── /schedule
+│   │
+│   ├── Week
+│   │   └── /schedule/[week]
+│   │       │
+│   │       ├── Overview
+│   │       │
+│   │       ├── Requirements
+│   │       │   └── /schedule/[week]/requirements
+│   │       │
+│   │       └── Area
+│   │           └── /schedule/[week]/area/[areaId]
+│   │
+│   └── Settings
+│       └── /schedule/settings
+│           │
+│           ├── Areas
+│           │   ├── Create Area
+│           │   ├── Edit Area
+│           │   └── Activate / Disable Area
+│           │
+│           └── Roles
+│               ├── Create Role
+│               ├── Edit Role
+│               └── Activate / Disable Role
+│
+├── Users
+│   │
+│   ├── All Users
+│   │   └── /users
+│   │
+│   ├── New User
+│   │   └── /users/new
+│   │
+│   └── User
+│       └── /users/[userId]
+│           │
+│           └── Edit
+│               └── /users/[userId]/edit
+│
+├── Messages
+│   │
+│   ├── Conversations
+│   │   └── /messages
+│   │
+│   └── Conversation
+│       └── /messages/[conversationId]
+│
+└── Account
+    │
+    ├── Account
+    │   └── /account
+    │
+    └── Edit
+        └── /account/edit

@@ -1,4 +1,4 @@
-import { Prisma } from "@/generated/prisma";
+import { Prisma } from "@/generated/prisma/client";
 
 export function formatActionError(err: unknown): { success: false; data: null; error: string } {
   // 1. Check for specific Prisma Known Request Errors first

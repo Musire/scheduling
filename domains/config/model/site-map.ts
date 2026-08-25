@@ -1,0 +1,21 @@
+// src/lib/route-map.ts
+export const ROUTE_TITLES: Record<string, string> = {
+  "/appointment/:appointmentId": "Detalles de Cita",
+  "/booking": "Ubicacion",
+  "/booking/dateTime": "Fecha y Hora",
+  "/booking/review": "Confirmar Cita",
+  "/booking/service": "Servicios",
+  "/booking/staff": "Personal",
+  "/checkin/:appointmentId": "Check-In",
+  "/dashboard": "",
+  "/discover/barbers": "Descubre Talento",
+  "/discover/stores": "Descubre Tiendas",
+  "/history": "",
+  "/pool": "",
+  "/profile": "",
+  "/profile/edit": "Editar Perfil",
+  "/qr": "",
+  "/stores": "",
+  "/stores/:storeId": "Detalles de Tienda",
+  "/welcome": "",
+};
