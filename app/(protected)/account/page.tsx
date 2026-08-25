@@ -1,5 +1,12 @@
+import RoleRenderer from "@/components/RoleRenderer";
+import AdminAccount from "@/domains/account/components/AdminAccount";
+
 export default function AccountPage () {
     return (
-        <div className="">account page</div>
+        <RoleRenderer 
+            roles={{
+                MANAGER: <AdminAccount  />  
+            }}
+        />
     );
 }

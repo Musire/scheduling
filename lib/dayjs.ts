@@ -11,7 +11,7 @@ dayjs.extend(customParseFormat);
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-export const APP_TIMEZONE = "America/Chihuahua";
+export const APP_TIMEZONE = "America/Chicago";
 dayjs.tz.setDefault(APP_TIMEZONE);
 
 export { dayjs, Dayjs };
