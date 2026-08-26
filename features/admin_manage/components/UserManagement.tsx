@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export default async function UserMangement () {
-    const shared = 'normal-space grow capitalize border-b border-whitesmoke/30'
+    const shared = 'normal-space grow capitalize border-b border-whitesmoke/30 text-center'
     const inActive = ' text-else hover:text-main'
     const active = ' border-whitesmoke/87'
 

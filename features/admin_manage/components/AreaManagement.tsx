@@ -1,9 +1,37 @@
-import Link from "next/link";
+'use client';
 
-export default async function AreaManagement () {
-    const shared = 'normal-space grow capitalize border-b border-whitesmoke/30'
+import Link from "next/link";
+import { useState } from "react";
+
+type Area = {
+  id: string
+  name: string
+  description: string
+}
+
+const areas: Area[] = [
+  {
+    id: "dining",
+    name: "Dining Room",
+    description: "Servers and guest service",
+  },
+  {
+    id: "bar",
+    name: "Bar",
+    description: "Bartenders and barbacks",
+  },
+  {
+    id: "kitchen",
+    name: "Kitchen",
+    description: "Cooks and kitchen staff",
+  },
+]
+
+export default function AreaManagement () {
+    const shared = 'normal-space grow capitalize border-b border-whitesmoke/30 text-center'
     const inActive = ' text-else hover:text-main'
     const active = ' border-whitesmoke/87'
+
 
     return (
         <section className="py-6 flex-1">
@@ -33,6 +61,7 @@ export default async function AreaManagement () {
                     </Link>
                 </li>
             </ul>
+            
         </section>
     );
 }

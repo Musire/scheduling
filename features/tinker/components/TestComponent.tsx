@@ -1,10 +1,10 @@
 "use client";
 
 import { getWeekRange } from "@/domains/scheduling/utils/weekView";
+import { CalendarController } from "@/features/date_picker/components/date-picker/CalendarController";
 
 import { format, parseISO } from "date-fns";
 import { useState } from "react";
-import { CalendarController } from "./date-picker/CalendarController";
 
 // Mock dataset representing data fetched from your backend database
 

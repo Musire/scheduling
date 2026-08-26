@@ -19,7 +19,7 @@ export const navByRole: Record<UserRole, NavItem[]> = {
     { 
       label: 'Manage',
       icon: 'manage',
-      href: `/manage` 
+      href: `/manage/areas` 
     },
     { 
       label: 'Messages',
