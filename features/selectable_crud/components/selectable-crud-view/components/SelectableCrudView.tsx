@@ -45,6 +45,7 @@ export default function SelectableCrudView<T extends { id: string, value: string
             setMode={setMode}
             mode={mode}
             setSelected={setSelected}
+            basePath={pathname}
           />
           <DisplayContent 
             setSelected={setSelected}

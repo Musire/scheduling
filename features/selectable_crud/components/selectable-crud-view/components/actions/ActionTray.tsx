@@ -10,12 +10,14 @@ type Props = {
     setMode: (mode: ContainerMode) => void;
     setSelected: Dispatch<SetStateAction<string[]>>;
     mode: ContainerMode;
+    basePath: string;
 }
 
 export default function ActionTray ({
     setMode,
     setSelected,
-    mode
+    mode,
+    basePath
 }: Props) {
 
     const handleEdit = () => {
@@ -41,7 +43,7 @@ export default function ActionTray ({
     return (
         <div className="flex text-else w-full justify-end pr-4 items-center space-x-2">
             <CreateAction 
-                href="/"
+                href={`${basePath}/create`}
             />
             <EditAction
                 onClick={handleEdit}

@@ -1,4 +1,5 @@
 import RoleRenderer from "@/components/RoleRenderer";
+import { getAreas } from "@/domains/restaurant/queries/getAreas";
 import AreaManagement from "@/features/admin_manage/components/AreaManagement";
 
 const mockItems = [
@@ -17,6 +18,7 @@ const mockItems = [
 ]
 
 export default async function AreaManagementPage () {
+    const areas = await getAreas()
     return (
         <RoleRenderer 
             roles={{
