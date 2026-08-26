@@ -1,12 +1,26 @@
 import RoleRenderer from "@/components/RoleRenderer";
 import AreaManagement from "@/features/admin_manage/components/AreaManagement";
 
-export default async function AreaManagementPage () {
+const mockItems = [
+  {
+    id: 'mock-item-001',
+    value: 'value-001'
+  },
+  {
+    id: 'mock-item-002',
+    value: 'value-002'
+  },
+  {
+    id: 'mock-item-003',
+    value: 'value-003'
+  },
+]
 
+export default async function AreaManagementPage () {
     return (
         <RoleRenderer 
             roles={{
-                MANAGER: <AreaManagement />   
+                MANAGER: <AreaManagement items={mockItems} />   
             }}
         />
     );

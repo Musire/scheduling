@@ -1,67 +1,35 @@
 'use client';
 
-import Link from "next/link";
-import { useState } from "react";
+import SelectableCrudView from "@/features/selectable_crud/components/selectable-crud-view/components/SelectableCrudView";
+import ManageTabs from "./ManageTabs";
 
-type Area = {
-  id: string
-  name: string
-  description: string
+type Props<T> = {
+  items: T[]
 }
 
-const areas: Area[] = [
-  {
-    id: "dining",
-    name: "Dining Room",
-    description: "Servers and guest service",
-  },
-  {
-    id: "bar",
-    name: "Bar",
-    description: "Bartenders and barbacks",
-  },
-  {
-    id: "kitchen",
-    name: "Kitchen",
-    description: "Cooks and kitchen staff",
-  },
-]
+export default function AreaManagement<T extends { id: string, value: string}> ({ 
+    items 
+}: Props<T>) {
 
-export default function AreaManagement () {
-    const shared = 'normal-space grow capitalize border-b border-whitesmoke/30 text-center'
-    const inActive = ' text-else hover:text-main'
-    const active = ' border-whitesmoke/87'
-
+    const handleDelete = () => {
+      console.log('deleted an item')
+    }
 
     return (
-        <section className="py-6 flex-1">
-            <ul className=" max-w-full flex ">
-                <li className="flex flex-1">
-                    <Link 
-                        href={`/manage/areas`} 
-                        className={`${shared} ${active} `}
-                    >
-                        areas
-                    </Link>
-                </li>
-                <li className="flex flex-1">
-                    <Link 
-                        href={`/manage/requirements`} 
-                        className={`${shared} ${inActive}`}
-                    >
-                        requirements
-                    </Link>
-                </li>
-                <li className="flex flex-1">
-                    <Link 
-                        href={`/manage/users`} 
-                        className={`${shared} ${inActive}`}
-                    >
-                        users
-                    </Link>
-                </li>
-            </ul>
-            
+        <section className="pt-6 flex-1 flex flex-col space-y-6">
+            <ManageTabs activeValue="areas" />
+            <SelectableCrudView
+                items={items}
+                onDelete={handleDelete}
+                containerStyle="stacked px-1"
+                renderItem={(item) => {
+                    return (
+                    <article className="text-main">
+                        <h3>{item.value}</h3>
+                    </article>
+                    )
+                }}
+            />
         </section>
     );
 }
