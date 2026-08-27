@@ -1,12 +1,7 @@
 import { formatActionError } from "@/lib/utils/formatError";
 import { getCurrentUser } from "../actions/auth.actions";
-import { ActionResult, SecureActionConfig } from "../types";
-
-// Define a unified wrapper response type for your frontend
-export type ActionResponse<T> = 
-  | { success: true; data: T; error: null }
-  | { success: false; data: null; error: string };
-
+import { ActionResponse, ActionResult, SecureActionConfig } from "../types";
+import z from "zod";
 
 export async function safeAction<T>(
   handler: () => T | Promise<T>
@@ -47,21 +42,6 @@ export function createSafeAction<Args extends any[], Output>(
         throw new Error("Forbidden");
       }
 
-      // 2. Granular Ownership authorization
-      if (config.ownerRoles) {
-        const rule = config.ownerRoles.find(
-          (r) => r.role === user.user_metadata.role
-        );
-
-        if (rule) {
-          const isOwner = await rule.check();
-
-          if (!isOwner) {
-            throw new Error("Forbidden");
-          }
-        }
-      }
-
       const data = await handler(...args);
 
       return {
@@ -73,4 +53,31 @@ export function createSafeAction<Args extends any[], Output>(
       return formatActionError(error);
     }
   };
+}
+
+export function validateSchema<T>(
+  schema: z.ZodType<T>,
+  data: unknown
+): T {
+  const validated = schema.safeParse(data);
+
+  if (!validated.success) {
+    const errorMessages = validated.error.issues
+      .map((e) => e.message)
+      .join(", ");
+
+    throw new Error(`Validation error: ${errorMessages}`);
+  }
+
+  return validated.data;
+}
+
+export function validateFormData<T>(
+  schema: z.ZodType<T>,
+  formData: FormData
+): T {
+  return validateSchema(
+    schema,
+    Object.fromEntries(formData.entries())
+  );
 }

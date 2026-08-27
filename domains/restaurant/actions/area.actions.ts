@@ -1,8 +1,10 @@
 'use server'
 
-import { createSafeAction } from "@/domains/identity/auth/safeAction";
-import { createAreaService } from "../services/area.services";
+import { createSafeAction, validateFormData, validateSchema } from "@/domains/identity/auth/safeAction";
+import { createAreaService, deleteAreaService } from "../services/area.services";
 import { AreaCreateSchema } from "../validation/AreaSchema";
+import { DeleteAreaSchema, DeleteAreaType } from "../validation/DeleteSchema";
+import { revalidatePath } from "next/cache";
 
 export const createArea = createSafeAction(
     {   
@@ -19,5 +21,18 @@ export const createArea = createSafeAction(
         }
 
         return await createAreaService(validated.data);
+    }
+)
+
+export const deleteArea = createSafeAction(
+    {
+        allowedRoles: ['MANAGER']
+    },
+    async (input: DeleteAreaType) => {
+        const data = validateSchema(DeleteAreaSchema, input)
+
+        const res = await deleteAreaService(data)
+        revalidatePath('/manage/areas')
+        return res
     }
 )

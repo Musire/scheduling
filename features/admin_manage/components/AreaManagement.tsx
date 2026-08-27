@@ -1,19 +1,36 @@
 'use client';
 
+import { useToast } from "@/context";
+import { deleteArea } from "@/domains/restaurant/actions/area.actions";
 import SelectableCrudView from "@/features/selectable_crud/components/selectable-crud-view/components/SelectableCrudView";
+import { useTransition } from "react";
 import ManageTabs from "./ManageTabs";
-import { AreaType } from "@/domains/restaurant/validation/AreaSchema";
+import { Area } from "@/generated/prisma/client";
 
 type Props<T> = {
   items: T[]
 }
 
-export default function AreaManagement<T extends AreaType> ({ 
+export default function AreaManagement<T extends Area> ({ 
     items 
 }: Props<T>) {
 
-    const handleDelete = () => {
-      console.log('deleted an item')
+    const [isPending, startTransition] = useTransition()
+    const { createSuccess, createError } = useToast()
+
+    const handleDelete = (ids?: string[]) => {
+      if (!ids || ids.length === 0) return;
+      
+      startTransition(async() => {
+        
+        const res = await deleteArea({ids})
+        if (!res.success) {
+            createError(res.error)
+            return;
+        }
+
+        createSuccess('deleted an item')
+      })
     }
 
     return (

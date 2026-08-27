@@ -5,6 +5,7 @@ export const AreaCreateSchema = z.object({
 });
 
 export const AreaSchema = z.object({
+  id: z.uuid(),
   name: z.string().min(1, "Area name is required"),
   active: z.boolean().optional(), 
   
@@ -13,5 +14,6 @@ export const AreaSchema = z.object({
   shifts: z.any().optional(),
   coverageRequirements: z.any().optional(),
 });
+
 
 export type AreaType = z.infer<typeof AreaSchema>;

@@ -25,5 +25,19 @@ export const AreaRepository = {
             }
         })
         return area
+    },
+    async deleteAreas(ids: string[]) {
+        const area = await prisma.area.updateMany({
+            where: {
+                id: {
+                    in: ids
+                }
+            },
+            data: {
+                active: false
+            }
+        })
+
+        return area
     }
 }

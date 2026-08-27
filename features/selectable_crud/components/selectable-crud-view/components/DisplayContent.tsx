@@ -1,27 +1,29 @@
 'use client';
 
+import { cn } from "@/lib/utils";
 import { Dispatch, SetStateAction } from "react";
 import { ContainerMode } from "../types";
 import SelectableCard from "./SelectableCard";
-import { cn } from "@/lib/utils";
 
-type Props<T> = {
+type Props<T, K extends string> = {
     selected: string[];
     setSelected: Dispatch<SetStateAction<string[]>>;
     items?: T[];
-    mode: ContainerMode
+    mode: ContainerMode;
+    getId: (item: T) => K
     renderItem: (item: T) => React.ReactNode;
     containerStyle? : string;
 }
 
-export default function DisplayContent<T> ({
+export default function DisplayContent<T, K extends string> ({
     selected,
     setSelected,
     items,
     mode,
+    getId,
     renderItem,
     containerStyle
-}: Props<T>) {
+}: Props<T, K>) {
     const handleSelect = (id: string) => {
         if (mode === 'edit') {
             if (selected.includes(id)) {
@@ -43,15 +45,19 @@ export default function DisplayContent<T> ({
 
     return (
         <div className={cn(`flex-1 `, containerStyle)}>
-            {items?.map(i => (
-                <SelectableCard key={i.id} 
-                    mode={mode}
-                    selected={selected.includes(i.id)}
-                    onSelect={() => handleSelect(i.id)}
-                >
+            {items?.map(i => {
+                const id = getId(i)
+                return (
+                    <SelectableCard key={id} 
+                        mode={mode}
+                        selected={selected.includes(id)}
+                        onSelect={() => handleSelect(id)}
+                        id={id}
+                    >
                     {renderItem(i)}
                 </SelectableCard>
-            ))}
+                )
+            })}
             {!items?.length && <p className="">there are no items</p>}
         </div>
     );

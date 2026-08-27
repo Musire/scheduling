@@ -9,19 +9,19 @@ import ActionTray from "./actions/ActionTray";
 import ContinueButton from "./actions/ContinueButton";
 import DisplayContent from "./DisplayContent";
 
-type Props<T> = {
+type Props<T, S = string[]> = {
   items: T[];
-  onDelete: () => void;
+  onDelete: (args?: S) => void 
   containerStyle? : string;
   renderItem: (item: T) => React.ReactNode;
 }
 
-export default function SelectableCrudView<T> ({
+export default function SelectableCrudView<T, S> ({
   items,
   onDelete,
   renderItem,
   containerStyle
-} :Props<T>) {
+} :Props<T, S>) {
     const pathname = usePathname()
 
     const [mode, setMode] = useState<ContainerMode>('view');
@@ -33,7 +33,7 @@ export default function SelectableCrudView<T> ({
     } = useDrawer()
 
     const handleDelete = () => {
-      onDelete()
+      onDelete(selected as S)
       setMode('view')
       setSelected([])
     }
@@ -52,6 +52,7 @@ export default function SelectableCrudView<T> ({
             items={items}
             mode={mode}
             selected={selected}
+            getId={(i: any) => i.id}
             renderItem={renderItem}
             containerStyle={containerStyle}
           />

@@ -52,7 +52,7 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
               relative overflow-hidden pointer-events-auto shadow-lg 
               min-w-60 px-5 py-3.5 rounded-lg  font-sans text-sm font-medium  
               animate-fade-in-out border
-              ${toast.type === 'success' ? 'bg-success/20 border-success text-success' : 'bg-error/20 border-error text-error'}
+              ${toast.type === 'success' ? 'bg-darken-8/success border-success text-success' : 'bg-darken-8/error border-error text-error'}
             `}
           >
             {/* The Toast Message */}
