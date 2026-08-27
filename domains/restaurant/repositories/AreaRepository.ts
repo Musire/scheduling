@@ -9,5 +9,21 @@ export const AreaRepository = {
             }
         })
         return areas
+    },
+    async createArea(name: string) {
+        const area = await prisma.area.create({
+            data: {
+                name
+            }
+        })
+        return area
+    }, 
+    async findAreaByName(name: string) {
+        const area = await prisma.area.findUnique({
+            where: {
+                name
+            }
+        })
+        return area
     }
 }

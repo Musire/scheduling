@@ -2,12 +2,13 @@
 
 import SelectableCrudView from "@/features/selectable_crud/components/selectable-crud-view/components/SelectableCrudView";
 import ManageTabs from "./ManageTabs";
+import { AreaType } from "@/domains/restaurant/validation/AreaSchema";
 
 type Props<T> = {
   items: T[]
 }
 
-export default function AreaManagement<T extends { id: string, value: string}> ({ 
+export default function AreaManagement<T extends AreaType> ({ 
     items 
 }: Props<T>) {
 
@@ -25,7 +26,7 @@ export default function AreaManagement<T extends { id: string, value: string}> (
                 renderItem={(item) => {
                     return (
                     <article className="text-main">
-                        <h3>{item.value}</h3>
+                        <h3>{item.name}</h3>
                     </article>
                     )
                 }}

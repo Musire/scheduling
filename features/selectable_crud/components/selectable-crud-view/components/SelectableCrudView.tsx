@@ -16,7 +16,7 @@ type Props<T> = {
   renderItem: (item: T) => React.ReactNode;
 }
 
-export default function SelectableCrudView<T extends { id: string, value: string }> ({
+export default function SelectableCrudView<T> ({
   items,
   onDelete,
   renderItem,

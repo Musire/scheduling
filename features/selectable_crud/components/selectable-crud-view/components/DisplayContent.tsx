@@ -14,7 +14,7 @@ type Props<T> = {
     containerStyle? : string;
 }
 
-export default function DisplayContent<T extends { id: string, value: string }> ({
+export default function DisplayContent<T> ({
     selected,
     setSelected,
     items,

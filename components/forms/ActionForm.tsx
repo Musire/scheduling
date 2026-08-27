@@ -8,17 +8,14 @@ import StatusButton from "./StatusButton";
 
 export type FormState = { success: boolean; error: string | null };
 
-// 1. Enforce that S evaluates to standard FieldValues (Record<string, any>)
 interface FormProps<S extends z.ZodObject<FieldValues>> {
     schema: S;
-    // 2. Explicitly type initial values as RHF DefaultValues
     initialValues: DefaultValues<z.infer<S>>; 
     children?: React.ReactNode;
     actionFn: (prevState: FormState, formData: FormData) => FormState | Promise<FormState>;
     onSuccess?: () => void;
 }
 
-// 3. Apply the updated FieldValues constraint down to the component
 export default function ActionForm<S extends z.ZodObject<FieldValues>>({ 
     initialValues, 
     schema,
@@ -32,22 +29,30 @@ export default function ActionForm<S extends z.ZodObject<FieldValues>>({
         error: null
     });
 
-    // TypeScript can now safely type-check this setup without any errors
     const form = useForm<z.infer<S>>({
       resolver: zodResolver(schema) as any, 
       defaultValues: initialValues,
       mode: "onBlur"
     });
 
-    const handleFormSubmit = async (formData: FormData) => {
+    const handleFormSubmit = async () => {
       const isValid = await form.trigger();
-
       if (!isValid) return;
 
-      startTransition(async() => {
-          formAction(formData);
+      const formValues = form.getValues();
+
+      // 1. Explicitly build the FormData instance from RHF values
+      const formData = new FormData();
+      Object.entries(formValues).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          formData.append(key, String(value));
+        }
       });
-  };
+
+      startTransition(async () => {
+        formAction(formData); 
+      });
+    };
 
     useEffect(() => {
         if (state.success && onSuccess) {

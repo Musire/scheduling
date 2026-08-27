@@ -18,11 +18,13 @@ const mockItems = [
 ]
 
 export default async function AreaManagementPage () {
-    const areas = await getAreas()
+    const { data } = await getAreas()
+    if (!data) return null
+    
     return (
         <RoleRenderer 
             roles={{
-                MANAGER: <AreaManagement items={mockItems} />   
+                MANAGER: <AreaManagement items={data} />   
             }}
         />
     );
