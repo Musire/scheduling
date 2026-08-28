@@ -1,10 +1,10 @@
 'use server'
 
 import { createSafeAction, validateFormData, validateSchema } from "@/domains/identity/auth/safeAction";
-import { createAreaService, deleteAreaService } from "../services/area.services";
-import { AreaCreateSchema } from "../validation/AreaSchema";
-import { DeleteAreaSchema, DeleteAreaType } from "../validation/DeleteSchema";
 import { revalidatePath } from "next/cache";
+import { createAreaService, deleteAreaService, updateAreaService } from "../services/area.services";
+import { AreaCreateSchema, AreaUpdateSchema } from "../validation/AreaSchema";
+import { DeleteAreaSchema, DeleteAreaType } from "../validation/DeleteSchema";
 
 export const createArea = createSafeAction(
     {   
@@ -12,15 +12,18 @@ export const createArea = createSafeAction(
     },
     
     async (_, formData: FormData) => {
-        const rawData = Object.fromEntries(formData.entries());
-        const validated = AreaCreateSchema.safeParse(rawData);
+        const validated = validateFormData(AreaCreateSchema, formData)
+        return await createAreaService(validated);
+    }
+)
 
-        if (!validated.success) {
-            const errorMessages = validated.error.issues.map(e => e.message).join(', ');
-            throw new Error(`Validation error: ${errorMessages}`);
-        }
-
-        return await createAreaService(validated.data);
+export const updateArea = createSafeAction(
+    {   
+        allowedRoles: ['MANAGER']
+    },
+    async (_, formData: FormData) => {
+        const validated = validateFormData(AreaUpdateSchema, formData)
+        return await updateAreaService(validated);
     }
 )
 
@@ -29,9 +32,9 @@ export const deleteArea = createSafeAction(
         allowedRoles: ['MANAGER']
     },
     async (input: DeleteAreaType) => {
-        const data = validateSchema(DeleteAreaSchema, input)
+        const validated = validateSchema(DeleteAreaSchema, input)
 
-        const res = await deleteAreaService(data)
+        const res = await deleteAreaService(validated)
         revalidatePath('/manage/areas')
         return res
     }

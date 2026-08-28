@@ -6,7 +6,7 @@ type Props = {
     mode: ContainerMode;
     selected: boolean
     onSelect: () => void
-    id: string
+    name: string
     children: React.ReactNode
 }
 
@@ -14,14 +14,14 @@ export default function SelectableCard ({
     mode,
     selected,
     onSelect,
-    id,
+    name,
     children
 }: Props) {
     const pathname = usePathname()
     return (
         <>
             {mode === 'view' && (
-                <Link href={`/${pathname}/${id}`} className="">
+                <Link href={`${pathname}/${name}`} className="">
                     {children}
                 </Link>
             )}

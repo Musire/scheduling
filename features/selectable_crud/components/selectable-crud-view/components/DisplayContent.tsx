@@ -45,14 +45,14 @@ export default function DisplayContent<T, K extends string> ({
 
     return (
         <div className={cn(`flex-1 `, containerStyle)}>
-            {items?.map(i => {
+            {items?.map((i:any) => {
                 const id = getId(i)
                 return (
                     <SelectableCard key={id} 
                         mode={mode}
                         selected={selected.includes(id)}
                         onSelect={() => handleSelect(id)}
-                        id={id}
+                        name={i.name}
                     >
                     {renderItem(i)}
                 </SelectableCard>

@@ -8,7 +8,8 @@ interface ContinueProps {
     hasSelection: boolean;
     onDelete: () => void;
     selected: string[],
-    basePath: string
+    basePath: string,
+    getNameById: (id: string) => string;
 }
 
 export default function ContinueButton ({ 
@@ -16,7 +17,8 @@ export default function ContinueButton ({
     hasSelection, 
     onDelete, 
     selected, 
-    basePath 
+    basePath,
+    getNameById
 }: ContinueProps) {
     if (!hasSelection || mode === 'view') return null;
 
@@ -32,7 +34,7 @@ export default function ContinueButton ({
     }
 
     if (mode === 'edit') {
-        const uri = `${basePath}/${selected[0]}/edit`
+        const uri = `${basePath}/${getNameById(selected[0])}/edit`
         return (
             <Link
                 href={uri}

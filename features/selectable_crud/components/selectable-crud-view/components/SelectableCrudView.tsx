@@ -67,6 +67,9 @@ export default function SelectableCrudView<T, S> ({
             onDelete={openDrawer}
             selected={selected}
             basePath={pathname}
+            getNameById={(id: string) => 
+              (items.find((obj: any) => obj.id === id) as { name: string } | undefined)?.name ?? ''
+            }
           />
         </div>
     );
