@@ -1,6 +1,6 @@
 import RoleRenderer from "@/components/RoleRenderer";
 import { getAreaDetails } from "@/domains/restaurant/queries/getAreas";
-import { CreateAreaForm } from "@/forms";
+import { UpdateAreaForm } from "@/forms";
 
 type Props = {
   params: Promise<{ areaSlug: string }>
@@ -18,7 +18,7 @@ export default async function UpdateAreaPage ({ params }: Props) {
     return (
         <RoleRenderer 
             roles={{
-                MANAGER: <CreateAreaForm data={data} isUpdate  />
+                MANAGER: <UpdateAreaForm data={data} />
             }}
         />
     );
