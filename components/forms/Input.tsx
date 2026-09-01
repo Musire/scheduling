@@ -21,6 +21,7 @@ export default function Input<T extends FieldValues>({
   as = "input",
   type = "text",
   className = "",
+  onKeyDown, // Extract onKeyDown from props if present
   ...props
 }: FormFieldProps<T>) {
   const [showPassword, setShowPassword] = useState(false);
@@ -31,7 +32,6 @@ export default function Input<T extends FieldValues>({
   const isPassword = type === "password";
   const Tag = as;
 
-  // Final type logic for password toggling
   const inputType = isPassword ? (showPassword ? "text" : "password") : type;
 
   const baseClasses = `bg-background w-full border rounded-lg focus:ring-2 focus:outline-none transition-all
@@ -59,6 +59,14 @@ export default function Input<T extends FieldValues>({
           {...props}
           className={baseClasses}
           onWheel={(e) => type === "number" && e.currentTarget.blur()}
+          onKeyDown={(e) => {
+            // Block 'e', 'E', '-', and '+' for number inputs
+            if (type === "number" && ["e", "E", "-", "+"].includes(e.key)) {
+              e.preventDefault();
+            }
+            // Call any custom onKeyDown passed via props
+            onKeyDown?.(e as any);
+          }}
         />
 
         {isPassword && (

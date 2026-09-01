@@ -9,5 +9,10 @@ export const DeleteRoleSchema = z.object({
   ids: z.array(z.string()).min(1)
 });
 
+export const DeleteRequirementSchema = z.object({
+  ids: z.array(z.string()).min(1)
+})
+
 export type DeleteAreaType = z.infer<typeof DeleteAreaSchema>;
 export type DeleteRoleType = z.infer<typeof DeleteRoleSchema>;
+export type DeleteRequirmentType = z.infer<typeof DeleteRequirementSchema>;

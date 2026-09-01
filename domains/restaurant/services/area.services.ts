@@ -25,3 +25,7 @@ export async function updateAreaService (data: UpdateAreaType) {
 export async function deleteAreaService (data: DeleteAreaType) {
     return AreaRepository.deleteAreas(data.ids)
 }
+
+export async function getAreaRoleService () {
+    return AreaRepository.getAreaRoles()
+}

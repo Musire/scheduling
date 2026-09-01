@@ -9,7 +9,8 @@ export type SecureActionConfig = {
 // Define the unified result type
 export type ActionResult<T> = 
   | { success: true; data: T; error?: string }
-  | { success: false; data: null; error: string };
+  | { success: false; data: null; error: string }
+  | { success: false; data: null; error: null};
 
 export type ActionResponse<T> = 
   | { success: true; data: T; error: null }

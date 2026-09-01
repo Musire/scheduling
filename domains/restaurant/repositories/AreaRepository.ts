@@ -66,5 +66,20 @@ export const AreaRepository = {
         })
 
         return area
+    },
+    async getAreaRoles() {
+        const areas = await prisma.area.findMany({
+            select: {
+                id: true,
+                name: true,
+                roles: {
+                select: {
+                    id: true,
+                    name: true,
+                },
+                },
+            },
+        });
+        return areas
     }
 }

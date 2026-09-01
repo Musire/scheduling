@@ -2,23 +2,24 @@
 
 import { cn } from "@/lib/utils";
 import { Button } from "../buttons";
+import { ActionResult } from "@/domains/identity/types";
 
 export type FormState = { success: boolean, error: string | null }
 
 
-type StatusButtonProps = {
+type StatusButtonProps<T> = {
   isPending: boolean;
-  state: FormState;
+  state: ActionResult<T>;
   className?: string;
   idleText?: string;
 }
 
-export default function StatusButton({
+export default function StatusButton<T>({
   isPending,
   state,
   className,
   idleText = "Submit"
-}: StatusButtonProps) {
+}: StatusButtonProps<T>) {
   
   // 1. Determine current status
   const isSuccess = state?.success

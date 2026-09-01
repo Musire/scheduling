@@ -1,7 +1,7 @@
 'use server'
 
 import { createSafeAction, validateSchema } from "@/domains/identity/auth/safeAction"
-import { getAreaDetailsService, getAreaService } from "../services/area.services"
+import { getAreaDetailsService, getAreaRoleService, getAreaService } from "../services/area.services"
 import { AreaCreateSchema } from "../validation/AreaSchema"
 
 export const getAreas = createSafeAction(
@@ -9,6 +9,13 @@ export const getAreas = createSafeAction(
         allowedRoles: ['MANAGER']
     },
     getAreaService
+)
+
+export const getAreaRoles = createSafeAction(
+    {   
+        allowedRoles: ['MANAGER']
+    },
+    getAreaRoleService
 )
 
 export const getAreaDetails = createSafeAction(
@@ -20,3 +27,5 @@ export const getAreaDetails = createSafeAction(
         return getAreaDetailsService(validated.name)
     }
 )
+
+

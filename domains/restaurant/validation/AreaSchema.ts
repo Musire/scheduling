@@ -24,3 +24,4 @@ export const AreaSchema = z.object({
 export type AreaType = z.infer<typeof AreaSchema>;
 export type CreateAreaType = z.infer<typeof AreaCreateSchema>;
 export type UpdateAreaType = z.infer<typeof AreaUpdateSchema>;
+

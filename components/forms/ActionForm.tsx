@@ -1,32 +1,33 @@
 'use client';
 
+import { ActionResult } from "@/domains/identity/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { startTransition, useActionState, useEffect } from "react";
 import { DefaultValues, FieldValues, FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 import StatusButton from "./StatusButton";
 
-export type FormState = { success: boolean; error: string | null };
 
-interface FormProps<S extends z.ZodObject<FieldValues>> {
+interface FormProps<T, S extends z.ZodObject<FieldValues>> {
     schema: S;
     initialValues: DefaultValues<z.infer<S>>; 
     children?: React.ReactNode;
-    actionFn: (prevState: FormState, formData: FormData) => FormState | Promise<FormState>;
+    actionFn: (prevState: ActionResult<T>, formData: FormData) => ActionResult<T> | Promise<ActionResult<T>>;
     onSuccess?: () => void;
 }
 
-export default function ActionForm<S extends z.ZodObject<FieldValues>>({ 
+export default function ActionForm<T, S extends z.ZodObject<FieldValues>>({ 
     initialValues, 
     schema,
     actionFn,
     onSuccess,
     children 
-}: FormProps<S>) {
+}: FormProps<T, S>) {
     
     const [state, formAction, pending] = useActionState(actionFn, { 
         success: false, 
-        error: null
+        error: null,
+        data: null
     });
 
     const form = useForm<z.infer<S>>({
@@ -37,7 +38,10 @@ export default function ActionForm<S extends z.ZodObject<FieldValues>>({
 
     const handleFormSubmit = async () => {
       const isValid = await form.trigger();
-      if (!isValid) return;
+      if (!isValid) {
+        console.log('Validation errors:', form.formState.errors);
+        return;
+      }
 
       const formValues = form.getValues();
 

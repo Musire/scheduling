@@ -46,8 +46,6 @@ export default function DropdownButton<T extends string>({
     }
   };
 
-  console.log(value)
-
   const getDisplayText = () => {
     if (!selected || selected === "") return "Select Option";
     return String(selected);
