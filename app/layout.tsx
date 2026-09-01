@@ -16,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={cn("font-sans", inter.variable)}>
+    <html data-scroll-behavior="smooth" lang="en" suppressHydrationWarning className={cn("font-sans", inter.variable)}>
       <head>
         <template
           id="theme-script"

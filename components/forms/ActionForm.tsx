@@ -2,23 +2,26 @@
 
 import { ActionResult } from "@/domains/identity/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { startTransition, useActionState, useEffect } from "react";
+import { startTransition, useActionState, useEffect, useRef } from "react";
 import { DefaultValues, FieldValues, FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 import StatusButton from "./StatusButton";
+import { FormStatusProvider } from "@/context/FormStatusProvider";
 
 
 interface FormProps<T, S extends z.ZodObject<FieldValues>> {
     schema: S;
     initialValues: DefaultValues<z.infer<S>>; 
+    isMulti?: boolean;
     children?: React.ReactNode;
     actionFn: (prevState: ActionResult<T>, formData: FormData) => ActionResult<T> | Promise<ActionResult<T>>;
     onSuccess?: () => void;
 }
 
 export default function ActionForm<T, S extends z.ZodObject<FieldValues>>({ 
-    initialValues, 
     schema,
+    initialValues,
+    isMulti, 
     actionFn,
     onSuccess,
     children 
@@ -58,23 +61,30 @@ export default function ActionForm<T, S extends z.ZodObject<FieldValues>>({
       });
     };
 
+    const onSuccessRef = useRef(onSuccess);
+    onSuccessRef.current = onSuccess;
+
     useEffect(() => {
-        if (state.success && onSuccess) {
-            onSuccess();
-            form.reset();
-        }
-    }, [state.success, onSuccess, form]);
+      // Check if the submission was successful
+      if (state.success) {
+        onSuccessRef.current?.();
+        form.reset(); 
+      }
+    // ONLY depend on state.success and the stable reset function
+    }, [state.success, form]); 
 
     return (
       <FormProvider {...form}>
+        <FormStatusProvider state={state} pending={pending} >
         <form
           className="flex flex-col rounded-xl max-w-lg w-full p-6 stacked space-y-2"
           action={handleFormSubmit}
-        >
+          >
           {children}
           {state.error && <p className="text-error text-sm">{state.error}</p>}
-          <StatusButton isPending={pending} state={state} />
+          {!isMulti && <StatusButton isPending={pending} state={state} />}
         </form>
+          </FormStatusProvider>
       </FormProvider>
     );
 }

@@ -2,11 +2,14 @@
 
 import { DropdownButton } from "@/components/buttons"
 import { ActionForm, ControlledInput, Input } from "@/components/forms"
+import FormStepper from "@/components/forms/FormStepper"
 import FormTimePicker from "@/components/forms/FormTimepicker"
+import { useToast } from "@/context"
 import { ActionResult } from "@/domains/identity/types"
 import { RequirementCreateSchema } from "@/domains/restaurant/validation/RequirementSchema"
 import { getNow } from "@/lib/timeUtils"
 import { useRouter } from "next/navigation"
+import z from "zod"
 import AreaRoleInput from "./AreaRoleInput"
 
 type Props = {
@@ -23,17 +26,20 @@ type Props = {
 export default function CreateRequirementForm({
   areaRoles
 }: Props) {
+
   const router = useRouter()
+  const { createSuccess } = useToast()
 
   const onSuccess = () => {
-    console.log('successful')
+    router.push('/manage/requirements')
+    createSuccess('created shift requirement')
   }
 
   const defaultData = {
     areaId: '',
     roleId: '',
     dayofWeek: 1,
-    requiredUsers: 1,
+    requiredUsers: 0,
     startAt: getNow(),
     endsAt: getNow()
   }
@@ -48,52 +54,51 @@ export default function CreateRequirementForm({
     "Sunday"
   ];
 
-  interface UserItem {
-    id: string; // uuid
-    name: string;
-  }
-
-  // Your list of objects from an API or constant
-  const users: UserItem[] = [
-    { id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890", name: "Alice Smith" },
-    { id: "f1e2d3c4-b5a6-7890-dcba-9876543210ef", name: "Bob Jones" },
-  ];
-
   const testAction = <T,>(prevState: ActionResult<T>, formData: FormData): ActionResult<T> => { 
     const rawEntries = Object.fromEntries(formData.entries());
     console.log('submitted: ', rawEntries)
-    return { success: false, data: null, error: 'rest' }; 
+    return { success: true, data: { id: 'madeupid1234' } as unknown as T, error: undefined }; 
   }
 
-  return (
-    <div className=" bg-background w-dvw h-dvh xs:px-6 centered-col space-y-6 py-6 text-else overflow-y-scroll scrollbar-adjust ">
-      <h2 className="text-3xl text-main">Create Requirement</h2>
-      <div className="surface-1 rounded-xl">
-        <ActionForm 
-          initialValues={defaultData}
-          actionFn={testAction}
-          schema={RequirementCreateSchema}
-          onSuccess={onSuccess}
-        >
+  const slides = [
+    {
+      schema: z.object({
+        dayofWeek: RequirementCreateSchema.shape.dayofWeek,
+        areaId: RequirementCreateSchema.shape.areaId,
+        roleId: RequirementCreateSchema.shape.roleId,
+      }),
+      component: (
+        <>
           <ControlledInput 
-            name="dayofWeek"
-            label="Day of the Week"
-            render={(field) => {
-              const currentLabel = field.value ? weekdays[field.value - 1] : "";
-              return (
-                <DropdownButton
-                  options={weekdays}
-                  value={currentLabel}
-                  onChange={(selectedDay) => {
-                    const index = weekdays.indexOf(selectedDay);
-                    const numericValue = index !== -1 ? index + 1 : null;
-                    field.onChange(numericValue);
-                  }}
-                /> 
-              )
-            }}
-          />
-          <AreaRoleInput areaRoles={areaRoles} />
+              name="dayofWeek"
+              label="Day of the Week"
+              render={(field) => {
+                const currentLabel = field.value ? weekdays[field.value - 1] : "";
+                return (
+                  <DropdownButton
+                    options={weekdays}
+                    value={currentLabel}
+                    onChange={(selectedDay) => {
+                      const index = weekdays.indexOf(selectedDay);
+                      const numericValue = index !== -1 ? index + 1 : null;
+                      field.onChange(numericValue);
+                    }}
+                  /> 
+                )
+              }}
+            />
+            <AreaRoleInput areaRoles={areaRoles} />
+        </>
+      )
+    },
+    {
+      schema: z.object({
+        requiredUsers: RequirementCreateSchema.shape.requiredUsers,
+        endsAt: RequirementCreateSchema.shape.endsAt,
+        startAt: RequirementCreateSchema.shape.startAt,
+      }),
+      component: (
+        <>
           <Input
             label="Required" 
             name="requiredUsers"
@@ -107,6 +112,23 @@ export default function CreateRequirementForm({
             label="startAt"
             name="startAt"
           />
+        </>
+      )
+    }
+  ]
+
+  return (
+    <div className=" bg-background w-dvw h-dvh xs:px-6 centered-col space-y-6 py-6 text-else overflow-y-scroll scrollbar-adjust ">
+      <h2 className="text-3xl text-main">Create Requirement</h2>
+      <div className="surface-1 rounded-xl">
+        <ActionForm 
+          initialValues={defaultData}
+          actionFn={testAction}
+          schema={RequirementCreateSchema}
+          onSuccess={onSuccess}
+          isMulti
+        >
+          <FormStepper slides={slides} />
         </ActionForm>
       </div>
     </div>

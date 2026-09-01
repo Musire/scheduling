@@ -3,9 +3,11 @@
    ========================================================= */
 import {
   addDays,
+  differenceInMinutes,
   format,
   isValid,
   parse,
+  parseISO,
   set,
   startOfWeek
 } from "date-fns";
@@ -199,3 +201,16 @@ export function parseTo24H(timeString: string): string {
  * Takes a 12-hour time string (e.g., "4:30 PM") and an existing date value,
  * merges them in the app's timezone, and returns a UTC Date object for Prisma.
  */
+
+export function isHourAfter(startIso: string, endIso: string): boolean {
+  if (!startIso || !endIso) return false;
+
+  const start = parseISO(startIso);
+  const end = parseISO(endIso);
+
+  // Guard against malformed date strings
+  if (!isValid(start) || !isValid(end)) return false;
+
+  // differenceInMinutes(laterDate, earlierDate)
+  return differenceInMinutes(end, start) >= 59;
+}
