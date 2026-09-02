@@ -37,7 +37,6 @@ export default function RequirementMangement ({ requirements }: Props) {
                 items={requirements}
                 onDelete={handleDelete}
                 renderItem={(item:any) => {
-                    console.log(toAppTime(item.startsAt))
                     return (
                         <article className="grid items-center grid-rows-2 bg-o grid-cols-4">
                             <p>{item.area.name}</p>
@@ -47,7 +46,12 @@ export default function RequirementMangement ({ requirements }: Props) {
                                 <p className="">{`-`}</p>
                                 <p>{toAppTime(item.endsAt)}</p>
                             </span>
-                            <p className="row-span-2">{item.requiredUsers}</p>
+                            
+                            <p className="row-span-2 flex items-center space-x-2">
+                                <span className="">{item._count}</span>
+                                <span className="">{`-`}</span>
+                                <span className="">{item.requiredUsers}</span>
+                            </p>
                         </article>
                     )
                 }}

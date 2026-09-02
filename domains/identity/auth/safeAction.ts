@@ -1,7 +1,7 @@
 import { formatActionError } from "@/lib/utils/formatError";
+import z from "zod";
 import { getCurrentUser } from "../actions/auth.actions";
 import { ActionResponse, ActionResult, SecureActionConfig } from "../types";
-import z from "zod";
 
 export async function safeAction<T>(
   handler: () => T | Promise<T>
@@ -47,7 +47,7 @@ export function createSafeAction<Args extends any[], Output>(
       return {
         success: true,
         data,
-        error: null,
+        error: undefined,
       };
     } catch (error) {
       return formatActionError(error);

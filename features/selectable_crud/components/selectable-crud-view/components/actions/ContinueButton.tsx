@@ -7,18 +7,14 @@ interface ContinueProps {
     mode: ContainerMode;
     hasSelection: boolean;
     onDelete: () => void;
-    selected: string[],
-    basePath: string,
-    getNameById: (id: string) => string;
+    href: string,
 }
 
 export default function ContinueButton ({ 
     mode, 
     hasSelection, 
     onDelete, 
-    selected, 
-    basePath,
-    getNameById
+    href
 }: ContinueProps) {
     if (!hasSelection || mode === 'view') return null;
 
@@ -34,10 +30,9 @@ export default function ContinueButton ({
     }
 
     if (mode === 'edit') {
-        const uri = `${basePath}/${getNameById(selected[0])}/edit`
         return (
             <Link
-                href={uri}
+                href={href}
                 className="absolute bottom-2 bg-whitesmoke text-deep normal-space rounded-lg hover:cursor-pointer right-0 animate-fadeIn"
             >
                 Continue

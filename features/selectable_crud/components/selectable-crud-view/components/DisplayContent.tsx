@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { Dispatch, SetStateAction } from "react";
 import { ContainerMode } from "../types";
 import SelectableCard from "./SelectableCard";
+import { usePathname } from "next/navigation";
 
 type Props<T, K extends string> = {
     selected: string[];
@@ -24,6 +25,8 @@ export default function DisplayContent<T, K extends string> ({
     renderItem,
     containerStyle
 }: Props<T, K>) {
+
+    const pathname = usePathname()
     const handleSelect = (id: string) => {
         if (mode === 'edit') {
             if (selected.includes(id)) {
@@ -52,7 +55,7 @@ export default function DisplayContent<T, K extends string> ({
                         mode={mode}
                         selected={selected.includes(id)}
                         onSelect={() => handleSelect(id)}
-                        name={i.name}
+                        href={`${pathname}/${i.name ?? i.id}`}
                     >
                     {renderItem(i)}
                 </SelectableCard>

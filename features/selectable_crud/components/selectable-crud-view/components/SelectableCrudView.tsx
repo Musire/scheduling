@@ -38,6 +38,11 @@ export default function SelectableCrudView<T, S> ({
       setSelected([])
     }
 
+    const getNameById:any = (id: string) => {
+      const found:any = items.find((obj:any) => obj.id === id)
+      return found?.name
+    }
+
     return (
         <div className="relative flex flex-col flex-1 
         space-y-6 ">
@@ -65,11 +70,7 @@ export default function SelectableCrudView<T, S> ({
             mode={mode}
             hasSelection={!!selected.length}
             onDelete={openDrawer}
-            selected={selected}
-            basePath={pathname}
-            getNameById={(id: string) => 
-              (items.find((obj: any) => obj.id === id) as { name: string } | undefined)?.name ?? ''
-            }
+            href={`${pathname}/${getNameById(selected[0]) ?? selected[0]}/edit`}
           />
         </div>
     );

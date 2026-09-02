@@ -8,7 +8,7 @@ type Props = {
 
 export default async function UpdateAreaPage ({ params }: Props) {
     const { areaSlug } = await params
-    const { data } = await getAreaDetails({ name: areaSlug })
+    const { data } = await getAreaDetails({ name: decodeURIComponent(areaSlug) })
     if (!data) return (
         <section className="flex-1 centered">
             <p className="">area not found</p>

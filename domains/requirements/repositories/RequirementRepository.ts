@@ -1,6 +1,6 @@
-import { prisma } from "@/lib/prisma"
-import { CreateRequirementType } from "../validation/RequirementSchema"
+import { prisma } from "@/lib/prisma";
 import { addDays, setHours, setMinutes, startOfDay } from "date-fns";
+import { CreateRequirementType, UpdateRequirementType } from "../validation/RequirementSchema";
 
 
 export const RequirementRepository = {
@@ -15,7 +15,6 @@ export const RequirementRepository = {
             }
         });
 
-        console.log('found requirments', requirements)
         const requirementsWithCounts = await Promise.all(
             requirements.map(async (req) => {
                 try {
@@ -48,9 +47,7 @@ export const RequirementRepository = {
 
                     return {
                         ...req,
-                        _count: {
-                            shifts: shiftCount
-                        },
+                        _count: shiftCount
                     };
                 } catch (err) {
                     console.error(`Error processing requirement ID ${req.id}:`, err);
@@ -59,11 +56,67 @@ export const RequirementRepository = {
             })
         );
 
-        console.log('count: ', requirementsWithCounts)
         return requirementsWithCounts;
+    },
+    async getRequirementDetails(startOfWeek: string, id: string) {
+        const weekStart = new Date(startOfWeek);
+
+        const req = await prisma.coverageRequirement.findUnique({
+            where: {
+                id
+            },
+            include: {
+                area: { select: { name: true } },
+                role: { select: { name: true } }
+            }
+        })
+        
+        if (!req) return;
+
+        const targetDate = addDays(weekStart, req.dayOfWeek);
+        const shiftDateToMatch = startOfDay(targetDate);
+
+        const startsAtDate = new Date(req.startsAt);
+        const endsAtDate = new Date(req.endsAt);
+
+        const reqStartDateTime = setMinutes(
+            setHours(new Date(targetDate), startsAtDate.getUTCHours()),
+            startsAtDate.getUTCMinutes()
+        );
+
+        const reqEndDateTime = setMinutes(
+            setHours(new Date(targetDate), endsAtDate.getUTCHours()),
+            endsAtDate.getUTCMinutes()
+        );
+
+        const shiftCount = await prisma.shift.count({
+            where: {
+                areaId: req.areaId,
+                roleId: req.roleId,
+                shiftDate: shiftDateToMatch,
+                startsAt: { lt: reqEndDateTime },
+                endsAt: { gt: reqStartDateTime }
+            }
+        });
+
+        return {
+            ...req,
+            _count: shiftCount
+        }
+
+        
     },
     async createRequirement(data: CreateRequirementType) {
         const requirement = await prisma.coverageRequirement.create({
+            data
+        })
+        return requirement
+    },
+    async updateRequirement(data: UpdateRequirementType) {
+        const requirement = await prisma.coverageRequirement.update({
+            where: {
+                id: data.id
+            },
             data
         })
         return requirement

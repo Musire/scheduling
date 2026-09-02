@@ -8,8 +8,13 @@ type Props = {
 export default async function AreaDetails ({ 
     areaSlug, 
 }: Props) {
-    const { data } = await getAreaDetails({ name: areaSlug })
-    if (!data) return null;
+    const { data } = await getAreaDetails({ name: decodeURIComponent(areaSlug) })
+    if (!data) return (
+        <section className="">
+            <p className="">not found</p>
+            <p className="">{areaSlug}</p>
+        </section>
+    );
 
     return (
         <section className="py-6 stacked flex-1">

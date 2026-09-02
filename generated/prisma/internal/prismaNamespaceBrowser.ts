@@ -194,6 +194,7 @@ export const ShiftScalarFieldEnum = {
   userId: 'userId',
   areaId: 'areaId',
   roleId: 'roleId',
+  shiftDate: 'shiftDate',
   startsAt: 'startsAt',
   endsAt: 'endsAt',
   createdAt: 'createdAt',
