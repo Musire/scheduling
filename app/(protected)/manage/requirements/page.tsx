@@ -1,10 +1,15 @@
 import RoleRenderer from "@/components/RoleRenderer";
-import { getCurrentRequirements } from "@/domains/restaurant/queries/getRequirements";
+import { getCurrentRequirements } from "@/domains/requirements/queries/getRequirements";
 import RequirementMangement from "@/features/admin_manage/components/RequirementManagement";
 
-export default async function RequirementManagementPage () {
-
-    const { data } = await getCurrentRequirements()
+interface PageProps {
+    searchParams: Promise<{ week?: string }>;
+}
+export default async function RequirementManagementPage({ searchParams }: PageProps) {
+    // 1. Await searchParams (Required in Next.js App Router for dynamic pages)
+    const { week } = await searchParams;
+    const weekParam = Array.isArray(week) ? week[0] : week;
+    const { data } = await getCurrentRequirements(weekParam);
 
     return (
         <RoleRenderer 

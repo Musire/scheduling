@@ -1,29 +1,16 @@
 
+import { ActionResponse } from "@/domains/identity/types";
 import { createContext, ReactNode, useContext } from "react";
 
-type StateType<T> = {
-    success: false;
-    data: null;
-    error: string;
-} | {
-    success: false;
-    data: null;
-    error: null;
-} | {
-    success: true;
-    data: T;
-    error?: string | undefined;
-}
-
 type FormStatusContextType<T> = {
-  state: StateType<T>;
+  state: ActionResponse<T>;
   pending: boolean;
 };
 
 const FormStatusContext = createContext<FormStatusContextType<any> | undefined>(undefined);
 
 type FormStatusProviderProps<T> = {
-  state: StateType<T>;
+  state: ActionResponse<T>;
   pending: boolean;
   children: ReactNode;
 };

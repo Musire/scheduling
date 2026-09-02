@@ -5,8 +5,8 @@ import { ActionForm, ControlledInput, Input } from "@/components/forms"
 import FormStepper from "@/components/forms/FormStepper"
 import FormTimePicker from "@/components/forms/FormTimepicker"
 import { useToast } from "@/context"
-import { ActionResult } from "@/domains/identity/types"
-import { RequirementCreateSchema } from "@/domains/restaurant/validation/RequirementSchema"
+import { createRequirement } from "@/domains/requirements/actions/requirement.actions"
+import { RequirementCreateSchema } from "@/domains/requirements/validation/RequirementSchema"
 import { getNow } from "@/lib/timeUtils"
 import { useRouter } from "next/navigation"
 import z from "zod"
@@ -38,9 +38,9 @@ export default function CreateRequirementForm({
   const defaultData = {
     areaId: '',
     roleId: '',
-    dayofWeek: 1,
+    dayOfWeek: 1,
     requiredUsers: 0,
-    startAt: getNow(),
+    startsAt: getNow(),
     endsAt: getNow()
   }
 
@@ -54,23 +54,17 @@ export default function CreateRequirementForm({
     "Sunday"
   ];
 
-  const testAction = <T,>(prevState: ActionResult<T>, formData: FormData): ActionResult<T> => { 
-    const rawEntries = Object.fromEntries(formData.entries());
-    console.log('submitted: ', rawEntries)
-    return { success: true, data: { id: 'madeupid1234' } as unknown as T, error: undefined }; 
-  }
-
   const slides = [
     {
       schema: z.object({
-        dayofWeek: RequirementCreateSchema.shape.dayofWeek,
+        dayofWeek: RequirementCreateSchema.shape.dayOfWeek,
         areaId: RequirementCreateSchema.shape.areaId,
         roleId: RequirementCreateSchema.shape.roleId,
       }),
       component: (
         <>
           <ControlledInput 
-              name="dayofWeek"
+              name="dayOfWeek"
               label="Day of the Week"
               render={(field) => {
                 const currentLabel = field.value ? weekdays[field.value - 1] : "";
@@ -95,7 +89,7 @@ export default function CreateRequirementForm({
       schema: z.object({
         requiredUsers: RequirementCreateSchema.shape.requiredUsers,
         endsAt: RequirementCreateSchema.shape.endsAt,
-        startAt: RequirementCreateSchema.shape.startAt,
+        startAt: RequirementCreateSchema.shape.startsAt,
       }),
       component: (
         <>
@@ -109,8 +103,8 @@ export default function CreateRequirementForm({
             name="endsAt"
           />
           <FormTimePicker 
-            label="startAt"
-            name="startAt"
+            label="startsAt"
+            name="startsAt"
           />
         </>
       )
@@ -123,7 +117,7 @@ export default function CreateRequirementForm({
       <div className="surface-1 rounded-xl">
         <ActionForm 
           initialValues={defaultData}
-          actionFn={testAction}
+          actionFn={createRequirement}
           schema={RequirementCreateSchema}
           onSuccess={onSuccess}
           isMulti

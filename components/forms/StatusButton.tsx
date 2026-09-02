@@ -2,14 +2,14 @@
 
 import { cn } from "@/lib/utils";
 import { Button } from "../buttons";
-import { ActionResult } from "@/domains/identity/types";
+import { ActionResponse } from "@/domains/identity/types";
 
 export type FormState = { success: boolean, error: string | null }
 
 
 type StatusButtonProps<T> = {
   isPending: boolean;
-  state: ActionResult<T>;
+  state: ActionResponse<T>;
   className?: string;
   idleText?: string;
 }

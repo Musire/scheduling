@@ -1,10 +1,11 @@
 'use client';
 
+import { useToast } from "@/context";
+import { deleteRequirement } from "@/domains/requirements/actions/requirement.actions";
 import SelectableCrudView from "@/features/selectable_crud/components/selectable-crud-view/components/SelectableCrudView";
+import { toAppTime } from "@/lib/timeUtils";
 import { useTransition } from "react";
 import ManageTabs from "./ManageTabs";
-import { useToast } from "@/context";
-import { deleteRequirement } from "@/domains/restaurant/actions/requirement.actions";
 
 type Props = {
   requirements: unknown[]
@@ -20,7 +21,7 @@ export default function RequirementMangement ({ requirements }: Props) {
           startTransition(async() => {
             
             const res = await deleteRequirement({ids})
-            if (!res.success) {
+            if (!res.success && res.error) {
                 createError(res.error)
                 return;
             }
@@ -35,11 +36,21 @@ export default function RequirementMangement ({ requirements }: Props) {
             <SelectableCrudView 
                 items={requirements}
                 onDelete={handleDelete}
-                renderItem={(item:any) => (
-                    <article className="">
-                        {item.name}
-                    </article>
-                )}
+                renderItem={(item:any) => {
+                    console.log(toAppTime(item.startsAt))
+                    return (
+                        <article className="grid items-center grid-rows-2 bg-o grid-cols-4">
+                            <p>{item.area.name}</p>
+                            <p className="row-start-2 col-start-1">{item.role.name}</p>
+                            <span className="flex items-center space-x-2 row-span-2">
+                                <p>{toAppTime(item.startsAt)}</p>
+                                <p className="">{`-`}</p>
+                                <p>{toAppTime(item.endsAt)}</p>
+                            </span>
+                            <p className="row-span-2">{item.requiredUsers}</p>
+                        </article>
+                    )
+                }}
             />
         </section>
     );

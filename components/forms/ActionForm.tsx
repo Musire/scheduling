@@ -1,12 +1,12 @@
 'use client';
 
-import { ActionResult } from "@/domains/identity/types";
+import { FormStatusProvider } from "@/context/FormStatusProvider";
+import { ActionResponse } from "@/domains/identity/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { startTransition, useActionState, useEffect, useRef } from "react";
 import { DefaultValues, FieldValues, FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 import StatusButton from "./StatusButton";
-import { FormStatusProvider } from "@/context/FormStatusProvider";
 
 
 interface FormProps<T, S extends z.ZodObject<FieldValues>> {
@@ -14,7 +14,7 @@ interface FormProps<T, S extends z.ZodObject<FieldValues>> {
     initialValues: DefaultValues<z.infer<S>>; 
     isMulti?: boolean;
     children?: React.ReactNode;
-    actionFn: (prevState: ActionResult<T>, formData: FormData) => ActionResult<T> | Promise<ActionResult<T>>;
+    actionFn: (_:any, formData: FormData) => ActionResponse<T> | Promise<ActionResponse<T>>;
     onSuccess?: () => void;
 }
 
@@ -29,7 +29,7 @@ export default function ActionForm<T, S extends z.ZodObject<FieldValues>>({
     
     const [state, formAction, pending] = useActionState(actionFn, { 
         success: false, 
-        error: null,
+        error: undefined,
         data: null
     });
 

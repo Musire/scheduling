@@ -1,10 +1,9 @@
 "use client";
 
-import { getWeekRange } from "@/domains/scheduling/utils/weekView";
 
 import { format, parseISO } from "date-fns";
-import { useState } from "react";
 import { CalendarController } from "./date-picker/CalendarController";
+import { useCalendar } from "@/context/CalanderProvider";
 
 // Mock dataset representing data fetched from your backend database
 
@@ -90,19 +89,8 @@ const AREAS = [
   },
 ];
 
-export default function TestComponent() {
-  const [currentWeekStart, setCurrentWeekStart] =
-    useState<Date>(
-      getWeekRange().startOfWeek
-    );
-
-  const [selectedDate, setSelectedDate] =
-    useState(
-      format(new Date(), "yyyy-MM-dd")
-    );
-
-  const [selectedAreaId, setSelectedAreaId] =
-    useState("all");
+export default function AdminSchedule() {
+  const { selectedDate, selectedAreaId } = useCalendar();
 
   /*
    * CalendarController now owns date/view navigation.
@@ -110,40 +98,16 @@ export default function TestComponent() {
    * We intentionally keep the area filter state here because
    * the schedule data is filtered here.
    */
-  const filteredShifts = MOCK_SHIFTS.filter(
-    (shift) => {
-      const shiftDate = format(
-        parseISO(shift.startsAt),
-        "yyyy-MM-dd"
-      );
-
-      const matchesDate =
-        shiftDate === selectedDate;
-
-      const matchesArea =
-        selectedAreaId === "all" ||
-        shift.areaId === selectedAreaId;
-
-      return matchesDate && matchesArea;
-    }
-  );
+  const filteredShifts = MOCK_SHIFTS.filter((shift) => {
+    const shiftDate = format(parseISO(shift.startsAt), "yyyy-MM-dd");
+    const matchesDate = shiftDate === selectedDate;
+    const matchesArea = selectedAreaId === "all" || shift.areaId === selectedAreaId;
+    return matchesDate && matchesArea;
+  });
 
   return (
     <section className="py-6 flex flex-1 flex-col space-y-6 items-center bg-neutral-950 text-white ">
-      <CalendarController
-        currentWeekStart={currentWeekStart}
-        setCurrentWeekStart={
-          setCurrentWeekStart
-        }
-        selectedDate={selectedDate}
-        setSelectedDate={setSelectedDate}
-        areas={AREAS}
-        selectedArea={selectedAreaId}
-        setSelectedArea={
-          setSelectedAreaId
-        }
-      />
-
+      <CalendarController areas={AREAS} />
       <div className="flex flex-col flex-1 w-full rounded-lg max-w-md">
         {filteredShifts.length === 0 ? (
           <p className="text-neutral-400 text-sm flex-1 text-center py-4">

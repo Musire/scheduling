@@ -12,6 +12,12 @@ export type ActionResult<T> =
   | { success: false; data: null; error: string }
   | { success: false; data: null; error: null};
 
-export type ActionResponse<T> = 
-  | { success: true; data: T; error: null }
-  | { success: false; data: null; error: string };
+// export type ActionResponse<T> = 
+//   | { success: true; data: T; error: null }
+//   | { success: false; data: null; error: string }
+//   | { success: false; data: null; error: null};
+
+  export type ActionResponse<T> = 
+  | { success: true; data: T; error?: undefined }   
+  | { success: false; data?: null; error: string }  
+  | { success: false; data?: null; error?: undefined }

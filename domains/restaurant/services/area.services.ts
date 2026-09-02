@@ -10,7 +10,7 @@ export async function getAreaDetailsService (name: string) {
     return AreaRepository.getAreaByName(name)
 }
 
-export async function createAreaService (data: AreaType) {
+export async function createAreaService (data: { name: string }) {
     const found = await AreaRepository.findAreaByName(data.name)
     if (found) {
         throw new Error('name already exists')

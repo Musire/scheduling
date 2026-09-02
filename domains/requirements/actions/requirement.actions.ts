@@ -2,8 +2,7 @@
 
 import { createSafeAction, validateFormData, validateSchema } from "@/domains/identity/auth/safeAction";
 import { createRequirementService, deleteRequirementService } from "../services/requirement.services";
-import { DeleteRequirementSchema, DeleteRequirmentType } from "../validation/DeleteSchema";
-import { RequirementCreateSchema } from "../validation/RequirementSchema";
+import { DeleteRequirementSchema, DeleteRequirmentType, RequirementCreateSchema } from "../validation/RequirementSchema";
 
 export const createRequirement = createSafeAction(
     {
@@ -21,6 +20,6 @@ export const deleteRequirement = createSafeAction(
     },
     async(input: DeleteRequirmentType) => {
         const validated = validateSchema(DeleteRequirementSchema, input)
-        return deleteRequirementService(validated)
+        return deleteRequirementService(validated.ids)
     }
 )
