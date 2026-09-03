@@ -39,9 +39,9 @@ model User {
   // Null until the EndUser accepts their invitation and creates an account.
   authUserId String? @unique
 
-  email     String @unique
-  name      String
-  avatarUrl String
+  email     String  @unique
+  name      String  @unique
+  avatarUrl String?
 
   // Application-level role.
   role   UserRole

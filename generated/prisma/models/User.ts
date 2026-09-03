@@ -214,7 +214,7 @@ export type UserGroupByOutputType = {
   authUserId: string | null
   email: string
   name: string
-  avatarUrl: string
+  avatarUrl: string | null
   role: $Enums.UserRole
   status: $Enums.UserStatus
   payRate: runtime.Decimal | null
@@ -250,7 +250,7 @@ export type UserWhereInput = {
   authUserId?: Prisma.StringNullableFilter<"User"> | string | null
   email?: Prisma.StringFilter<"User"> | string
   name?: Prisma.StringFilter<"User"> | string
-  avatarUrl?: Prisma.StringFilter<"User"> | string
+  avatarUrl?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
   payRate?: Prisma.DecimalNullableFilter<"User"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -272,7 +272,7 @@ export type UserOrderByWithRelationInput = {
   authUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  avatarUrl?: Prisma.SortOrder
+  avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   payRate?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -293,11 +293,11 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   authUserId?: string
   email?: string
+  name?: string
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
-  name?: Prisma.StringFilter<"User"> | string
-  avatarUrl?: Prisma.StringFilter<"User"> | string
+  avatarUrl?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
   payRate?: Prisma.DecimalNullableFilter<"User"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -312,14 +312,14 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   managerConversations?: Prisma.ConversationListRelationFilter
   endUserConversations?: Prisma.ConversationListRelationFilter
   sentMessages?: Prisma.MessageListRelationFilter
-}, "id" | "authUserId" | "email">
+}, "id" | "authUserId" | "email" | "name">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   authUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  avatarUrl?: Prisma.SortOrder
+  avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   payRate?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -340,7 +340,7 @@ export type UserScalarWhereWithAggregatesInput = {
   authUserId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
   name?: Prisma.StringWithAggregatesFilter<"User"> | string
-  avatarUrl?: Prisma.StringWithAggregatesFilter<"User"> | string
+  avatarUrl?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   role?: Prisma.EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
   status?: Prisma.EnumUserStatusWithAggregatesFilter<"User"> | $Enums.UserStatus
   payRate?: Prisma.DecimalNullableWithAggregatesFilter<"User"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -353,7 +353,7 @@ export type UserCreateInput = {
   authUserId?: string | null
   email: string
   name: string
-  avatarUrl: string
+  avatarUrl?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -375,7 +375,7 @@ export type UserUncheckedCreateInput = {
   authUserId?: string | null
   email: string
   name: string
-  avatarUrl: string
+  avatarUrl?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -397,7 +397,7 @@ export type UserUpdateInput = {
   authUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  avatarUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -419,7 +419,7 @@ export type UserUncheckedUpdateInput = {
   authUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  avatarUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -441,7 +441,7 @@ export type UserCreateManyInput = {
   authUserId?: string | null
   email: string
   name: string
-  avatarUrl: string
+  avatarUrl?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -454,7 +454,7 @@ export type UserUpdateManyMutationInput = {
   authUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  avatarUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -467,7 +467,7 @@ export type UserUncheckedUpdateManyInput = {
   authUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  avatarUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -686,7 +686,7 @@ export type UserCreateWithoutInvitationInput = {
   authUserId?: string | null
   email: string
   name: string
-  avatarUrl: string
+  avatarUrl?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -707,7 +707,7 @@ export type UserUncheckedCreateWithoutInvitationInput = {
   authUserId?: string | null
   email: string
   name: string
-  avatarUrl: string
+  avatarUrl?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -733,7 +733,7 @@ export type UserCreateWithoutInvitationsSentInput = {
   authUserId?: string | null
   email: string
   name: string
-  avatarUrl: string
+  avatarUrl?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -754,7 +754,7 @@ export type UserUncheckedCreateWithoutInvitationsSentInput = {
   authUserId?: string | null
   email: string
   name: string
-  avatarUrl: string
+  avatarUrl?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -791,7 +791,7 @@ export type UserUpdateWithoutInvitationInput = {
   authUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  avatarUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -812,7 +812,7 @@ export type UserUncheckedUpdateWithoutInvitationInput = {
   authUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  avatarUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -844,7 +844,7 @@ export type UserUpdateWithoutInvitationsSentInput = {
   authUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  avatarUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -865,7 +865,7 @@ export type UserUncheckedUpdateWithoutInvitationsSentInput = {
   authUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  avatarUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -886,7 +886,7 @@ export type UserCreateWithoutAreaRolesInput = {
   authUserId?: string | null
   email: string
   name: string
-  avatarUrl: string
+  avatarUrl?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -907,7 +907,7 @@ export type UserUncheckedCreateWithoutAreaRolesInput = {
   authUserId?: string | null
   email: string
   name: string
-  avatarUrl: string
+  avatarUrl?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -944,7 +944,7 @@ export type UserUpdateWithoutAreaRolesInput = {
   authUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  avatarUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -965,7 +965,7 @@ export type UserUncheckedUpdateWithoutAreaRolesInput = {
   authUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  avatarUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -986,7 +986,7 @@ export type UserCreateWithoutAvailabilityInput = {
   authUserId?: string | null
   email: string
   name: string
-  avatarUrl: string
+  avatarUrl?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1007,7 +1007,7 @@ export type UserUncheckedCreateWithoutAvailabilityInput = {
   authUserId?: string | null
   email: string
   name: string
-  avatarUrl: string
+  avatarUrl?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1044,7 +1044,7 @@ export type UserUpdateWithoutAvailabilityInput = {
   authUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  avatarUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1065,7 +1065,7 @@ export type UserUncheckedUpdateWithoutAvailabilityInput = {
   authUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  avatarUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1086,7 +1086,7 @@ export type UserCreateWithoutCreatedSchedulesInput = {
   authUserId?: string | null
   email: string
   name: string
-  avatarUrl: string
+  avatarUrl?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1107,7 +1107,7 @@ export type UserUncheckedCreateWithoutCreatedSchedulesInput = {
   authUserId?: string | null
   email: string
   name: string
-  avatarUrl: string
+  avatarUrl?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1144,7 +1144,7 @@ export type UserUpdateWithoutCreatedSchedulesInput = {
   authUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  avatarUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1165,7 +1165,7 @@ export type UserUncheckedUpdateWithoutCreatedSchedulesInput = {
   authUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  avatarUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1186,7 +1186,7 @@ export type UserCreateWithoutShiftsInput = {
   authUserId?: string | null
   email: string
   name: string
-  avatarUrl: string
+  avatarUrl?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1207,7 +1207,7 @@ export type UserUncheckedCreateWithoutShiftsInput = {
   authUserId?: string | null
   email: string
   name: string
-  avatarUrl: string
+  avatarUrl?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1244,7 +1244,7 @@ export type UserUpdateWithoutShiftsInput = {
   authUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  avatarUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1265,7 +1265,7 @@ export type UserUncheckedUpdateWithoutShiftsInput = {
   authUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  avatarUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1286,7 +1286,7 @@ export type UserCreateWithoutManagerConversationsInput = {
   authUserId?: string | null
   email: string
   name: string
-  avatarUrl: string
+  avatarUrl?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1307,7 +1307,7 @@ export type UserUncheckedCreateWithoutManagerConversationsInput = {
   authUserId?: string | null
   email: string
   name: string
-  avatarUrl: string
+  avatarUrl?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1333,7 +1333,7 @@ export type UserCreateWithoutEndUserConversationsInput = {
   authUserId?: string | null
   email: string
   name: string
-  avatarUrl: string
+  avatarUrl?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1354,7 +1354,7 @@ export type UserUncheckedCreateWithoutEndUserConversationsInput = {
   authUserId?: string | null
   email: string
   name: string
-  avatarUrl: string
+  avatarUrl?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1391,7 +1391,7 @@ export type UserUpdateWithoutManagerConversationsInput = {
   authUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  avatarUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1412,7 +1412,7 @@ export type UserUncheckedUpdateWithoutManagerConversationsInput = {
   authUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  avatarUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1444,7 +1444,7 @@ export type UserUpdateWithoutEndUserConversationsInput = {
   authUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  avatarUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1465,7 +1465,7 @@ export type UserUncheckedUpdateWithoutEndUserConversationsInput = {
   authUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  avatarUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1486,7 +1486,7 @@ export type UserCreateWithoutSentMessagesInput = {
   authUserId?: string | null
   email: string
   name: string
-  avatarUrl: string
+  avatarUrl?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1507,7 +1507,7 @@ export type UserUncheckedCreateWithoutSentMessagesInput = {
   authUserId?: string | null
   email: string
   name: string
-  avatarUrl: string
+  avatarUrl?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1544,7 +1544,7 @@ export type UserUpdateWithoutSentMessagesInput = {
   authUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  avatarUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1565,7 +1565,7 @@ export type UserUncheckedUpdateWithoutSentMessagesInput = {
   authUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  avatarUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1771,7 +1771,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     authUserId: string | null
     email: string
     name: string
-    avatarUrl: string
+    avatarUrl: string | null
     role: $Enums.UserRole
     status: $Enums.UserStatus
     payRate: runtime.Decimal | null
