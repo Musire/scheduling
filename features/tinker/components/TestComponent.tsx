@@ -1,12 +1,12 @@
 'use client'
 
-import TimePicker from "@/components/timepicker/TimePicker";
+import CreateShiftForm from "@/forms/CreateShiftForm";
 
 
 export default function TestComponent() {
     return (
         <section className=" w-dvw h-dvh flex text-main">
-          <TimePicker />
+          <CreateShiftForm />
         </section>
     );
 }

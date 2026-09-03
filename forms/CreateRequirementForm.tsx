@@ -3,14 +3,14 @@
 import { DropdownButton } from "@/components/buttons"
 import { ActionForm, ControlledInput, Input } from "@/components/forms"
 import FormStepper from "@/components/forms/FormStepper"
-import FormTimePicker from "@/components/forms/FormTimepicker"
+import FormTimePicker from "@/components/forms/inputs/FormTimepicker"
 import { useToast } from "@/context"
 import { createRequirement } from "@/domains/requirements/actions/requirement.actions"
 import { RequirementCreateSchema } from "@/domains/requirements/validation/RequirementSchema"
 import { getNow } from "@/lib/timeUtils"
 import { useRouter } from "next/navigation"
 import z from "zod"
-import AreaRoleInput from "./AreaRoleInput"
+import AreaRoleInput from "../components/forms/inputs/AreaRoleInput"
 
 type Props = {
   areaRoles: {

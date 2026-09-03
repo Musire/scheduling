@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Controller, ControllerRenderProps, FieldError, get, useFormContext } from "react-hook-form";
-import { Caption, LabelTag } from "../typography";
+import { Caption, LabelTag } from "../../typography";
 
 type ControlledInputProps = {
   name: string;

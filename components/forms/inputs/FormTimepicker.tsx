@@ -1,7 +1,7 @@
 "use client";
 
 import { fromAppTime, toTimePicker } from "@/lib/timeUtils";
-import TimePicker from "../timepicker/TimePicker";
+import TimePicker from "../../timepicker/TimePicker";
 import ControlledInput from "./ControlledInput"; // Adjust path as needed
 
 interface RHFTimePickerProps {

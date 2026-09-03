@@ -3,7 +3,7 @@
 import { Eye, EyeOff } from "lucide-react";
 import { InputHTMLAttributes, TextareaHTMLAttributes, useState } from "react";
 import { FieldValues, Path, useController } from "react-hook-form";
-import { LabelTag } from "../typography";
+import { LabelTag } from "../../typography";
 
 type BaseProps<T extends FieldValues> = {
   label?: string;
