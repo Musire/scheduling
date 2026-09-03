@@ -2,9 +2,10 @@ import { UserRole } from "@/generated/prisma/enums"
 
 export type NavItem = {
   label: string
-  href: string
+  href?: string // Make href optional since an action button might not link anywhere
   icon?: string
   index?: boolean
+  isAction?: boolean // Flag to identify the modal button
 }
 
 export type Role = 'MANAGER' | 'ENDUSER' 
@@ -20,6 +21,11 @@ export const navByRole: Record<UserRole, NavItem[]> = {
       label: 'Manage',
       icon: 'manage',
       href: `/manage/areas` 
+    },
+    {
+      label: 'Add',
+      icon: 'plus', 
+      isAction: true,
     },
     { 
       label: 'Messages',

@@ -4,6 +4,7 @@ import {
     LayoutGrid,
     MessageSquare,
     Users,
+    Plus,
     UserShield
 } from 'lucide-react'
 
@@ -11,6 +12,7 @@ export const iconMap = {
     schedule: CalendarCheck2,
     manage: LayoutGrid,
     users: Users,
+    plus: Plus,
     account: UserShield,
     messages: MessageSquare
 } as const
