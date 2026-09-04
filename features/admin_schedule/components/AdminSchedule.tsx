@@ -1,9 +1,11 @@
 "use client";
 
 
+import { useCalendar } from "@/context/CalanderProvider";
 import { format, parseISO } from "date-fns";
 import { CalendarController } from "./date-picker/CalendarController";
-import { useCalendar } from "@/context/CalanderProvider";
+import StatusButton from "./StatusButton";
+import NoSchedule from "./NoSchedule";
 
 // Mock dataset representing data fetched from your backend database
 
@@ -107,7 +109,9 @@ export default function AdminSchedule() {
 
   return (
     <section className="py-6 flex flex-1 flex-col space-y-6 items-center bg-neutral-950 text-white ">
+      <StatusButton />
       <CalendarController areas={AREAS} />
+      <NoSchedule />
       <div className="flex flex-col flex-1 w-full rounded-lg max-w-md">
         {filteredShifts.length === 0 ? (
           <p className="text-neutral-400 text-sm flex-1 text-center py-4">
