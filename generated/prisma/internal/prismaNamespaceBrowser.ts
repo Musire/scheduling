@@ -178,7 +178,6 @@ export type CoverageRequirementScalarFieldEnum = (typeof CoverageRequirementScal
 export const ScheduleScalarFieldEnum = {
   id: 'id',
   weekStart: 'weekStart',
-  createdById: 'createdById',
   status: 'status',
   publishedAt: 'publishedAt',
   createdAt: 'createdAt',

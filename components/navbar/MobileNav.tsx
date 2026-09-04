@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { Caption } from '../typography';
 import { getIcon, IconKey } from './icon-map';
 import { NavItem } from './navconfig';
+import { useSidePanel } from '@/context/SidepanelProvider';
 
 interface MobileNavProps {
   items: NavItem[];
@@ -14,6 +15,7 @@ interface MobileNavProps {
 
 export default function MobileNav({ items, onOpenModal }: MobileNavProps) {
   const pathname = usePathname();
+  const {loadModal} = useSidePanel()
   if (!items.length) return null;
 
   const styles = {
@@ -34,7 +36,7 @@ export default function MobileNav({ items, onOpenModal }: MobileNavProps) {
             return (
               <button
                 key={label}
-                onClick={onOpenModal}
+                onClick={() => loadModal('create-shift')}
                 className={styles.standard}
                 type="button"
               >

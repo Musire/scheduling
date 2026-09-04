@@ -258,7 +258,6 @@ export type UserWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   areaRoles?: Prisma.UserAreaRoleListRelationFilter
   shifts?: Prisma.ShiftListRelationFilter
-  createdSchedules?: Prisma.ScheduleListRelationFilter
   availability?: Prisma.UserAvailabilityListRelationFilter
   invitationsSent?: Prisma.InvitationListRelationFilter
   invitation?: Prisma.XOR<Prisma.InvitationNullableScalarRelationFilter, Prisma.InvitationWhereInput> | null
@@ -280,7 +279,6 @@ export type UserOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   areaRoles?: Prisma.UserAreaRoleOrderByRelationAggregateInput
   shifts?: Prisma.ShiftOrderByRelationAggregateInput
-  createdSchedules?: Prisma.ScheduleOrderByRelationAggregateInput
   availability?: Prisma.UserAvailabilityOrderByRelationAggregateInput
   invitationsSent?: Prisma.InvitationOrderByRelationAggregateInput
   invitation?: Prisma.InvitationOrderByWithRelationInput
@@ -305,7 +303,6 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   areaRoles?: Prisma.UserAreaRoleListRelationFilter
   shifts?: Prisma.ShiftListRelationFilter
-  createdSchedules?: Prisma.ScheduleListRelationFilter
   availability?: Prisma.UserAvailabilityListRelationFilter
   invitationsSent?: Prisma.InvitationListRelationFilter
   invitation?: Prisma.XOR<Prisma.InvitationNullableScalarRelationFilter, Prisma.InvitationWhereInput> | null
@@ -361,7 +358,6 @@ export type UserCreateInput = {
   updatedAt?: Date | string
   areaRoles?: Prisma.UserAreaRoleCreateNestedManyWithoutUserInput
   shifts?: Prisma.ShiftCreateNestedManyWithoutUserInput
-  createdSchedules?: Prisma.ScheduleCreateNestedManyWithoutCreatedByInput
   availability?: Prisma.UserAvailabilityCreateNestedManyWithoutUserInput
   invitationsSent?: Prisma.InvitationCreateNestedManyWithoutInvitedByInput
   invitation?: Prisma.InvitationCreateNestedOneWithoutUserInput
@@ -383,7 +379,6 @@ export type UserUncheckedCreateInput = {
   updatedAt?: Date | string
   areaRoles?: Prisma.UserAreaRoleUncheckedCreateNestedManyWithoutUserInput
   shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutUserInput
-  createdSchedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutCreatedByInput
   availability?: Prisma.UserAvailabilityUncheckedCreateNestedManyWithoutUserInput
   invitationsSent?: Prisma.InvitationUncheckedCreateNestedManyWithoutInvitedByInput
   invitation?: Prisma.InvitationUncheckedCreateNestedOneWithoutUserInput
@@ -405,7 +400,6 @@ export type UserUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   areaRoles?: Prisma.UserAreaRoleUpdateManyWithoutUserNestedInput
   shifts?: Prisma.ShiftUpdateManyWithoutUserNestedInput
-  createdSchedules?: Prisma.ScheduleUpdateManyWithoutCreatedByNestedInput
   availability?: Prisma.UserAvailabilityUpdateManyWithoutUserNestedInput
   invitationsSent?: Prisma.InvitationUpdateManyWithoutInvitedByNestedInput
   invitation?: Prisma.InvitationUpdateOneWithoutUserNestedInput
@@ -427,7 +421,6 @@ export type UserUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   areaRoles?: Prisma.UserAreaRoleUncheckedUpdateManyWithoutUserNestedInput
   shifts?: Prisma.ShiftUncheckedUpdateManyWithoutUserNestedInput
-  createdSchedules?: Prisma.ScheduleUncheckedUpdateManyWithoutCreatedByNestedInput
   availability?: Prisma.UserAvailabilityUncheckedUpdateManyWithoutUserNestedInput
   invitationsSent?: Prisma.InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
   invitation?: Prisma.InvitationUncheckedUpdateOneWithoutUserNestedInput
@@ -611,20 +604,6 @@ export type UserUpdateOneRequiredWithoutAvailabilityNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAvailabilityInput, Prisma.UserUpdateWithoutAvailabilityInput>, Prisma.UserUncheckedUpdateWithoutAvailabilityInput>
 }
 
-export type UserCreateNestedOneWithoutCreatedSchedulesInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutCreatedSchedulesInput, Prisma.UserUncheckedCreateWithoutCreatedSchedulesInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedSchedulesInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutCreatedSchedulesNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutCreatedSchedulesInput, Prisma.UserUncheckedCreateWithoutCreatedSchedulesInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedSchedulesInput
-  upsert?: Prisma.UserUpsertWithoutCreatedSchedulesInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCreatedSchedulesInput, Prisma.UserUpdateWithoutCreatedSchedulesInput>, Prisma.UserUncheckedUpdateWithoutCreatedSchedulesInput>
-}
-
 export type UserCreateNestedOneWithoutShiftsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutShiftsInput, Prisma.UserUncheckedCreateWithoutShiftsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutShiftsInput
@@ -694,7 +673,6 @@ export type UserCreateWithoutInvitationInput = {
   updatedAt?: Date | string
   areaRoles?: Prisma.UserAreaRoleCreateNestedManyWithoutUserInput
   shifts?: Prisma.ShiftCreateNestedManyWithoutUserInput
-  createdSchedules?: Prisma.ScheduleCreateNestedManyWithoutCreatedByInput
   availability?: Prisma.UserAvailabilityCreateNestedManyWithoutUserInput
   invitationsSent?: Prisma.InvitationCreateNestedManyWithoutInvitedByInput
   managerConversations?: Prisma.ConversationCreateNestedManyWithoutManagerInput
@@ -715,7 +693,6 @@ export type UserUncheckedCreateWithoutInvitationInput = {
   updatedAt?: Date | string
   areaRoles?: Prisma.UserAreaRoleUncheckedCreateNestedManyWithoutUserInput
   shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutUserInput
-  createdSchedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutCreatedByInput
   availability?: Prisma.UserAvailabilityUncheckedCreateNestedManyWithoutUserInput
   invitationsSent?: Prisma.InvitationUncheckedCreateNestedManyWithoutInvitedByInput
   managerConversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutManagerInput
@@ -741,7 +718,6 @@ export type UserCreateWithoutInvitationsSentInput = {
   updatedAt?: Date | string
   areaRoles?: Prisma.UserAreaRoleCreateNestedManyWithoutUserInput
   shifts?: Prisma.ShiftCreateNestedManyWithoutUserInput
-  createdSchedules?: Prisma.ScheduleCreateNestedManyWithoutCreatedByInput
   availability?: Prisma.UserAvailabilityCreateNestedManyWithoutUserInput
   invitation?: Prisma.InvitationCreateNestedOneWithoutUserInput
   managerConversations?: Prisma.ConversationCreateNestedManyWithoutManagerInput
@@ -762,7 +738,6 @@ export type UserUncheckedCreateWithoutInvitationsSentInput = {
   updatedAt?: Date | string
   areaRoles?: Prisma.UserAreaRoleUncheckedCreateNestedManyWithoutUserInput
   shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutUserInput
-  createdSchedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutCreatedByInput
   availability?: Prisma.UserAvailabilityUncheckedCreateNestedManyWithoutUserInput
   invitation?: Prisma.InvitationUncheckedCreateNestedOneWithoutUserInput
   managerConversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutManagerInput
@@ -799,7 +774,6 @@ export type UserUpdateWithoutInvitationInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   areaRoles?: Prisma.UserAreaRoleUpdateManyWithoutUserNestedInput
   shifts?: Prisma.ShiftUpdateManyWithoutUserNestedInput
-  createdSchedules?: Prisma.ScheduleUpdateManyWithoutCreatedByNestedInput
   availability?: Prisma.UserAvailabilityUpdateManyWithoutUserNestedInput
   invitationsSent?: Prisma.InvitationUpdateManyWithoutInvitedByNestedInput
   managerConversations?: Prisma.ConversationUpdateManyWithoutManagerNestedInput
@@ -820,7 +794,6 @@ export type UserUncheckedUpdateWithoutInvitationInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   areaRoles?: Prisma.UserAreaRoleUncheckedUpdateManyWithoutUserNestedInput
   shifts?: Prisma.ShiftUncheckedUpdateManyWithoutUserNestedInput
-  createdSchedules?: Prisma.ScheduleUncheckedUpdateManyWithoutCreatedByNestedInput
   availability?: Prisma.UserAvailabilityUncheckedUpdateManyWithoutUserNestedInput
   invitationsSent?: Prisma.InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
   managerConversations?: Prisma.ConversationUncheckedUpdateManyWithoutManagerNestedInput
@@ -852,7 +825,6 @@ export type UserUpdateWithoutInvitationsSentInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   areaRoles?: Prisma.UserAreaRoleUpdateManyWithoutUserNestedInput
   shifts?: Prisma.ShiftUpdateManyWithoutUserNestedInput
-  createdSchedules?: Prisma.ScheduleUpdateManyWithoutCreatedByNestedInput
   availability?: Prisma.UserAvailabilityUpdateManyWithoutUserNestedInput
   invitation?: Prisma.InvitationUpdateOneWithoutUserNestedInput
   managerConversations?: Prisma.ConversationUpdateManyWithoutManagerNestedInput
@@ -873,7 +845,6 @@ export type UserUncheckedUpdateWithoutInvitationsSentInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   areaRoles?: Prisma.UserAreaRoleUncheckedUpdateManyWithoutUserNestedInput
   shifts?: Prisma.ShiftUncheckedUpdateManyWithoutUserNestedInput
-  createdSchedules?: Prisma.ScheduleUncheckedUpdateManyWithoutCreatedByNestedInput
   availability?: Prisma.UserAvailabilityUncheckedUpdateManyWithoutUserNestedInput
   invitation?: Prisma.InvitationUncheckedUpdateOneWithoutUserNestedInput
   managerConversations?: Prisma.ConversationUncheckedUpdateManyWithoutManagerNestedInput
@@ -893,7 +864,6 @@ export type UserCreateWithoutAreaRolesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   shifts?: Prisma.ShiftCreateNestedManyWithoutUserInput
-  createdSchedules?: Prisma.ScheduleCreateNestedManyWithoutCreatedByInput
   availability?: Prisma.UserAvailabilityCreateNestedManyWithoutUserInput
   invitationsSent?: Prisma.InvitationCreateNestedManyWithoutInvitedByInput
   invitation?: Prisma.InvitationCreateNestedOneWithoutUserInput
@@ -914,7 +884,6 @@ export type UserUncheckedCreateWithoutAreaRolesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutUserInput
-  createdSchedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutCreatedByInput
   availability?: Prisma.UserAvailabilityUncheckedCreateNestedManyWithoutUserInput
   invitationsSent?: Prisma.InvitationUncheckedCreateNestedManyWithoutInvitedByInput
   invitation?: Prisma.InvitationUncheckedCreateNestedOneWithoutUserInput
@@ -951,7 +920,6 @@ export type UserUpdateWithoutAreaRolesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   shifts?: Prisma.ShiftUpdateManyWithoutUserNestedInput
-  createdSchedules?: Prisma.ScheduleUpdateManyWithoutCreatedByNestedInput
   availability?: Prisma.UserAvailabilityUpdateManyWithoutUserNestedInput
   invitationsSent?: Prisma.InvitationUpdateManyWithoutInvitedByNestedInput
   invitation?: Prisma.InvitationUpdateOneWithoutUserNestedInput
@@ -972,7 +940,6 @@ export type UserUncheckedUpdateWithoutAreaRolesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   shifts?: Prisma.ShiftUncheckedUpdateManyWithoutUserNestedInput
-  createdSchedules?: Prisma.ScheduleUncheckedUpdateManyWithoutCreatedByNestedInput
   availability?: Prisma.UserAvailabilityUncheckedUpdateManyWithoutUserNestedInput
   invitationsSent?: Prisma.InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
   invitation?: Prisma.InvitationUncheckedUpdateOneWithoutUserNestedInput
@@ -994,7 +961,6 @@ export type UserCreateWithoutAvailabilityInput = {
   updatedAt?: Date | string
   areaRoles?: Prisma.UserAreaRoleCreateNestedManyWithoutUserInput
   shifts?: Prisma.ShiftCreateNestedManyWithoutUserInput
-  createdSchedules?: Prisma.ScheduleCreateNestedManyWithoutCreatedByInput
   invitationsSent?: Prisma.InvitationCreateNestedManyWithoutInvitedByInput
   invitation?: Prisma.InvitationCreateNestedOneWithoutUserInput
   managerConversations?: Prisma.ConversationCreateNestedManyWithoutManagerInput
@@ -1015,7 +981,6 @@ export type UserUncheckedCreateWithoutAvailabilityInput = {
   updatedAt?: Date | string
   areaRoles?: Prisma.UserAreaRoleUncheckedCreateNestedManyWithoutUserInput
   shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutUserInput
-  createdSchedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutCreatedByInput
   invitationsSent?: Prisma.InvitationUncheckedCreateNestedManyWithoutInvitedByInput
   invitation?: Prisma.InvitationUncheckedCreateNestedOneWithoutUserInput
   managerConversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutManagerInput
@@ -1052,7 +1017,6 @@ export type UserUpdateWithoutAvailabilityInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   areaRoles?: Prisma.UserAreaRoleUpdateManyWithoutUserNestedInput
   shifts?: Prisma.ShiftUpdateManyWithoutUserNestedInput
-  createdSchedules?: Prisma.ScheduleUpdateManyWithoutCreatedByNestedInput
   invitationsSent?: Prisma.InvitationUpdateManyWithoutInvitedByNestedInput
   invitation?: Prisma.InvitationUpdateOneWithoutUserNestedInput
   managerConversations?: Prisma.ConversationUpdateManyWithoutManagerNestedInput
@@ -1073,107 +1037,6 @@ export type UserUncheckedUpdateWithoutAvailabilityInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   areaRoles?: Prisma.UserAreaRoleUncheckedUpdateManyWithoutUserNestedInput
   shifts?: Prisma.ShiftUncheckedUpdateManyWithoutUserNestedInput
-  createdSchedules?: Prisma.ScheduleUncheckedUpdateManyWithoutCreatedByNestedInput
-  invitationsSent?: Prisma.InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
-  invitation?: Prisma.InvitationUncheckedUpdateOneWithoutUserNestedInput
-  managerConversations?: Prisma.ConversationUncheckedUpdateManyWithoutManagerNestedInput
-  endUserConversations?: Prisma.ConversationUncheckedUpdateManyWithoutEndUserNestedInput
-  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
-}
-
-export type UserCreateWithoutCreatedSchedulesInput = {
-  id?: string
-  authUserId?: string | null
-  email: string
-  name: string
-  avatarUrl?: string | null
-  role: $Enums.UserRole
-  status?: $Enums.UserStatus
-  payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  areaRoles?: Prisma.UserAreaRoleCreateNestedManyWithoutUserInput
-  shifts?: Prisma.ShiftCreateNestedManyWithoutUserInput
-  availability?: Prisma.UserAvailabilityCreateNestedManyWithoutUserInput
-  invitationsSent?: Prisma.InvitationCreateNestedManyWithoutInvitedByInput
-  invitation?: Prisma.InvitationCreateNestedOneWithoutUserInput
-  managerConversations?: Prisma.ConversationCreateNestedManyWithoutManagerInput
-  endUserConversations?: Prisma.ConversationCreateNestedManyWithoutEndUserInput
-  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
-}
-
-export type UserUncheckedCreateWithoutCreatedSchedulesInput = {
-  id?: string
-  authUserId?: string | null
-  email: string
-  name: string
-  avatarUrl?: string | null
-  role: $Enums.UserRole
-  status?: $Enums.UserStatus
-  payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  areaRoles?: Prisma.UserAreaRoleUncheckedCreateNestedManyWithoutUserInput
-  shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutUserInput
-  availability?: Prisma.UserAvailabilityUncheckedCreateNestedManyWithoutUserInput
-  invitationsSent?: Prisma.InvitationUncheckedCreateNestedManyWithoutInvitedByInput
-  invitation?: Prisma.InvitationUncheckedCreateNestedOneWithoutUserInput
-  managerConversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutManagerInput
-  endUserConversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutEndUserInput
-  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
-}
-
-export type UserCreateOrConnectWithoutCreatedSchedulesInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutCreatedSchedulesInput, Prisma.UserUncheckedCreateWithoutCreatedSchedulesInput>
-}
-
-export type UserUpsertWithoutCreatedSchedulesInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutCreatedSchedulesInput, Prisma.UserUncheckedUpdateWithoutCreatedSchedulesInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutCreatedSchedulesInput, Prisma.UserUncheckedCreateWithoutCreatedSchedulesInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutCreatedSchedulesInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutCreatedSchedulesInput, Prisma.UserUncheckedUpdateWithoutCreatedSchedulesInput>
-}
-
-export type UserUpdateWithoutCreatedSchedulesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  authUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  areaRoles?: Prisma.UserAreaRoleUpdateManyWithoutUserNestedInput
-  shifts?: Prisma.ShiftUpdateManyWithoutUserNestedInput
-  availability?: Prisma.UserAvailabilityUpdateManyWithoutUserNestedInput
-  invitationsSent?: Prisma.InvitationUpdateManyWithoutInvitedByNestedInput
-  invitation?: Prisma.InvitationUpdateOneWithoutUserNestedInput
-  managerConversations?: Prisma.ConversationUpdateManyWithoutManagerNestedInput
-  endUserConversations?: Prisma.ConversationUpdateManyWithoutEndUserNestedInput
-  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
-}
-
-export type UserUncheckedUpdateWithoutCreatedSchedulesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  authUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  areaRoles?: Prisma.UserAreaRoleUncheckedUpdateManyWithoutUserNestedInput
-  shifts?: Prisma.ShiftUncheckedUpdateManyWithoutUserNestedInput
-  availability?: Prisma.UserAvailabilityUncheckedUpdateManyWithoutUserNestedInput
   invitationsSent?: Prisma.InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
   invitation?: Prisma.InvitationUncheckedUpdateOneWithoutUserNestedInput
   managerConversations?: Prisma.ConversationUncheckedUpdateManyWithoutManagerNestedInput
@@ -1193,7 +1056,6 @@ export type UserCreateWithoutShiftsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   areaRoles?: Prisma.UserAreaRoleCreateNestedManyWithoutUserInput
-  createdSchedules?: Prisma.ScheduleCreateNestedManyWithoutCreatedByInput
   availability?: Prisma.UserAvailabilityCreateNestedManyWithoutUserInput
   invitationsSent?: Prisma.InvitationCreateNestedManyWithoutInvitedByInput
   invitation?: Prisma.InvitationCreateNestedOneWithoutUserInput
@@ -1214,7 +1076,6 @@ export type UserUncheckedCreateWithoutShiftsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   areaRoles?: Prisma.UserAreaRoleUncheckedCreateNestedManyWithoutUserInput
-  createdSchedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutCreatedByInput
   availability?: Prisma.UserAvailabilityUncheckedCreateNestedManyWithoutUserInput
   invitationsSent?: Prisma.InvitationUncheckedCreateNestedManyWithoutInvitedByInput
   invitation?: Prisma.InvitationUncheckedCreateNestedOneWithoutUserInput
@@ -1251,7 +1112,6 @@ export type UserUpdateWithoutShiftsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   areaRoles?: Prisma.UserAreaRoleUpdateManyWithoutUserNestedInput
-  createdSchedules?: Prisma.ScheduleUpdateManyWithoutCreatedByNestedInput
   availability?: Prisma.UserAvailabilityUpdateManyWithoutUserNestedInput
   invitationsSent?: Prisma.InvitationUpdateManyWithoutInvitedByNestedInput
   invitation?: Prisma.InvitationUpdateOneWithoutUserNestedInput
@@ -1272,7 +1132,6 @@ export type UserUncheckedUpdateWithoutShiftsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   areaRoles?: Prisma.UserAreaRoleUncheckedUpdateManyWithoutUserNestedInput
-  createdSchedules?: Prisma.ScheduleUncheckedUpdateManyWithoutCreatedByNestedInput
   availability?: Prisma.UserAvailabilityUncheckedUpdateManyWithoutUserNestedInput
   invitationsSent?: Prisma.InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
   invitation?: Prisma.InvitationUncheckedUpdateOneWithoutUserNestedInput
@@ -1294,7 +1153,6 @@ export type UserCreateWithoutManagerConversationsInput = {
   updatedAt?: Date | string
   areaRoles?: Prisma.UserAreaRoleCreateNestedManyWithoutUserInput
   shifts?: Prisma.ShiftCreateNestedManyWithoutUserInput
-  createdSchedules?: Prisma.ScheduleCreateNestedManyWithoutCreatedByInput
   availability?: Prisma.UserAvailabilityCreateNestedManyWithoutUserInput
   invitationsSent?: Prisma.InvitationCreateNestedManyWithoutInvitedByInput
   invitation?: Prisma.InvitationCreateNestedOneWithoutUserInput
@@ -1315,7 +1173,6 @@ export type UserUncheckedCreateWithoutManagerConversationsInput = {
   updatedAt?: Date | string
   areaRoles?: Prisma.UserAreaRoleUncheckedCreateNestedManyWithoutUserInput
   shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutUserInput
-  createdSchedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutCreatedByInput
   availability?: Prisma.UserAvailabilityUncheckedCreateNestedManyWithoutUserInput
   invitationsSent?: Prisma.InvitationUncheckedCreateNestedManyWithoutInvitedByInput
   invitation?: Prisma.InvitationUncheckedCreateNestedOneWithoutUserInput
@@ -1341,7 +1198,6 @@ export type UserCreateWithoutEndUserConversationsInput = {
   updatedAt?: Date | string
   areaRoles?: Prisma.UserAreaRoleCreateNestedManyWithoutUserInput
   shifts?: Prisma.ShiftCreateNestedManyWithoutUserInput
-  createdSchedules?: Prisma.ScheduleCreateNestedManyWithoutCreatedByInput
   availability?: Prisma.UserAvailabilityCreateNestedManyWithoutUserInput
   invitationsSent?: Prisma.InvitationCreateNestedManyWithoutInvitedByInput
   invitation?: Prisma.InvitationCreateNestedOneWithoutUserInput
@@ -1362,7 +1218,6 @@ export type UserUncheckedCreateWithoutEndUserConversationsInput = {
   updatedAt?: Date | string
   areaRoles?: Prisma.UserAreaRoleUncheckedCreateNestedManyWithoutUserInput
   shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutUserInput
-  createdSchedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutCreatedByInput
   availability?: Prisma.UserAvailabilityUncheckedCreateNestedManyWithoutUserInput
   invitationsSent?: Prisma.InvitationUncheckedCreateNestedManyWithoutInvitedByInput
   invitation?: Prisma.InvitationUncheckedCreateNestedOneWithoutUserInput
@@ -1399,7 +1254,6 @@ export type UserUpdateWithoutManagerConversationsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   areaRoles?: Prisma.UserAreaRoleUpdateManyWithoutUserNestedInput
   shifts?: Prisma.ShiftUpdateManyWithoutUserNestedInput
-  createdSchedules?: Prisma.ScheduleUpdateManyWithoutCreatedByNestedInput
   availability?: Prisma.UserAvailabilityUpdateManyWithoutUserNestedInput
   invitationsSent?: Prisma.InvitationUpdateManyWithoutInvitedByNestedInput
   invitation?: Prisma.InvitationUpdateOneWithoutUserNestedInput
@@ -1420,7 +1274,6 @@ export type UserUncheckedUpdateWithoutManagerConversationsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   areaRoles?: Prisma.UserAreaRoleUncheckedUpdateManyWithoutUserNestedInput
   shifts?: Prisma.ShiftUncheckedUpdateManyWithoutUserNestedInput
-  createdSchedules?: Prisma.ScheduleUncheckedUpdateManyWithoutCreatedByNestedInput
   availability?: Prisma.UserAvailabilityUncheckedUpdateManyWithoutUserNestedInput
   invitationsSent?: Prisma.InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
   invitation?: Prisma.InvitationUncheckedUpdateOneWithoutUserNestedInput
@@ -1452,7 +1305,6 @@ export type UserUpdateWithoutEndUserConversationsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   areaRoles?: Prisma.UserAreaRoleUpdateManyWithoutUserNestedInput
   shifts?: Prisma.ShiftUpdateManyWithoutUserNestedInput
-  createdSchedules?: Prisma.ScheduleUpdateManyWithoutCreatedByNestedInput
   availability?: Prisma.UserAvailabilityUpdateManyWithoutUserNestedInput
   invitationsSent?: Prisma.InvitationUpdateManyWithoutInvitedByNestedInput
   invitation?: Prisma.InvitationUpdateOneWithoutUserNestedInput
@@ -1473,7 +1325,6 @@ export type UserUncheckedUpdateWithoutEndUserConversationsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   areaRoles?: Prisma.UserAreaRoleUncheckedUpdateManyWithoutUserNestedInput
   shifts?: Prisma.ShiftUncheckedUpdateManyWithoutUserNestedInput
-  createdSchedules?: Prisma.ScheduleUncheckedUpdateManyWithoutCreatedByNestedInput
   availability?: Prisma.UserAvailabilityUncheckedUpdateManyWithoutUserNestedInput
   invitationsSent?: Prisma.InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
   invitation?: Prisma.InvitationUncheckedUpdateOneWithoutUserNestedInput
@@ -1494,7 +1345,6 @@ export type UserCreateWithoutSentMessagesInput = {
   updatedAt?: Date | string
   areaRoles?: Prisma.UserAreaRoleCreateNestedManyWithoutUserInput
   shifts?: Prisma.ShiftCreateNestedManyWithoutUserInput
-  createdSchedules?: Prisma.ScheduleCreateNestedManyWithoutCreatedByInput
   availability?: Prisma.UserAvailabilityCreateNestedManyWithoutUserInput
   invitationsSent?: Prisma.InvitationCreateNestedManyWithoutInvitedByInput
   invitation?: Prisma.InvitationCreateNestedOneWithoutUserInput
@@ -1515,7 +1365,6 @@ export type UserUncheckedCreateWithoutSentMessagesInput = {
   updatedAt?: Date | string
   areaRoles?: Prisma.UserAreaRoleUncheckedCreateNestedManyWithoutUserInput
   shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutUserInput
-  createdSchedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutCreatedByInput
   availability?: Prisma.UserAvailabilityUncheckedCreateNestedManyWithoutUserInput
   invitationsSent?: Prisma.InvitationUncheckedCreateNestedManyWithoutInvitedByInput
   invitation?: Prisma.InvitationUncheckedCreateNestedOneWithoutUserInput
@@ -1552,7 +1401,6 @@ export type UserUpdateWithoutSentMessagesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   areaRoles?: Prisma.UserAreaRoleUpdateManyWithoutUserNestedInput
   shifts?: Prisma.ShiftUpdateManyWithoutUserNestedInput
-  createdSchedules?: Prisma.ScheduleUpdateManyWithoutCreatedByNestedInput
   availability?: Prisma.UserAvailabilityUpdateManyWithoutUserNestedInput
   invitationsSent?: Prisma.InvitationUpdateManyWithoutInvitedByNestedInput
   invitation?: Prisma.InvitationUpdateOneWithoutUserNestedInput
@@ -1573,7 +1421,6 @@ export type UserUncheckedUpdateWithoutSentMessagesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   areaRoles?: Prisma.UserAreaRoleUncheckedUpdateManyWithoutUserNestedInput
   shifts?: Prisma.ShiftUncheckedUpdateManyWithoutUserNestedInput
-  createdSchedules?: Prisma.ScheduleUncheckedUpdateManyWithoutCreatedByNestedInput
   availability?: Prisma.UserAvailabilityUncheckedUpdateManyWithoutUserNestedInput
   invitationsSent?: Prisma.InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
   invitation?: Prisma.InvitationUncheckedUpdateOneWithoutUserNestedInput
@@ -1589,7 +1436,6 @@ export type UserUncheckedUpdateWithoutSentMessagesInput = {
 export type UserCountOutputType = {
   areaRoles: number
   shifts: number
-  createdSchedules: number
   availability: number
   invitationsSent: number
   managerConversations: number
@@ -1600,7 +1446,6 @@ export type UserCountOutputType = {
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   areaRoles?: boolean | UserCountOutputTypeCountAreaRolesArgs
   shifts?: boolean | UserCountOutputTypeCountShiftsArgs
-  createdSchedules?: boolean | UserCountOutputTypeCountCreatedSchedulesArgs
   availability?: boolean | UserCountOutputTypeCountAvailabilityArgs
   invitationsSent?: boolean | UserCountOutputTypeCountInvitationsSentArgs
   managerConversations?: boolean | UserCountOutputTypeCountManagerConversationsArgs
@@ -1630,13 +1475,6 @@ export type UserCountOutputTypeCountAreaRolesArgs<ExtArgs extends runtime.Types.
  */
 export type UserCountOutputTypeCountShiftsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ShiftWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountCreatedSchedulesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ScheduleWhereInput
 }
 
 /**
@@ -1688,7 +1526,6 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   updatedAt?: boolean
   areaRoles?: boolean | Prisma.User$areaRolesArgs<ExtArgs>
   shifts?: boolean | Prisma.User$shiftsArgs<ExtArgs>
-  createdSchedules?: boolean | Prisma.User$createdSchedulesArgs<ExtArgs>
   availability?: boolean | Prisma.User$availabilityArgs<ExtArgs>
   invitationsSent?: boolean | Prisma.User$invitationsSentArgs<ExtArgs>
   invitation?: boolean | Prisma.User$invitationArgs<ExtArgs>
@@ -1741,7 +1578,6 @@ export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   areaRoles?: boolean | Prisma.User$areaRolesArgs<ExtArgs>
   shifts?: boolean | Prisma.User$shiftsArgs<ExtArgs>
-  createdSchedules?: boolean | Prisma.User$createdSchedulesArgs<ExtArgs>
   availability?: boolean | Prisma.User$availabilityArgs<ExtArgs>
   invitationsSent?: boolean | Prisma.User$invitationsSentArgs<ExtArgs>
   invitation?: boolean | Prisma.User$invitationArgs<ExtArgs>
@@ -1758,7 +1594,6 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     areaRoles: Prisma.$UserAreaRolePayload<ExtArgs>[]
     shifts: Prisma.$ShiftPayload<ExtArgs>[]
-    createdSchedules: Prisma.$SchedulePayload<ExtArgs>[]
     availability: Prisma.$UserAvailabilityPayload<ExtArgs>[]
     invitationsSent: Prisma.$InvitationPayload<ExtArgs>[]
     invitation: Prisma.$InvitationPayload<ExtArgs> | null
@@ -2173,7 +2008,6 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   areaRoles<T extends Prisma.User$areaRolesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$areaRolesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserAreaRolePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   shifts<T extends Prisma.User$shiftsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$shiftsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ShiftPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  createdSchedules<T extends Prisma.User$createdSchedulesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdSchedulesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SchedulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   availability<T extends Prisma.User$availabilityArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$availabilityArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserAvailabilityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   invitationsSent<T extends Prisma.User$invitationsSentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$invitationsSentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   invitation<T extends Prisma.User$invitationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$invitationArgs<ExtArgs>>): Prisma.Prisma__InvitationClient<runtime.Types.Result.GetResult<Prisma.$InvitationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -2657,30 +2491,6 @@ export type User$shiftsArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   distinct?: Prisma.ShiftScalarFieldEnum | Prisma.ShiftScalarFieldEnum[]
-}
-
-/**
- * User.createdSchedules
- */
-export type User$createdSchedulesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Schedule
-   */
-  select?: Prisma.ScheduleSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Schedule
-   */
-  omit?: Prisma.ScheduleOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ScheduleInclude<ExtArgs> | null
-  where?: Prisma.ScheduleWhereInput
-  orderBy?: Prisma.ScheduleOrderByWithRelationInput | Prisma.ScheduleOrderByWithRelationInput[]
-  cursor?: Prisma.ScheduleWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ScheduleScalarFieldEnum | Prisma.ScheduleScalarFieldEnum[]
 }
 
 /**

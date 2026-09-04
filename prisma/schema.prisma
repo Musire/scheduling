@@ -61,8 +61,6 @@ model User {
 
   shifts Shift[]
 
-  createdSchedules Schedule[]
-
   // Employee availability
   availability UserAvailability[]
 
@@ -247,9 +245,7 @@ model Schedule {
   id String @id @default(uuid())
 
   // Start of the business week represented by this schedule.
-  weekStart DateTime
-
-  createdById String
+  weekStart DateTime @unique
 
   status ScheduleStatus @default(DRAFT)
 
@@ -258,13 +254,10 @@ model Schedule {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  createdBy User @relation(fields: [createdById], references: [id])
 
   shifts Shift[]
 
   // Exactly one schedule per week.
-  @@unique([weekStart])
-  @@index([createdById])
   @@index([status])
 }
 

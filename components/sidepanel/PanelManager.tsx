@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { PANEL_REGISTRY } from "./PanelRegistry";
 
 export default function PanelManager () {
-    const { isOpen, currentModal } = useSidePanel()
+    const { isOpen, currentModal, clearModal } = useSidePanel()
     const [renderedModal, setRenderedModal] = useState(currentModal);
     const ActiveComponent = currentModal ? PANEL_REGISTRY[currentModal] : null;
 
@@ -20,7 +20,8 @@ export default function PanelManager () {
     }, [currentModal]);
 
     return (
-        <aside className={`xs:max-md:w-dvw transition-all duration-300 md:max-w-xl w-full fixed right-0 top-0 bg-background/60 backdrop-blur-sm h-dvh ${isOpen ? '': 'translate-x-full'}`}>
+        <aside className={`xs:max-md:w-dvw transition-all p-6 flex flex-col duration-300 md:max-w-xl w-full fixed right-0 top-0 bg-background h-dvh ${isOpen ? '': 'translate-x-full'}`}>
+            <button type="button" onClick={clearModal} className="self-end text-else hover:text-main cursor-pointer">Close</button>
             {ActiveComponent ? <ActiveComponent /> : null}
         </aside>
     );

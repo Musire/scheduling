@@ -3,6 +3,7 @@
    ========================================================= */
 import {
   addDays,
+  addWeeks,
   differenceInMinutes,
   format,
   isValid,
@@ -213,4 +214,37 @@ export function isHourAfter(startIso: string, endIso: string): boolean {
 
   // differenceInMinutes(laterDate, earlierDate)
   return differenceInMinutes(end, start) >= 59;
+}
+
+/**
+ * Dynamically gets the current week's Monday formatted as YYYY-MM-DD.
+ * Safe to use inside Next.js Server Components.
+ */
+export const getCurrentWeekString = (): string => {
+  const currentMonday = startOfWeek(new Date(), { weekStartsOn: 1 });
+  return format(currentMonday, "yyyy-MM-dd");
+};
+
+
+export function getWeekRange(): string[] {
+  const weeks: string[] = [];
+  const today = new Date();
+
+  const currentMonday = startOfWeek(today, { weekStartsOn: 1 });
+
+  for (let i = -5; i <= 5; i++) {
+    const targetMonday = addWeeks(currentMonday, i);
+    const formattedWeek = format(targetMonday, 'yyyy-MM-dd');
+    weeks.push(formattedWeek);
+  }
+
+  return weeks;
+}
+
+export function getWeekLimits(weekStart: string): Date[] {
+  const startDate = parseISO(weekStart);
+  const endDate = addDays(startDate, 6);
+
+  return [startDate, endDate]
+
 }

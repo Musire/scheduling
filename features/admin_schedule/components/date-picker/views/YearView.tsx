@@ -18,7 +18,7 @@ export function YearView({
   onOpenYearSelector,
 }: YearViewProps) {
   return (
-    <div className="w-full">
+    <div className="w-full pb-14">
 
       {/* Year selector button */}
       <div className="flex justify-center mb-3">
