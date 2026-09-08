@@ -63,6 +63,9 @@ export const ShiftRepository = {
 
             // 3. USERS: Fetched with their relations for client-side filtering
             prisma.user.findMany({
+                where: {
+                    role: 'END_USER'
+                },
                 orderBy: { name: 'asc' },
                 select: {
                     id: true,

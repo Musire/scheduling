@@ -42,7 +42,7 @@ export default function FormStepper({ slides }: FormStepperProps) {
           <button
             type="button"
             onClick={handleBack}
-            className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 text-sm font-medium transition-colors"
+            className="px-4 py-2 bg-whitesmoke/87 cursor-pointer text-deep rounded-md hover:bg-gray-300 text-sm font-medium transition-colors"
           >
             Back
           </button>
@@ -54,7 +54,7 @@ export default function FormStepper({ slides }: FormStepperProps) {
           <button
             type="button"
             onClick={handleNext}
-            className="px-4 py-2 bg-primary text-white rounded-md hover:opacity-90 text-sm font-medium ml-auto transition-opacity"
+            className="px-4 py-2 bg-whitesmoke/87 cursor-pointer text-deep rounded-md hover:opacity-90 text-sm font-medium ml-auto transition-opacity"
           >
             Next
           </button>

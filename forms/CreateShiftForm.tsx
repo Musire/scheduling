@@ -1,13 +1,17 @@
 'use client';
 
 import { ActionForm } from "@/components/forms";
+import FormStepper from "@/components/forms/FormStepper";
 import AreaRoleInput from "@/components/forms/inputs/AreaRoleInput";
+import FormDatePicker from "@/components/forms/inputs/FormDatepicker";
 import FormDropdown from "@/components/forms/inputs/FormDropdown";
+import FormTimePicker from "@/components/forms/inputs/FormTimepicker";
 import { useToast } from "@/context";
 import { createShift } from "@/domains/scheduling/actions/shift.actions";
 import { getSchedulingData } from "@/domains/scheduling/queries/getSchedulingData";
 import { ShiftCreationSchema } from "@/domains/scheduling/validations/ShiftSchema";
 import { useEffect, useState } from "react";
+import z from "zod";
 
 type SchedulingData = {
     schedules: {
@@ -56,6 +60,7 @@ export default function CreateShiftForm () {
         scheduleId: '',
         areaId: '',
         roleId: '',
+        shiftDate: new Date(),
         userId: '',
         startsAt: '',
         endsAt: '',
@@ -65,21 +70,78 @@ export default function CreateShiftForm () {
 
     }
 
+    const slides = [
+        {
+            schema: z.object({
+                dayofWeek: ShiftCreationSchema.shape.scheduleId,
+                shiftDate: ShiftCreationSchema.shape.shiftDate
+            }),
+            component: (
+                <> 
+                    <FormDropdown
+                        name="scheduleId"
+                        label="scheduled week"
+                        options={data?.schedules ?? []}
+                        getOptionLabel={(item) => item.weekStart.toLocaleDateString()}  
+                        getOptionValue={(item) => item.id}    
+                    />
+                    <FormDatePicker 
+                        name="shiftDate"
+                        label="Pick Date"
+                    />
+                </>
+            )
+        },
+        {
+            schema: z.object({
+                areaId: ShiftCreationSchema.shape.areaId,
+                roleId: ShiftCreationSchema.shape.roleId,
+            }),
+            component: (
+            <>
+                <AreaRoleInput areaRoles={data?.areaRoles ?? []} />
+            </>
+            )
+        },
+        
+        {
+            schema: z.object({
+                userId: ShiftCreationSchema.shape.userId,
+                startsAt: ShiftCreationSchema.shape.startsAt,
+                endsAt: ShiftCreationSchema.shape.endsAt,
+            }),
+            component: (
+                <>
+                    <FormDropdown
+                        name="userId"
+                        label="select employee"
+                        options={data?.users ?? []}
+                        getOptionLabel={(item) => item.name}  
+                        getOptionValue={(item) => item.id}    
+                    />
+                    <FormTimePicker 
+                        name="startsAt"
+                        label="start time"
+                    />
+                    <FormTimePicker 
+                        name="endsAt"
+                        label="end time"
+                    />
+                </>
+            )
+        },
+        
+    ]
+
     return (
         <ActionForm
             initialValues={defaultData} 
             schema={ShiftCreationSchema}
             actionFn={createShift}
             onSuccess={onSuccess}
+            isMulti
         >
-            <AreaRoleInput areaRoles={data?.areaRoles ?? []} />
-            <FormDropdown
-                name="scheduleId"
-                label="scheduled week"
-                options={data?.schedules ?? []}
-                getOptionLabel={(item) => item.weekStart.toISOString()}  
-                getOptionValue={(item) => item.id}    
-            />
+            <FormStepper slides={slides} />
         </ActionForm>
     );
 }

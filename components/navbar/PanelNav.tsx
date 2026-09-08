@@ -1,5 +1,6 @@
 'use client';
 
+import { useSidePanel } from '@/context/SidepanelProvider';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -7,10 +8,10 @@ import { NavItem } from './navconfig';
 
 interface PanelNavProps {
   items: NavItem[];
-  onOpenModal: () => void; // Added prop
 }
 
-export default function PanelNav({ items, onOpenModal }: PanelNavProps) {
+export default function PanelNav({ items }: PanelNavProps) {
+  const { loadModal } = useSidePanel()
   const pathname = usePathname();
   
   if (!items.length) return null;
@@ -25,7 +26,7 @@ export default function PanelNav({ items, onOpenModal }: PanelNavProps) {
           return (
             <button
               key={label}
-              onClick={onOpenModal}
+              onClick={() => loadModal('create-shift')}
               type="button"
               className="px-3 py-2 transition-colors text-else hover:text-main flex items-center gap-1.5"
             >
