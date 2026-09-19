@@ -1,4 +1,4 @@
-import UpdateUserForm from "@/forms/UpdateUserForm";
+import UpdateUserForm from "@/domains/users/components/UpdateUserForm";
 
 
 

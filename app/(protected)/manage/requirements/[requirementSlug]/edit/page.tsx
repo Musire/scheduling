@@ -1,6 +1,6 @@
+import UpdateRequirementForm from "@/domains/requirements/components/UpdateRequirementForm";
 import { getRequirementDetails } from "@/domains/requirements/queries/getRequirements";
 import { getAreaRoles } from "@/domains/restaurant/queries/getAreas";
-import UpdateRequirementForm from "@/forms/UpdateRequirementForm";
 
 type Props = {
     searchParams: Promise<{ week?: string }>;

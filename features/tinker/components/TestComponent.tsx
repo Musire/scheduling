@@ -1,6 +1,6 @@
 'use client'
 
-import CreateShiftForm from "@/forms/CreateShiftForm";
+import CreateShiftForm from "@/domains/shifts/components/CreateShiftForm";
 
 
 export default function TestComponent() {

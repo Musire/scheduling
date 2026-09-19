@@ -10,7 +10,7 @@ import { RequirementUpdateSchema } from "@/domains/requirements/validation/Requi
 import { CoverageWithCount } from "@/features/admin_manage/components/requirement/RequirementDetails"
 import { useRouter } from "next/navigation"
 import z from "zod"
-import AreaRoleInput from "../components/forms/inputs/AreaRoleInput"
+import AreaRoleInput from "../../../components/forms/inputs/AreaRoleInput"
 
 type Props = {
   data: CoverageWithCount;

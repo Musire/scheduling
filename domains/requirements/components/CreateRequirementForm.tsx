@@ -10,7 +10,7 @@ import { RequirementCreateSchema } from "@/domains/requirements/validation/Requi
 import { getNow } from "@/lib/timeUtils"
 import { useRouter } from "next/navigation"
 import z from "zod"
-import AreaRoleInput from "../components/forms/inputs/AreaRoleInput"
+import AreaRoleInput from "../../../components/forms/inputs/AreaRoleInput"
 
 type Props = {
   areaRoles: {

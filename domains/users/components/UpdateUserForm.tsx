@@ -7,16 +7,16 @@ import { ModifiedUser } from "@/features/admin_manage/components/users/UserDetai
 import { useRouter } from "next/navigation";
 
 type Props = {
-  data: ModifiedUser
+  data?: ModifiedUser
 }
 
 export default function UpdateUserForm ({ data }: Props) {
     const router = useRouter()
     const defaultData = {
-        id: data.id,
-        name: data.name,
-        email: data.email,
-        payRate: data.payRate
+        id: data?.id ?? '',
+        name: data?.name ?? '',
+        email: data?.email ?? '',
+        payRate: data?.payRate ?? 0
 
     }
     const onSuccess = () => {

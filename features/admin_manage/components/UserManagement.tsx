@@ -1,11 +1,11 @@
 'use client';
 
 import { useToast } from "@/context";
-import SelectableCrudView from "@/features/selectable_crud/components/selectable-crud-view/components/SelectableCrudView";
+import { deleteUsers } from "@/domains/users/actions/user.actions";
 import { User } from "@/generated/prisma/client";
 import { useTransition } from "react";
 import ManageTabs from "./ManageTabs";
-import { deleteUsers } from "@/domains/users/actions/user.actions";
+import UserCard from "@/domains/users/components/UserCard";
 
 type Props = {
   users: User[]
@@ -31,17 +31,11 @@ export default function UserMangement ({ users }: Props) {
     return (
         <section className="py-6 flex-1 stacked">
             <ManageTabs activeValue="users" />
-            <SelectableCrudView 
-                items={users}
-                onDelete={handleDelete}
-                renderItem={item => {
-                    return (
-                        <article>
-                            <p>{item.name}</p>
-                        </article>
-                    )
-                }}
-            />
+            {users?.map(item => {
+                return (
+                    <UserCard key={item.id} data={item} />
+                )
+            })}
         </section>
     );
 }

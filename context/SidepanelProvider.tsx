@@ -5,10 +5,11 @@ import { createContext, ReactNode, useContext, useState } from "react";
 type SidePanelContextType = {
   isOpen: boolean;
   currentModal: string | null;
-  loadModal: (id: string) => void;
+  loadModal: (id: string, data?:unknown) => void;
   clearModal: () => void;
   openSidePanel: () => void;
   closeSidePanel: () => void;
+  modalData?: unknown;
 };
 
 const SidePanelContext = createContext<SidePanelContextType | undefined>(undefined);
@@ -20,6 +21,7 @@ type SidePanelProviderProps = {
 export function SidePanelProvider({ children }: SidePanelProviderProps) {
   const [isOpen, setOpen] = useState<boolean>(false);
   const [currentModal, setCurrentModal] = useState<string | null>(null);
+  const [modalData, setModalData] = useState<unknown>(null);
 
   const openSidePanel = () => {
     setOpen(true)
@@ -29,8 +31,9 @@ export function SidePanelProvider({ children }: SidePanelProviderProps) {
     setOpen(false)
   }
 
-  const loadModal = (id: string) => {
+  const loadModal = (id: string, data?: unknown) => {
     setCurrentModal(id)
+    setModalData(data)
     openSidePanel()
   }
 
@@ -48,7 +51,8 @@ export function SidePanelProvider({ children }: SidePanelProviderProps) {
         loadModal,
         clearModal, 
         openSidePanel, 
-        closeSidePanel
+        closeSidePanel,
+        modalData
       }}
     >
       {children}

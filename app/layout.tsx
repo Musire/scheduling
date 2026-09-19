@@ -53,6 +53,7 @@ export default function RootLayout({
         className="font-poppins text-auto"
       >
         {children}
+        <div id="portal-root" />
       </body>
     </html>
   );

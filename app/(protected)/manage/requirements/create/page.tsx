@@ -1,6 +1,6 @@
 import RoleRenderer from "@/components/RoleRenderer";
+import CreateRequirementForm from "@/domains/requirements/components/CreateRequirementForm";
 import { getAreaRoles } from "@/domains/restaurant/queries/getAreas";
-import CreateRequirementForm from "@/forms/CreateRequirementForm";
 
 export default async function CreateRequirementPage () {
     const { data } = await getAreaRoles()
