@@ -121,13 +121,9 @@ export const RequirementRepository = {
         })
         return requirement
     },
-    async deleteRequirements(ids: string[]) {
-        const requirements = await prisma.coverageRequirement.updateMany({
-            where: {
-                id: {
-                    in: ids
-                }
-            },
+    async deleteRequirements(id: string) {
+        const requirements = await prisma.coverageRequirement.update({
+            where: { id },
             data: {
                 active: false
             }

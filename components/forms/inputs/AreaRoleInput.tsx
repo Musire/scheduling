@@ -21,7 +21,7 @@ export default function AreaRoleInput({ areaRoles }: Props) {
   const selectedAreaId = useWatch({ control, name: "areaId" });
 
   // 2. Find the full area object based on the selected ID
-  const selectedArea = areaRoles.find((area) => area.id === selectedAreaId);
+  const selectedArea = areaRoles?.find((area) => area.id === selectedAreaId);
 
   // 3. Extract roles for the selected area (empty array if no area chosen yet)
   const availableRoles = selectedArea ? selectedArea.roles : [];
@@ -33,15 +33,15 @@ export default function AreaRoleInput({ areaRoles }: Props) {
         name="areaId"
         label="Area"
         render={(field) => {
-          const currentArea = areaRoles.find((a) => a.id === field.value);
-          const areaNames = areaRoles.map((a) => a.name);
+          const currentArea = areaRoles?.find((a) => a.id === field.value);
+          const areaNames = areaRoles?.map((a) => a.name);
 
           return (
             <DropdownButton
               options={areaNames}
               value={currentArea ? currentArea.name : ""}
               onChange={(selectedName) => {
-                const matchedArea = areaRoles.find((a) => a.name === selectedName);
+                const matchedArea = areaRoles?.find((a) => a.name === selectedName);
                 const newAreaId = matchedArea ? matchedArea.id : "";
 
                 // Set the area ID in form state

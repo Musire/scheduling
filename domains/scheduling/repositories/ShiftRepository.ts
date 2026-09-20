@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { getWeekLimits } from "@/lib/timeUtils";
-import { ShiftCreationType } from "../validations/ShiftSchema";
+import { ShiftDbType } from "../validations/ShiftSchema";
 
 
 
@@ -31,11 +31,11 @@ export const ShiftRepository = {
             updatedAt: shift.updatedAt.toISOString(),
         }));
     },
-    async createShift(data: ShiftCreationType) {
-        const shift = await prisma.shift.create({
+    async createShift(data: ShiftDbType) {
+        const newShift = await prisma.shift.create({
             data
         })
-        return shift
+        return newShift
     },
     async getSchedulingData() {
         const [schedules, areaRoles, users] = await Promise.all([

@@ -1,8 +1,9 @@
 "use client";
 
 import { fromAppTime, toTimePicker } from "@/lib/timeUtils";
+import { useFormContext } from "react-hook-form";
 import TimePicker from "../../timepicker/TimePicker";
-import ControlledInput from "./ControlledInput"; // Adjust path as needed
+import ControlledInput from "./ControlledInput";
 
 interface RHFTimePickerProps {
   name: string;
@@ -10,26 +11,32 @@ interface RHFTimePickerProps {
 }
 
 export default function FormTimePicker({ name, label }: RHFTimePickerProps) {
+  const { getValues } = useFormContext(); 
+
   return (
     <ControlledInput
       name={name}
       label={label}
       render={(field) => {
-        // Convert Date object from RHF to "HH:MM AM/PM" string for TimePicker
-        const timeString = toTimePicker(field.value)
+        // READ: Convert standard ISO UTC string from database -> "h:mm a" in Chicago time
+        const displayValue = toTimePicker(field.value);
 
         return (
           <TimePicker
-            value={timeString}
+            value={displayValue}
             onChange={(time12h) => {
               if (!time12h) {
-                field.onChange(undefined);
+                field.onChange("");
                 return;
               }
 
-              // WRITE: Use the helper to process and send a UTC Date back to RHF
-              const utcDate = fromAppTime(time12h, field.value);
-              field.onChange(utcDate);
+              // 1. Get the current shiftDate from form state to act as the base date anchor
+              const formShiftDate = getValues("shiftDate");
+
+              // 2. WRITE: Merge time12h with the shiftDate context and get an absolute ISO UTC string
+              const utcIsoString = fromAppTime(time12h, formShiftDate);
+
+              field.onChange(utcIsoString);
             }}
           />
         );

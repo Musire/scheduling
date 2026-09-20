@@ -1,6 +1,6 @@
 import RoleRenderer from "@/components/RoleRenderer";
+import RequirementMangement from "@/domains/requirements/components/RequirementManagement";
 import { getCurrentRequirements } from "@/domains/requirements/queries/getRequirements";
-import RequirementMangement from "@/features/admin_manage/components/RequirementManagement";
 
 interface PageProps {
     searchParams: Promise<{ week?: string }>;

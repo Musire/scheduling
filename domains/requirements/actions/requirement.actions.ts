@@ -1,6 +1,7 @@
 'use server';
 
 import { createSafeAction, validateFormData, validateSchema } from "@/domains/identity/auth/safeAction";
+import { revalidatePath } from "next/cache";
 import { createRequirementService, deleteRequirementService, updateRequirementService } from "../services/requirement.services";
 import { DeleteRequirementSchema, DeleteRequirmentType, RequirementCreateSchema, RequirementUpdateSchema } from "../validation/RequirementSchema";
 
@@ -30,6 +31,8 @@ export const deleteRequirement = createSafeAction(
     },
     async(input: DeleteRequirmentType) => {
         const validated = validateSchema(DeleteRequirementSchema, input)
-        return deleteRequirementService(validated.ids)
+        const res = await deleteRequirementService(validated)
+        revalidatePath('/manage/requirements')
+        return res
     }
 )

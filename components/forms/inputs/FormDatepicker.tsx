@@ -34,17 +34,15 @@ export default function FormDatePicker({
         return (
           <Popover>
             <PopoverTrigger>
-              <Button
-                type="button"
-                variant={"outline"}
+              <div
                 className={cn(
-                  "w-full justify-start text-left font-normal",
+                  "w-full flex items-center normal-space border-border border rounded-lg cursor-pointer justify-start text-left font-normal",
                   !dateValue && "text-muted-foreground"
                 )}
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
                 {dateValue ? format(dateValue, "PPP") : <span>{placeholder}</span>}
-              </Button>
+              </div>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">
               <Calendar

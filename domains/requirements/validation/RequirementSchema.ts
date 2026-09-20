@@ -43,7 +43,7 @@ export type CreateRequirementType = z.infer<typeof RequirementCreateSchema>;
 export type UpdateRequirementType = z.infer<typeof RequirementUpdateSchema>;
 
 export const DeleteRequirementSchema = z.object({
-  ids: z.array(z.string()).min(1)
+  id: z.string().min(1, 'required id')
 })
 
 export type DeleteRequirmentType = z.infer<typeof DeleteRequirementSchema>;

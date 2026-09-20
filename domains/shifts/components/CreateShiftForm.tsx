@@ -6,11 +6,12 @@ import AreaRoleInput from "@/components/forms/inputs/AreaRoleInput";
 import FormDatePicker from "@/components/forms/inputs/FormDatepicker";
 import FormDropdown from "@/components/forms/inputs/FormDropdown";
 import FormTimePicker from "@/components/forms/inputs/FormTimepicker";
-import { useToast } from "@/context";
+import { useSidePanel } from "@/context/SidepanelProvider";
 import { createShift } from "@/domains/scheduling/actions/shift.actions";
 import { getSchedulingData } from "@/domains/scheduling/queries/getSchedulingData";
 import { ShiftCreationSchema } from "@/domains/scheduling/validations/ShiftSchema";
-import { useEffect, useState } from "react";
+import { useFetch } from "@/hooks/useFetch";
+import { useEffect } from "react";
 import z from "zod";
 
 type SchedulingData = {
@@ -33,31 +34,19 @@ type SchedulingData = {
 }
 
 export default function CreateShiftForm () {
-    const [data, setData] = useState<SchedulingData | null>(null);
-    const [isLoading, setLoading] = useState<boolean>(true);
-    const { createError} = useToast()
+    const { data: schedulingData, error, isPending, execute } = useFetch(getSchedulingData)
+    const { clearModal } = useSidePanel()
 
     useEffect(() => {
-        async function loadData () {
-            const res = await getSchedulingData()
-            if (!res.success && res.error) {
-                createError(res.error)
-                return;
-            }
-            if (res.data) {
-                setData(res.data)
-            }
-        }
-        loadData()
-        setLoading(false)
+        execute()
     },[])
 
-    if (isLoading) {
+    if (isPending) {
         return <p className="">...loading</p>
     }
 
     const defaultData = {
-        scheduleId: '',
+        scheduleId: schedulingData?.schedules[0]?.id ?? '',
         areaId: '',
         roleId: '',
         shiftDate: new Date(),
@@ -67,7 +56,7 @@ export default function CreateShiftForm () {
     }
 
     const onSuccess = () => {
-
+        clearModal()
     }
 
     const slides = [
@@ -81,7 +70,7 @@ export default function CreateShiftForm () {
                     <FormDropdown
                         name="scheduleId"
                         label="scheduled week"
-                        options={data?.schedules ?? []}
+                        options={schedulingData?.schedules ?? []}
                         getOptionLabel={(item) => item.weekStart.toLocaleDateString()}  
                         getOptionValue={(item) => item.id}    
                     />
@@ -99,7 +88,7 @@ export default function CreateShiftForm () {
             }),
             component: (
             <>
-                <AreaRoleInput areaRoles={data?.areaRoles ?? []} />
+                <AreaRoleInput areaRoles={schedulingData?.areaRoles ?? []} />
             </>
             )
         },
@@ -115,7 +104,7 @@ export default function CreateShiftForm () {
                     <FormDropdown
                         name="userId"
                         label="select employee"
-                        options={data?.users ?? []}
+                        options={schedulingData?.users ?? []}
                         getOptionLabel={(item) => item.name}  
                         getOptionValue={(item) => item.id}    
                     />

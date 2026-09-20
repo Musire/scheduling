@@ -18,6 +18,6 @@ export async function updateRequirementService(data: UpdateRequirementType) {
     return RequirementRepository.updateRequirement(data)
 }
 
-export async function deleteRequirementService(ids: string[]) {
-    return RequirementRepository.deleteRequirements(ids)
+export async function deleteRequirementService({ id }: { id: string}) {
+    return RequirementRepository.deleteRequirements(id)
 }

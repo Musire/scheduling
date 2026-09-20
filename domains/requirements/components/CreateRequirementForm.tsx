@@ -4,15 +4,19 @@ import { DropdownButton } from "@/components/buttons"
 import { ActionForm, ControlledInput, Input } from "@/components/forms"
 import FormStepper from "@/components/forms/FormStepper"
 import FormTimePicker from "@/components/forms/inputs/FormTimepicker"
+import { PanelProps } from "@/components/sidepanel/PanelRegistry"
 import { useToast } from "@/context"
+import { useSidePanel } from "@/context/SidepanelProvider"
 import { createRequirement } from "@/domains/requirements/actions/requirement.actions"
 import { RequirementCreateSchema } from "@/domains/requirements/validation/RequirementSchema"
+import { getAreaRoles } from "@/domains/restaurant/queries/getAreas"
+import { useFetch } from "@/hooks/useFetch"
 import { getNow } from "@/lib/timeUtils"
-import { useRouter } from "next/navigation"
+import { useEffect } from "react"
 import z from "zod"
 import AreaRoleInput from "../../../components/forms/inputs/AreaRoleInput"
 
-type Props = {
+type roleArea = {
   areaRoles: {
     id: string;
     name: string;
@@ -23,16 +27,23 @@ type Props = {
   }[]
 }
 
-export default function CreateRequirementForm({
-  areaRoles
-}: Props) {
 
-  const router = useRouter()
+export default function CreateRequirementForm({
+  data
+}: PanelProps) {
+
+  const { clearModal } = useSidePanel()
   const { createSuccess } = useToast()
+  const { data: areaRoles, execute } = useFetch(getAreaRoles)
+
+  useEffect(() => {
+    console.log(areaRoles)
+    execute()
+  }, [])
 
   const onSuccess = () => {
-    router.push('/manage/requirements')
     createSuccess('created shift requirement')
+    clearModal()
   }
 
   const defaultData = {

@@ -11,8 +11,9 @@ import { CoverageWithCount } from "@/features/admin_manage/components/requiremen
 import { useRouter } from "next/navigation"
 import z from "zod"
 import AreaRoleInput from "../../../components/forms/inputs/AreaRoleInput"
+import { PanelProps } from "@/components/sidepanel/PanelRegistry"
 
-type Props = {
+type coverage = {
   data: CoverageWithCount;
   areaRoles: {
     id: string;
@@ -24,12 +25,13 @@ type Props = {
   }[]
 }
 
+
+
 export default function UpdateRequirementForm({
   data,
-  areaRoles
-}: Props) {
+}: PanelProps) {
 
-
+  const areaRoles = []
   const router = useRouter()
   const { createSuccess } = useToast()
 
@@ -39,13 +41,13 @@ export default function UpdateRequirementForm({
   }
 
   const defaultData = {
-    id: data.id,
-    areaId: data.areaId,
-    roleId: data.roleId,
-    dayOfWeek: data.dayOfWeek,
-    requiredUsers: data.requiredUsers,
-    startsAt: data.startsAt.toISOString(),
-    endsAt: data.endsAt.toISOString()
+    id: data?.id,
+    areaId: data?.areaId,
+    roleId: data?.roleId,
+    dayOfWeek: data?.dayOfWeek,
+    requiredUsers: data?.requiredUsers,
+    startsAt: data?.startsAt?.toISOString(),
+    endsAt: data?.endsAt?.toISOString()
   }
 
   const weekdays = [
