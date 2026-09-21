@@ -1,8 +1,8 @@
 "use client"
 
 import { ActionForm, Input } from "@/components/forms"
-import { updateArea } from "@/domains/restaurant/actions/area.actions"
-import { AreaUpdateSchema, UpdateAreaType } from "@/domains/restaurant/validation/AreaSchema"
+import { updateArea } from "@/domains/areas/area.actions"
+import { AreaUpdateSchema, UpdateAreaType } from "@/domains/areas/area.validation"
 import { useRouter } from "next/navigation"
 
 type Props = {

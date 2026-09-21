@@ -1,5 +1,5 @@
 import RoleRenderer from "@/components/RoleRenderer";
-import CreateRoleForm from "@/domains/areas/components/CreateRoleForm";
+import CreateRoleForm from "@/domains/roles/components/CreateRoleForm";
 
 export default function NewRolePage () {
     return (

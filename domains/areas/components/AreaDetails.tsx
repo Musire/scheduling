@@ -3,7 +3,7 @@ import { DeleteModal } from "@/components/modal";
 import { useToast } from "@/context";
 import { useBottomDrawer } from "@/context/BottomDrawerProvider";
 import { useSidePanel } from "@/context/SidepanelProvider";
-import { deleteArea } from "@/domains/restaurant/actions/area.actions";
+import { deleteArea } from "@/domains/areas/area.actions";
 import { useDrawer } from "@/hooks";
 import { useTransition } from "react";
 
@@ -19,6 +19,8 @@ export default function AreaDetails ({ data }: Props) {
     const { isMounted, openDrawer, closeDrawer } = useDrawer()
 
     if (!data) return null
+
+    console.log(data)
 
     const handleDelete = () => {
         startTransition(async () => {

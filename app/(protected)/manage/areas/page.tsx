@@ -1,5 +1,5 @@
 import RoleRenderer from "@/components/RoleRenderer";
-import { getAreas } from "@/domains/restaurant/queries/getAreas";
+import { getAreas } from "@/domains/areas/area.queries";
 import AreaManagement from "@/features/admin_manage/components/AreaManagement";
 
 export default async function AreaManagementPage () {

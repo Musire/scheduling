@@ -1,7 +1,7 @@
 'use client'
 
 import { useToast } from "@/context";
-import { deleteRole } from "@/domains/restaurant/actions/role.actions";
+import { deleteRole } from "@/domains/roles/role.actions";
 import SelectableCrudView from "@/features/selectable_crud/components/selectable-crud-view/components/SelectableCrudView";
 import { useParams } from "next/navigation";
 import { useTransition } from "react";
@@ -24,7 +24,7 @@ export default function SelectableRoles<T> ({ roles }: Props<T>) {
                 : (areaSlug ?? "");
         
             const res = await deleteRole({ areaSlug: clean, ids})
-            if (!res.success) {
+            if (!res.success && res.error) {
                 createError(res.error)
                 return;
             }

@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma"
-import { UpdateAreaType } from "../validation/AreaSchema"
+import { UpdateAreaType } from "./area.validation"
 
 
 export const AreaRepository = {

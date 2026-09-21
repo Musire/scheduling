@@ -1,6 +1,6 @@
-import { AreaRepository } from "../repositories/AreaRepository";
-import { RoleRepository } from "../repositories/RoleRepository";
-import { DeleteRoleType } from "../validation/DeleteSchema";
+import { AreaRepository } from "../areas/area.repositories";
+import { DeleteRoleType } from "../areas/DeleteSchema";
+import { RoleRepository } from "./role.repositories";
 
 
 export async function createRoleService (data: { name: string, areaSlug: string }) {

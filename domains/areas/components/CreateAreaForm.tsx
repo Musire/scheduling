@@ -1,8 +1,8 @@
 "use client"
 
 import { ActionForm, Input } from "@/components/forms"
-import { createArea } from "@/domains/restaurant/actions/area.actions"
-import { AreaCreateSchema } from "@/domains/restaurant/validation/AreaSchema"
+import { createArea } from "@/domains/areas/area.actions"
+import { AreaCreateSchema } from "@/domains/areas/area.validation"
 import { useRouter } from "next/navigation"
 
 export default function CreateAreaForm() {

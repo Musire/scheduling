@@ -1,5 +1,5 @@
 import RoleRenderer from "@/components/RoleRenderer";
-import { getAreaDetails } from "@/domains/restaurant/queries/getAreas";
+import { getAreaDetails } from "@/domains/restaurant/queries/area.queries";
 import { UpdateAreaForm } from "@/forms";
 
 type Props = {

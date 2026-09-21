@@ -2,9 +2,9 @@
 
 import { createSafeAction, validateFormData, validateSchema } from "@/domains/identity/auth/safeAction";
 import { revalidatePath } from "next/cache";
-import { createRoleService, deleteRoleService } from "../services/role.services";
-import { DeleteAreaType, DeleteRoleSchema, DeleteRoleType } from "../validation/DeleteSchema";
-import { RoleCreateSchema } from "../validation/RoleSchema";
+import { DeleteRoleSchema, DeleteRoleType } from "../areas/DeleteSchema";
+import { createRoleService, deleteRoleService } from "./role.services";
+import { RoleCreateSchema } from "./role.validations";
 
 export const createRole = createSafeAction(
     {   

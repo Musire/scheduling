@@ -20,8 +20,18 @@ export const AreaSchema = z.object({
   coverageRequirements: z.any().optional(),
 });
 
+export const DeleteAreaSchema = z.object({
+  id: z.string().min(1, 'area id is needed')
+});
+
+export const DeleteRoleSchema = z.object({
+  areaSlug: z.string().min(1, ''),
+  ids: z.array(z.string()).min(1)
+});
+
 
 export type AreaType = z.infer<typeof AreaSchema>;
 export type CreateAreaType = z.infer<typeof AreaCreateSchema>;
 export type UpdateAreaType = z.infer<typeof AreaUpdateSchema>;
-
+export type DeleteAreaType = z.infer<typeof DeleteAreaSchema>;
+export type DeleteRoleType = z.infer<typeof DeleteRoleSchema>;

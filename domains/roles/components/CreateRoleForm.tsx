@@ -1,8 +1,8 @@
 "use client"
 
 import { ActionForm, Input } from "@/components/forms"
-import { createRole } from "@/domains/restaurant/actions/role.actions"
-import { RoleCreateSchema } from "@/domains/restaurant/validation/RoleSchema"
+import { createRole } from "@/domains/roles/role.actions"
+import { RoleCreateSchema } from "@/domains/roles/role.validations"
 import { useParams, useRouter } from "next/navigation"
 
 export default function CreateRoleForm() {
