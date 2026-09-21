@@ -1,11 +1,9 @@
 'use client';
 
-import { useToast } from "@/context";
-import { deleteArea } from "@/domains/restaurant/actions/area.actions";
-import SelectableCrudView from "@/features/selectable_crud/components/selectable-crud-view/components/SelectableCrudView";
-import { useTransition } from "react";
-import ManageTabs from "./ManageTabs";
+import { useSidePanel } from "@/context/SidepanelProvider";
+import AreaCard from "@/domains/areas/components/AreaCard";
 import { Area } from "@/generated/prisma/client";
+import ManageTabs from "./ManageTabs";
 
 type Props<T> = {
   items: T[]
@@ -15,39 +13,32 @@ export default function AreaManagement<T extends Area> ({
     items 
 }: Props<T>) {
 
-    const [isPending, startTransition] = useTransition()
-    const { createSuccess, createError } = useToast()
-
-    const handleDelete = (ids?: string[]) => {
-      if (!ids || ids.length === 0) return;
-      
-      startTransition(async() => {
-        
-        const res = await deleteArea({ids})
-        if (!res.success) {
-            createError(res.error)
-            return;
-        }
-
-        createSuccess('deleted an item')
-      })
-    }
+    const { loadModal } = useSidePanel()
 
     return (
         <section className="pt-6 flex-1 flex flex-col space-y-6">
             <ManageTabs activeValue="areas" />
-            <SelectableCrudView
-                items={items}
-                onDelete={handleDelete}
-                containerStyle="stacked px-1"
-                renderItem={(item) => {
-                    return (
-                    <article className="text-main">
-                        <h3>{item.name}</h3>
-                    </article>
-                    )
-                }}
-            />
+            <button 
+                type="button"
+                onClick={() => loadModal('create-area')}
+                className="bg-whitesmoke/87 w-20 text-background normal-space rounded-md self-end cursor-pointer"
+            >
+                + Add
+            </button>
+            {!!items.length && (
+                <div className="stacked space-y-2">
+                    {items.map(i => {
+                        return (
+                            <AreaCard key={i.id} data={i} />
+                        )
+                    })}
+                </div>
+            )}
+            {!items.length && (
+                <div className="">
+                    <p className="">no areas found</p>
+                </div>
+            )}
         </section>
     );
 }

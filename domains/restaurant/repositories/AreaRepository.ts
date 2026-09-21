@@ -53,13 +53,9 @@ export const AreaRepository = {
         })
         return area
     },
-    async deleteAreas(ids: string[]) {
-        const area = await prisma.area.updateMany({
-            where: {
-                id: {
-                    in: ids
-                }
-            },
+    async deleteAreas(id: string) {
+        const area = await prisma.area.update({
+            where: { id },
             data: {
                 active: false
             }

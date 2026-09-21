@@ -1,8 +1,8 @@
 'use client'
 
 import { ActionForm, Input } from "@/components/forms";
-import { createUser } from "@/domains/users/actions/user.actions";
-import { UserCreationSchema } from "@/domains/users/validations/UserSchema";
+import { createUser } from "@/domains/users/user.actions";
+import { UserCreationSchema } from "@/domains/users/user.validations";
 import { useRouter } from "next/navigation";
 
 export default function CreateUserForm () {

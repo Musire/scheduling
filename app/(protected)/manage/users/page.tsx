@@ -1,5 +1,5 @@
 import RoleRenderer from "@/components/RoleRenderer";
-import { getUsers } from "@/domains/users/queries/getUsers";
+import { getUsers } from "@/domains/users/user.queries";
 import UserMangement from "@/features/admin_manage/components/UserManagement";
 
 export default async function UserMangementPage () {

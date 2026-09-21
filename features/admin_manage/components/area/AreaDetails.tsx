@@ -1,5 +1,5 @@
 import { getAreaDetails } from "@/domains/restaurant/queries/getAreas";
-import SelectableRoles from "@/features/admin_manage/components/area/SelectableRoles";
+import SelectableRoles from "@/domains/areas/components/SelectableRoles";
 
 type Props = {
   areaSlug: string;

@@ -1,5 +1,5 @@
-import { UserRepository } from "../repositories/UserRepository";
-import { UserCreationType } from "../validations/UserSchema";
+import { UserRepository } from "./user.repositories";
+import { UserCreationType } from "./user.validations";
 
 export async function getUsersService () {
     return UserRepository.getUsers()
@@ -13,6 +13,6 @@ export async function createUserService (data: UserCreationType) {
     return UserRepository.createUser(data)
 }
 
-export async function deleteUsersService (ids: string[]) {
-    return UserRepository.deleteUsers(ids)
+export async function deleteUsersService (id: string) {
+    return UserRepository.deleteUsers(id)
 }

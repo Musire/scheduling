@@ -7,20 +7,15 @@ export async function getShiftsService (weekStart: string) {
 }
 
 export async function createShiftService(data: ShiftCreationType) {
-  console.log('service level received: ', data);
-
-  // 1. Transform the validated form values into native Date objects
+  
   const databasePayload: ShiftDbType = {
     ...data,
     shiftDate: new Date(data.shiftDate),
-    startsAt: new Date(data.startsAt), // Converts "YYYY-MM-DDTHH:mm:ss.sssZ" -> Date object
-    endsAt: new Date(data.endsAt),     // Converts "YYYY-MM-DDTHH:mm:ss.sssZ" -> Date object
+    startsAt: new Date(data.startsAt), 
+    endsAt: new Date(data.endsAt),    
   };
 
-  // 2. Validate the database schema snapshot (optional but recommended for safety)
   const validatedDbData = ShiftDbSchema.parse(databasePayload);
-
-  // 3. Pass the clean, timezone-safe Date objects down to the repository layer
   return ShiftRepository.createShift(validatedDbData);
 }
 

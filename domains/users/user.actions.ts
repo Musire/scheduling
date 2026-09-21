@@ -1,8 +1,8 @@
 'use server'
 
 import { createSafeAction, validateFormData } from "@/domains/identity/auth/safeAction";
-import { createUserService, deleteUsersService } from "../services/user.services";
-import { UserCreationSchema } from "../validations/UserSchema";
+import { createUserService, deleteUsersService } from "./user.services";
+import { UserCreationSchema } from "./user.validations";
 
 export const createUser = createSafeAction(
     {

@@ -1,6 +1,6 @@
 import { UserStatus } from "@/generated/prisma/enums"
 import { prisma } from "@/lib/prisma"
-import { UserCreationType } from "../validations/UserSchema"
+import { UserCreationType } from "./user.validations"
 
 
 export const UserRepository = {

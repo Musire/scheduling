@@ -1,7 +1,7 @@
 import z from "zod";
 
 export const DeleteAreaSchema = z.object({
-  ids: z.array(z.string()).min(1)
+  id: z.string().min(1, 'area id is needed')
 });
 
 export const DeleteRoleSchema = z.object({

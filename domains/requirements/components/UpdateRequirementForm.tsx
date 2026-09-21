@@ -4,14 +4,14 @@ import { DropdownButton } from "@/components/buttons"
 import { ActionForm, ControlledInput, Input } from "@/components/forms"
 import FormStepper from "@/components/forms/FormStepper"
 import FormTimePicker from "@/components/forms/inputs/FormTimepicker"
+import { PanelProps } from "@/components/sidepanel/PanelRegistry"
 import { useToast } from "@/context"
-import { updateRequirement } from "@/domains/requirements/actions/requirement.actions"
-import { RequirementUpdateSchema } from "@/domains/requirements/validation/RequirementSchema"
+import { updateRequirement } from "@/domains/requirements/requirement.actions"
+import { RequirementUpdateSchema } from "@/domains/requirements/RequirementSchema"
 import { CoverageWithCount } from "@/features/admin_manage/components/requirement/RequirementDetails"
 import { useRouter } from "next/navigation"
 import z from "zod"
 import AreaRoleInput from "../../../components/forms/inputs/AreaRoleInput"
-import { PanelProps } from "@/components/sidepanel/PanelRegistry"
 
 type coverage = {
   data: CoverageWithCount;

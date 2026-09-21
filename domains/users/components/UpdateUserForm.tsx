@@ -1,8 +1,8 @@
 'use client'
 
 import { ActionForm, Input } from "@/components/forms";
-import { createUser } from "@/domains/users/actions/user.actions";
-import { UserUpdateSchema } from "@/domains/users/validations/UserSchema";
+import { createUser } from "@/domains/users/user.actions";
+import { UserUpdateSchema } from "@/domains/users/user.validations";
 import { ModifiedUser } from "@/features/admin_manage/components/users/UserDetails";
 import { useRouter } from "next/navigation";
 

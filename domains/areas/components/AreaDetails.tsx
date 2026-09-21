@@ -3,18 +3,15 @@ import { DeleteModal } from "@/components/modal";
 import { useToast } from "@/context";
 import { useBottomDrawer } from "@/context/BottomDrawerProvider";
 import { useSidePanel } from "@/context/SidepanelProvider";
+import { deleteArea } from "@/domains/restaurant/actions/area.actions";
 import { useDrawer } from "@/hooks";
 import { useTransition } from "react";
-import { deleteRequirement } from "../requirement.actions";
 
 type Props = {
-  data?: {
-    id: string;
-    name: string;
-  }
+  data?: any
 }
 
-export default function RequirmentDetails ({ data }: Props) {
+export default function AreaDetails ({ data }: Props) {
     const [pending, startTransition] = useTransition();
     const { loadModal: loadSidepanel,  } = useSidePanel()
     const { clearModal: clearDrawer } = useBottomDrawer()
@@ -25,35 +22,32 @@ export default function RequirmentDetails ({ data }: Props) {
 
     const handleDelete = () => {
         startTransition(async () => {
-          if (data?.id) {
-            const res = await deleteRequirement({ id: data.id });
+            if (data?.id) {
+            const res = await deleteArea({ id: data.id });
             if (!res.success && res.error) {
-              createError(res.error);
-              return;
+                createError(res.error);
+                return;
             }
-            createSuccess('Successfully deleted requirement');
-          }
+            createSuccess('Successfully deleted area');
+            }
         });
         clearDrawer();
-      };
+        };
 
     const handleEdit = () => {
-        loadSidepanel('update-requirement', { data })
+        loadSidepanel('update-area', { data })
         clearDrawer()
     }
-
     return (
         <DrawerTemplate
-            onDelete={openDrawer}
             onEdit={handleEdit}
+            onDelete={openDrawer} 
             className=""
         >
-            <p className="">{data?.area?.name}</p>
-            <DeleteModal 
-                modalOpen={isMounted} 
-                onClose={closeDrawer} 
-                onDelete={handleDelete} 
-            />
+            <p className="">
+                {data.name}
+            </p>
+            <DeleteModal modalOpen={isMounted} onDelete={handleDelete} onClose={closeDrawer} />
         </DrawerTemplate>
     );
 }

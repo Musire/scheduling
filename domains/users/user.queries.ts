@@ -1,5 +1,5 @@
 import { createSafeAction } from "@/domains/identity/auth/safeAction";
-import { getUserBySlugService, getUsersService } from "../services/user.services";
+import { getUserBySlugService, getUsersService } from "./user.services";
 
 
 export const getUsers = createSafeAction(

@@ -1,5 +1,5 @@
 import { AreaRepository } from "../repositories/AreaRepository";
-import { AreaType, UpdateAreaType } from "../validation/AreaSchema";
+import { UpdateAreaType } from "../validation/AreaSchema";
 import { DeleteAreaType } from "../validation/DeleteSchema";
 
 export async function getAreaService () {
@@ -23,7 +23,7 @@ export async function updateAreaService (data: UpdateAreaType) {
 }
 
 export async function deleteAreaService (data: DeleteAreaType) {
-    return AreaRepository.deleteAreas(data.ids)
+    return AreaRepository.deleteAreas(data.id)
 }
 
 export async function getAreaRoleService () {

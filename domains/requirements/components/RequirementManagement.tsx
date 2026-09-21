@@ -1,11 +1,11 @@
 'use client';
 
 import { useToast } from "@/context";
-import { deleteRequirement } from "@/domains/requirements/actions/requirement.actions";
+import { useSidePanel } from "@/context/SidepanelProvider";
+import { deleteRequirement } from "@/domains/requirements/requirement.actions";
 import { useTransition } from "react";
 import ManageTabs from "../../../features/admin_manage/components/ManageTabs";
 import RequirementCard from "./RequirementCard";
-import { useSidePanel } from "@/context/SidepanelProvider";
 
 type Props = {
   requirements: unknown[]
@@ -13,23 +13,19 @@ type Props = {
 
 export default function RequirementMangement ({ requirements }: Props) {
     const { loadModal } = useSidePanel()
-
     const [isPending, startTransition] = useTransition()
     const { createSuccess, createError } = useToast()
 
-    const handleDelete = (ids?: string[]) => {
-    if (!ids || ids.length === 0) return;
-    
-    startTransition(async() => {
-        
-        const res = await deleteRequirement({ids})
-        if (!res.success && res.error) {
-            createError(res.error)
-            return;
-        }
+    const handleDelete = (id: string) => {
+        startTransition(async() => {
+            const res = await deleteRequirement({id})
+            if (!res.success && res.error) {
+                createError(res.error)
+                return;
+            }
 
-        createSuccess('deleted an item')
-    })
+            createSuccess('deleted an item')
+        })
     }
 
     return (
@@ -42,11 +38,20 @@ export default function RequirementMangement ({ requirements }: Props) {
             >
                 + Add
             </button>
-            {requirements?.map(r => {
-                return (
-                    <RequirementCard key={r?.id} data={r} />
-                )
-            })}
+            {!!requirements.length && (
+                <div className="stacked space-y-2">
+                    {requirements?.map(r => {
+                        return (
+                            <RequirementCard key={r?.id} data={r} />
+                        )
+                })}
+                </div>
+            )}
+            {!requirements.length && (
+                <div className="flex-1 centered">
+                    <p className="">No requirments set up</p>
+                </div>
+            )}
         </section>
     );
 }

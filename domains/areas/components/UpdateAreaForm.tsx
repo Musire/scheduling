@@ -6,7 +6,7 @@ import { AreaUpdateSchema, UpdateAreaType } from "@/domains/restaurant/validatio
 import { useRouter } from "next/navigation"
 
 type Props = {
-  data: UpdateAreaType
+  data?: UpdateAreaType
 }
 
 export default function UpdateAreaForm({ data }: Props) {

@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { addDays, setHours, setMinutes, startOfDay } from "date-fns";
-import { CreateRequirementType, UpdateRequirementType } from "../validation/RequirementSchema";
+import { CreateRequirementType, UpdateRequirementType } from "./RequirementSchema";
 
 
 export const RequirementRepository = {

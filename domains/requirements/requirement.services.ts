@@ -1,5 +1,5 @@
-import { RequirementRepository } from "../repositories/RequirementRepository";
-import { CreateRequirementType, UpdateRequirementType } from "../validation/RequirementSchema";
+import { RequirementRepository } from "./RequirementRepository";
+import { CreateRequirementType, UpdateRequirementType } from "./RequirementSchema";
 
 
 export async function getRequirementsService (startOfWeek: string) {

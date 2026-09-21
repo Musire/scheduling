@@ -2,8 +2,8 @@
 
 import { createSafeAction, validateFormData, validateSchema } from "@/domains/identity/auth/safeAction";
 import { revalidatePath } from "next/cache";
-import { createRequirementService, deleteRequirementService, updateRequirementService } from "../services/requirement.services";
-import { DeleteRequirementSchema, DeleteRequirmentType, RequirementCreateSchema, RequirementUpdateSchema } from "../validation/RequirementSchema";
+import { createRequirementService, deleteRequirementService, updateRequirementService } from "./requirement.services";
+import { DeleteRequirementSchema, DeleteRequirmentType, RequirementCreateSchema, RequirementUpdateSchema } from "./RequirementSchema";
 
 export const createRequirement = createSafeAction(
     {

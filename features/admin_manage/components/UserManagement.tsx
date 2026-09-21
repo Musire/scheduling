@@ -1,25 +1,27 @@
 'use client';
 
 import { useToast } from "@/context";
-import { deleteUsers } from "@/domains/users/actions/user.actions";
+import { useSidePanel } from "@/context/SidepanelProvider";
+import UserCard from "@/domains/users/components/UserCard";
+import { deleteUsers } from "@/domains/users/user.actions";
 import { User } from "@/generated/prisma/client";
 import { useTransition } from "react";
 import ManageTabs from "./ManageTabs";
-import UserCard from "@/domains/users/components/UserCard";
 
 type Props = {
   users: User[]
 }
 
 export default function UserMangement ({ users }: Props) {
-    const [pending, startTransition] = useTransition()
-    const { createError, createSuccess } = useToast()
+    const { loadModal } = useSidePanel()
+    
+    const [isPending, startTransition] = useTransition()
+    const { createSuccess, createError } = useToast()
 
-    const handleDelete = (ids?: string[]) => {
-        if (!ids?.length) return ;
+    const handleDelete = (id: string) => {
 
         startTransition(async()=> {
-            const res = await deleteUsers(ids)
+            const res = await deleteUsers(id)
             if (!res.success && res.error) {
                 createError(res.error)
                 return
@@ -31,6 +33,13 @@ export default function UserMangement ({ users }: Props) {
     return (
         <section className="py-6 flex-1 stacked">
             <ManageTabs activeValue="users" />
+            <button 
+                type="button"
+                onClick={() => loadModal('create-requirement')}
+                className="bg-whitesmoke/87 w-20 text-background normal-space rounded-md self-end cursor-pointer"
+            >
+                + Add
+            </button>
             {users?.map(item => {
                 return (
                     <UserCard key={item.id} data={item} />
