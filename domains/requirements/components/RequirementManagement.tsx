@@ -1,32 +1,17 @@
 'use client';
 
-import { useToast } from "@/context";
 import { useSidePanel } from "@/context/SidepanelProvider";
-import { deleteRequirement } from "@/domains/requirements/requirement.actions";
-import { useTransition } from "react";
 import ManageTabs from "../../../features/admin_manage/components/ManageTabs";
 import RequirementCard from "./RequirementCard";
+import { requirementWithMeta } from "../requirement.types";
 
 type Props = {
-  requirements: unknown[]
+  requirements: requirementWithMeta[]
 }
 
 export default function RequirementMangement ({ requirements }: Props) {
     const { loadModal } = useSidePanel()
-    const [isPending, startTransition] = useTransition()
-    const { createSuccess, createError } = useToast()
 
-    const handleDelete = (id: string) => {
-        startTransition(async() => {
-            const res = await deleteRequirement({id})
-            if (!res.success && res.error) {
-                createError(res.error)
-                return;
-            }
-
-            createSuccess('deleted an item')
-        })
-    }
 
     return (
         <section className="py-6 flex-1 stacked">

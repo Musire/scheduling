@@ -4,14 +4,13 @@ import { useToast } from "@/context";
 import { useBottomDrawer } from "@/context/BottomDrawerProvider";
 import { useSidePanel } from "@/context/SidepanelProvider";
 import { useDrawer } from "@/hooks";
+import { toAppTime } from "@/lib/timeUtils";
 import { useTransition } from "react";
 import { deleteRequirement } from "../requirement.actions";
+import { requirementWithMeta } from "../requirement.types";
 
 type Props = {
-  data?: {
-    id: string;
-    name: string;
-  }
+  data?: requirementWithMeta
 }
 
 export default function RequirmentDetails ({ data }: Props) {
@@ -38,7 +37,7 @@ export default function RequirmentDetails ({ data }: Props) {
       };
 
     const handleEdit = () => {
-        loadSidepanel('update-requirement', { data })
+        loadSidepanel('update-requirement', data )
         clearDrawer()
     }
 
@@ -46,9 +45,22 @@ export default function RequirmentDetails ({ data }: Props) {
         <DrawerTemplate
             onDelete={openDrawer}
             onEdit={handleEdit}
-            className=""
-        >
-            <p className="">{data?.area?.name}</p>
+            className="stacked items-center space-y-4"
+        > 
+            <div className="w-5/6 h-20 spaced capitalize">
+                <span className="">{data?.area.name}</span>
+                <span className="">{data?.role.name}</span>
+            </div>
+            <div className="w-5/6 h-20 capitalize grid grid-cols-2 gap-x-4">
+                <p className="stacked space-y-2">
+                  <span className="">Range</span>
+                  <span className="">{`${toAppTime(data.startsAt)} - ${toAppTime(data.endsAt)}`}</span>
+                </p>
+                <p className="stacked items-end space-y-2">
+                  <span className="">Shifts</span>
+                  <span className="">{`${data._count} / ${data.requiredUsers}`}</span>
+                </p>
+            </div>
             <DeleteModal 
                 modalOpen={isMounted} 
                 onClose={closeDrawer} 

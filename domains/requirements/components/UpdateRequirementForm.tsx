@@ -8,8 +8,11 @@ import { PanelProps } from "@/components/sidepanel/PanelRegistry"
 import { useToast } from "@/context"
 import { updateRequirement } from "@/domains/requirements/requirement.actions"
 import { RequirementUpdateSchema } from "@/domains/requirements/RequirementSchema"
+import { getAreaRoles } from "@/domains/restaurant/queries/getAreas"
 import { CoverageWithCount } from "@/features/admin_manage/components/requirement/RequirementDetails"
+import { useFetch } from "@/hooks/useFetch"
 import { useRouter } from "next/navigation"
+import { useEffect } from "react"
 import z from "zod"
 import AreaRoleInput from "../../../components/forms/inputs/AreaRoleInput"
 
@@ -31,23 +34,28 @@ export default function UpdateRequirementForm({
   data,
 }: PanelProps) {
 
-  const areaRoles = []
   const router = useRouter()
   const { createSuccess } = useToast()
+  const { data: areaRoles, error, execute} = useFetch(getAreaRoles)
+
+  useEffect(() => {
+    execute()
+  }, [])
+
 
   const onSuccess = () => {
     router.push('/manage/requirements')
     createSuccess('updated shift requirement')
   }
 
-  const defaultData = {
-    id: data?.id,
-    areaId: data?.areaId,
-    roleId: data?.roleId,
-    dayOfWeek: data?.dayOfWeek,
-    requiredUsers: data?.requiredUsers,
-    startsAt: data?.startsAt?.toISOString(),
-    endsAt: data?.endsAt?.toISOString()
+  const defaultData = data ?? {
+    id: '',
+    areaId: '',
+    roleId: '',
+    dayOfWeek: '',
+    requiredUsers: '',
+    startsAt: '',
+    endsAt: ''
   }
 
   const weekdays = [
@@ -63,7 +71,7 @@ export default function UpdateRequirementForm({
   const slides = [
     {
       schema: z.object({
-        dayofWeek: RequirementUpdateSchema.shape.dayOfWeek,
+        dayOfWeek: RequirementUpdateSchema.shape.dayOfWeek,
         areaId: RequirementUpdateSchema.shape.areaId,
         roleId: RequirementUpdateSchema.shape.roleId,
       }),
@@ -87,7 +95,7 @@ export default function UpdateRequirementForm({
                 )
               }}
             />
-            <AreaRoleInput areaRoles={areaRoles} />
+            <AreaRoleInput areaRoles={areaRoles ?? []} />
         </>
       )
     },
@@ -95,7 +103,7 @@ export default function UpdateRequirementForm({
       schema: z.object({
         requiredUsers: RequirementUpdateSchema.shape.requiredUsers,
         endsAt: RequirementUpdateSchema.shape.endsAt,
-        startAt: RequirementUpdateSchema.shape.startsAt,
+        startsAt: RequirementUpdateSchema.shape.startsAt,
       }),
       component: (
         <>

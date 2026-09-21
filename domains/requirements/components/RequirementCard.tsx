@@ -2,22 +2,10 @@
 
 import { useBottomDrawer } from "@/context/BottomDrawerProvider";
 import { toAppTime } from "@/lib/timeUtils";
+import { requirementWithMeta } from "../requirement.types";
 
 type Props = {
-  data: {
-    area: {
-      id: string;
-      name: string;
-      
-    },
-    role: {
-      name: string;
-    },
-    startsAt: Date;
-    endsAt: Date;
-    _count: string;
-    requiredUsers: string
-  }
+  data: requirementWithMeta
 }
 
 export default function RequirementCard ({ data }: Props) {
