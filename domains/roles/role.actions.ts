@@ -2,8 +2,8 @@
 
 import { createSafeAction, validateFormData, validateSchema } from "@/domains/identity/auth/safeAction";
 import { revalidatePath } from "next/cache";
-import { createRoleService, deleteRoleService } from "./role.services";
-import { DeleteRoleSchema, DeleteRoleType, RoleCreateSchema } from "./role.validations";
+import { createRoleService, deleteRoleService, updateRoleService } from "./role.services";
+import { DeleteRoleSchema, DeleteRoleType, RoleCreateSchema, RoleUpdateSchema } from "./role.validations";
 
 export const createRole = createSafeAction(
     {   
@@ -13,6 +13,18 @@ export const createRole = createSafeAction(
     async (_, formData: FormData) => {
         const validated = validateFormData(RoleCreateSchema, formData)
         return await createRoleService(validated);
+    }
+)
+
+export const updateRole = createSafeAction(
+    {
+        allowedRoles: ['ADMIN']
+    },
+    async (_:any, formData: FormData) => {
+        const validated = validateFormData(RoleUpdateSchema, formData)
+        const res = updateRoleService(validated)
+        revalidatePath(`/manage/areas/${validated.areaSlug}`)
+        return res
     }
 )
 

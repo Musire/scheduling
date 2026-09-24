@@ -39,7 +39,8 @@ export default function RoleDetails ({ data }: Props) {
     };
 
     const handleEdit = () => {
-
+        loadSidepanel('update-role', data)
+        clearDrawer()
     }
     return (
         <DrawerTemplate 

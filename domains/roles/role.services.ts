@@ -1,6 +1,6 @@
 import { AreaRepository } from "../areas/area.repositories";
 import { RoleRepository } from "./role.repositories";
-import { DeleteRoleType } from "./role.validations";
+import { DeleteRoleType, RoleUpdateType } from "./role.validations";
 
 
 export async function createRoleService (data: { name: string, areaSlug: string }) {
@@ -9,6 +9,10 @@ export async function createRoleService (data: { name: string, areaSlug: string 
         throw new Error("Area not found")
     }
     return RoleRepository.createRole({ areaId: area.id, name: data.name})
+}
+
+export async function updateRoleService (data: RoleUpdateType) {
+    return RoleRepository.updateRole(data)
 }
 
 export async function deleteRoleService (data: DeleteRoleType) {
