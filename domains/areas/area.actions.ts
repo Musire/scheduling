@@ -3,8 +3,7 @@
 import { createSafeAction, validateFormData, validateSchema } from "@/domains/identity/auth/safeAction";
 import { revalidatePath } from "next/cache";
 import { createAreaService, deleteAreaService, updateAreaService } from "./area.services";
-import { AreaCreateSchema, AreaUpdateSchema } from "./area.validation";
-import { DeleteAreaSchema, DeleteAreaType } from "./DeleteSchema";
+import { AreaCreateSchema, AreaUpdateSchema, DeleteAreaSchema, DeleteAreaType } from "./area.validation";
 
 export const createArea = createSafeAction(
     {   

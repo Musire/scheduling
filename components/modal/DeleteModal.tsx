@@ -4,7 +4,7 @@ import Modal from './Modal';
 interface DeleteModal {
     modalOpen: boolean,
     onClose: () => void,
-    onDelete: () => void
+    onDelete: (args?: any) => void
 }
 
 export default function DeleteModal ({ modalOpen, onClose, onDelete }: DeleteModal ) {

@@ -7,14 +7,9 @@ export const RoleRepository = {
         })
         return role
     },
-    async deleteRoles(data: { areaId: string, ids: string[]}) {
+    async deleteRole(id: string) {
             const role = await prisma.role.updateMany({
-                where: {
-                    areaId: data.areaId,
-                    id: {
-                        in: data.ids
-                    }
-                },
+                where: { id },
                 data: {
                     active: false
                 }

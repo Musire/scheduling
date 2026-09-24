@@ -24,7 +24,7 @@ export default function RequirementMangement ({ requirements }: Props) {
                 + Add
             </button>
             {!!requirements.length && (
-                <div className="stacked space-y-2">
+                <div className="grid grid-cols-2 gap-x-4">
                     {requirements?.map(r => {
                         return (
                             <RequirementCard key={r?.id} data={r} />

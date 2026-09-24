@@ -6,7 +6,7 @@ import UserCard from "@/domains/users/components/UserCard";
 import { deleteUsers } from "@/domains/users/user.actions";
 import { User } from "@/generated/prisma/client";
 import { useTransition } from "react";
-import ManageTabs from "./ManageTabs";
+import ManageTabs from "../../../features/admin_manage/components/ManageTabs";
 
 type Props = {
   users: User[]
@@ -35,7 +35,7 @@ export default function UserMangement ({ users }: Props) {
             <ManageTabs activeValue="users" />
             <button 
                 type="button"
-                onClick={() => loadModal('create-requirement')}
+                onClick={() => loadModal('create-user')}
                 className="bg-whitesmoke/87 w-20 text-background normal-space rounded-md self-end cursor-pointer"
             >
                 + Add

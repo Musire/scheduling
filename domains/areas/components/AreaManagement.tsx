@@ -1,15 +1,15 @@
 'use client';
 
 import { useSidePanel } from "@/context/SidepanelProvider";
+import { AreaWithRoles } from "@/domains/areas/area.types";
 import AreaCard from "@/domains/areas/components/AreaCard";
-import { Area } from "@/generated/prisma/client";
-import ManageTabs from "./ManageTabs";
+import ManageTabs from "../../../features/admin_manage/components/ManageTabs";
 
 type Props<T> = {
   items: T[]
 }
 
-export default function AreaManagement<T extends Area> ({ 
+export default function AreaManagement<T extends AreaWithRoles > ({ 
     items 
 }: Props<T>) {
 
@@ -26,7 +26,7 @@ export default function AreaManagement<T extends Area> ({
                 + Add
             </button>
             {!!items.length && (
-                <div className="stacked space-y-2">
+                <div className="grid grid-cols-2 gap-4">
                     {items.map(i => {
                         return (
                             <AreaCard key={i.id} data={i} />

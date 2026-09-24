@@ -7,6 +7,17 @@ export const AreaRepository = {
         const areas = await prisma.area.findMany({
             where: {
                 active: true
+            },
+            include: {
+                roles: {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                },
+                _count: {
+                    select: { roles: true }
+                }
             }
         })
         return areas

@@ -6,27 +6,14 @@ import FormStepper from "@/components/forms/FormStepper"
 import FormTimePicker from "@/components/forms/inputs/FormTimepicker"
 import { PanelProps } from "@/components/sidepanel/PanelRegistry"
 import { useToast } from "@/context"
+import { getAreaRoles } from "@/domains/areas/area.queries"
 import { updateRequirement } from "@/domains/requirements/requirement.actions"
 import { RequirementUpdateSchema } from "@/domains/requirements/RequirementSchema"
-import { getAreaRoles } from "@/domains/restaurant/queries/area.queries"
-import { CoverageWithCount } from "@/features/admin_manage/components/requirement/RequirementDetails"
 import { useFetch } from "@/hooks/useFetch"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 import z from "zod"
 import AreaRoleInput from "../../../components/forms/inputs/AreaRoleInput"
-
-type coverage = {
-  data: CoverageWithCount;
-  areaRoles: {
-    id: string;
-    name: string;
-    roles: {
-        id: string;
-        name: string;
-    }[]
-  }[]
-}
 
 
 

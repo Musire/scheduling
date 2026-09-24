@@ -1,19 +1,24 @@
 'use client';
 
 import { useBottomDrawer } from "@/context/BottomDrawerProvider";
+import { AreaWithRoles } from "../area.types";
+
 
 type Props = {
-  data?: any
+    data?: AreaWithRoles
 }
 
 export default function AreaCard ({ data }: Props) {
     const { loadModal } = useBottomDrawer()
+    if (!data) return null;
+
     return (
-        <article 
+        <article
             onClick={() => loadModal('area-details', {data})}
-            className="text-mai bg-surface-1 normal-space cursor-pointer"
+            className="text-mai p-6 bg-surface-1  cursor-pointer flex flex-col space-y-2"
         >
-            <h3>{data.name}</h3>
+            <p className="text-main text-xl capitalize">{data?.name}</p>
+            <p className="text-else text-sm self-end">{`${data._count.roles} roles`}</p>
         </article>
     );
 }
