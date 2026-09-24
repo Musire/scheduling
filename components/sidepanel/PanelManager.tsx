@@ -5,37 +5,44 @@ import { useEffect, useState } from "react";
 import { PANEL_REGISTRY } from "./PanelRegistry";
 
 export default function PanelManager() {
-    const { isOpen, currentModal, clearModal, modalData } = useSidePanel();
+  const { isOpen, currentModal, clearModal, modalData } = useSidePanel();
 
-    // Track previous modal state to safely adjust state during render
-    const [prevModal, setPrevModal] = useState(currentModal);
-    const [renderedModal, setRenderedModal] = useState(currentModal);
+  // Track active modal & data internally for exit animation retention
+  const [renderedModal, setRenderedModal] = useState<string | null>(currentModal);
+  const [activeData, setActiveData] = useState<unknown>(modalData);
 
-    // Adjust state during render phase to prevent synchronous effect setStates
-    if (currentModal !== prevModal) {
-        setPrevModal(currentModal);
-        if (currentModal) {
-            setRenderedModal(currentModal);
-        }
+  useEffect(() => {
+    if (currentModal) {
+      // Immediately render new modal and cache its data
+      setRenderedModal(currentModal);
+      setActiveData(modalData);
+    } else {
+      // Delay unmounting components until exit transition completes (300ms)
+      const timer = setTimeout(() => {
+        setRenderedModal(null);
+        setActiveData(null);
+      }, 300);
+
+      return () => clearTimeout(timer);
     }
+  }, [currentModal, modalData]);
 
-    // Look up component based on renderedModal so it persists during exit animation
-    const ActiveComponent = renderedModal ? PANEL_REGISTRY[renderedModal] : null;
+  const ActiveComponent = renderedModal ? PANEL_REGISTRY[renderedModal] : null;
 
-    // Delayed unmount handler when currentModal becomes null
-    useEffect(() => {
-        if (!currentModal) {
-            const timer = setTimeout(() => {
-                setRenderedModal(null);
-            }, 300);
-            return () => clearTimeout(timer);
-        }
-    }, [currentModal]);
-
-    return (
-        <aside className={`xs:max-md:w-dvw transition-all p-6 flex flex-col duration-300 md:max-w-xl w-full fixed right-0 top-0 bg-background h-dvh ${isOpen ? '': 'translate-x-full'}`}>
-            <button type="button" onClick={clearModal} className="self-end text-else hover:text-main cursor-pointer">Close</button>
-            {ActiveComponent ? <ActiveComponent data={modalData} /> : null}
-        </aside>
-    );
+  return (
+    <aside 
+      className={`xs:max-md:w-dvw transition-all p-6 flex flex-col duration-300 md:max-w-xl w-full fixed right-0 top-0 bg-background h-dvh ${
+        isOpen ? '' : 'translate-x-full'
+      }`}
+    >
+      <button 
+        type="button" 
+        onClick={clearModal} 
+        className="self-end text-else hover:text-main cursor-pointer"
+      >
+        Close
+      </button>
+      {ActiveComponent ? <ActiveComponent data={activeData} /> : null}
+    </aside>
+  );
 }

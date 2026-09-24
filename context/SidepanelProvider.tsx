@@ -63,7 +63,7 @@ export function SidePanelProvider({ children }: SidePanelProviderProps) {
 export function useSidePanel() {
   const context = useContext(SidePanelContext);
   if (!context) {
-    throw new Error("useSidePanel must be used within SiePanelProvider");
+    throw new Error("useSidePanel must be used within SidePanelProvider");
   }
   return context;
 }
