@@ -40,11 +40,13 @@ export default function UserMangement ({ users }: Props) {
             >
                 + Add
             </button>
-            {users?.map(item => {
-                return (
-                    <UserCard key={item.id} data={item} />
-                )
-            })}
+            <ul className="grid grid-cols-2 gap-4 ">
+                {users?.map(item => {
+                    return (
+                        <UserCard key={item.id} data={item} />
+                    )
+                })}
+            </ul>
         </section>
     );
 }

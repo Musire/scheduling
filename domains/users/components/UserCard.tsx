@@ -13,9 +13,13 @@ export default function UserCard ({ data }: Props) {
     return (
         <article
             onClick={() => loadModal('user-details', { data })}
-            className="bg-surface-1 w-72 p-6 stacked space-y-2 cursor-pointer">
-            <p>{data.name}</p>
-            <p className="text-xs">{`state : incomplete`}</p>
+            className="border border-border rounded-lg w-full p-4 flex items-center space-x-4 cursor-pointer"
+        >
+            <div className="bg-surface-1 size-14 rounded-full shrink-0" />
+            <p className="stacked space-y-2">
+              <span className="text-lg truncate max-w-24">{data.name}</span>
+              <span className="text-xs text-else ">incomplete</span>
+            </p>
         </article>
     );
 }
