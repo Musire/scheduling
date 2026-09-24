@@ -11,6 +11,7 @@ import { createShift } from "@/domains/scheduling/actions/shift.actions";
 import { getSchedulingData } from "@/domains/scheduling/queries/getSchedulingData";
 import { ShiftCreationSchema } from "@/domains/scheduling/validations/ShiftSchema";
 import { useFetch } from "@/hooks/useFetch";
+import { RotateCw } from "lucide-react";
 import { useEffect } from "react";
 import z from "zod";
 
@@ -42,7 +43,11 @@ export default function CreateShiftForm () {
     },[])
 
     if (isPending) {
-        return <p className="">...loading</p>
+        return (
+            <section className="w-full h-full centered">
+                <RotateCw className="animate-spin" />
+            </section>
+        )
     }
 
     const defaultData = {

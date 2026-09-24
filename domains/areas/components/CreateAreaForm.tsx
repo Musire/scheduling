@@ -13,9 +13,9 @@ export default function CreateAreaForm() {
   }
 
   return (
-    <div className=" bg-background w-dvw h-dvh xs:px-6 centered-col space-y-6 py-6 text-else">
-      <h2 className="text-3xl text-main">Create Area</h2>
-      <div className="surface-1 rounded-xl">
+    <section className="py-6  centered-col  flex-1 text-else">
+      <h2 className="text-3xl text-main mb-6">Create Area</h2>
+      <div className="rounded-xl w-full">
         <ActionForm 
           initialValues={{ name: "" }}
           actionFn={createArea}
@@ -26,10 +26,8 @@ export default function CreateAreaForm() {
             label="name" 
             name="name"
           />
-      </ActionForm>
+        </ActionForm>
       </div>
-    </div>
+    </section>
   )
 }
-
-

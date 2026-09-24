@@ -41,7 +41,7 @@ export default function RequirementCard ({ data }: Props) {
 
     const handleEdit = (e: MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation()
-        console.log('testing edit')
+        loadSidepanel('update-requirement', {data})
     }
 
     return (
@@ -65,7 +65,7 @@ export default function RequirementCard ({ data }: Props) {
             </span>
             </p>
             {isMounted && <div className="w-full spaced">
-                <button type="button" onClick={openModal} className="normal-space rounded-full bg-surface-1 cursor-pointer text-error w-20 hover:bg-surface-2">Delete</button>
+                <button type="button" onClick={openModal} className="normal-space rounded-full cursor-pointer text-error w-20 hover:bg-surface-2">Delete</button>
                 <button type="button" onClick={e => handleEdit(e)} className="normal-space rounded-full bg-surface-1 cursor-pointer text-main w-20 hover:bg-surface-2">Edit</button>
             </div>}
             <DeleteModal modalOpen={modalOpen} onClose={closeModal} onDelete={handleDelete} />

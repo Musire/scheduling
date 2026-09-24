@@ -40,13 +40,18 @@ export default function UserMangement ({ users }: Props) {
             >
                 + Add
             </button>
-            <ul className="grid grid-cols-2 gap-4 ">
+            <ul className="grid xs:max-md:grid-cols-2 md:grid-cols-3 gap-4 ">
                 {users?.map(item => {
                     return (
                         <UserCard key={item.id} data={item} />
                     )
                 })}
             </ul>
+            {!users.length && (
+                <div className="flex-1 centered">
+                    <p className="">No users created</p>
+                </div>
+            )}
         </section>
     );
 }

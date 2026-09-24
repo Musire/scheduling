@@ -28,7 +28,7 @@ export default function PanelNav({ items }: PanelNavProps) {
               key={label}
               onClick={() => loadModal('create-shift')}
               type="button"
-              className="px-3 py-2 transition-colors text-else hover:text-main flex items-center gap-1.5"
+              className="centered normal-space rounded-full cursor-pointer bg-blue-600 text-white shadow-md hover:bg-blue-700 transition-transform active:scale-95"
             >
               <span>{label}</span>
             </button>

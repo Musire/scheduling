@@ -1,12 +1,12 @@
 'use client';
 
+import { useSidePanel } from '@/context/SidepanelProvider';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Caption } from '../typography';
 import { getIcon, IconKey } from './icon-map';
 import { NavItem } from './navconfig';
-import { useSidePanel } from '@/context/SidepanelProvider';
 
 interface MobileNavProps {
   items: NavItem[];

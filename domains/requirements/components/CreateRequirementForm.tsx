@@ -16,28 +16,12 @@ import { useEffect } from "react"
 import z from "zod"
 import AreaRoleInput from "../../../components/forms/inputs/AreaRoleInput"
 
-type roleArea = {
-  areaRoles: {
-    id: string;
-    name: string;
-    roles: {
-        id: string;
-        name: string;
-    }[]
-  }[]
-}
-
-
-export default function CreateRequirementForm({
-  data
-}: PanelProps) {
-
+export default function CreateRequirementForm({ data }: PanelProps) {
   const { clearModal } = useSidePanel()
   const { createSuccess } = useToast()
   const { data: areaRoles, execute } = useFetch(getAreaRoles)
 
   useEffect(() => {
-    console.log(areaRoles)
     execute()
   }, [])
 
@@ -68,31 +52,32 @@ export default function CreateRequirementForm({
   const slides = [
     {
       schema: z.object({
-        dayofWeek: RequirementCreateSchema.shape.dayOfWeek,
+        // Fixed typo: dayOfWeek (capital O)
+        dayOfWeek: RequirementCreateSchema.shape.dayOfWeek,
         areaId: RequirementCreateSchema.shape.areaId,
         roleId: RequirementCreateSchema.shape.roleId,
       }),
       component: (
         <>
           <ControlledInput 
-              name="dayOfWeek"
-              label="Day of the Week"
-              render={(field) => {
-                const currentLabel = field.value ? weekdays[field.value - 1] : "";
-                return (
-                  <DropdownButton
-                    options={weekdays}
-                    value={currentLabel}
-                    onChange={(selectedDay) => {
-                      const index = weekdays.indexOf(selectedDay);
-                      const numericValue = index !== -1 ? index + 1 : null;
-                      field.onChange(numericValue);
-                    }}
-                  /> 
-                )
-              }}
-            />
-            <AreaRoleInput areaRoles={areaRoles} />
+            name="dayOfWeek"
+            label="Day of the Week"
+            render={(field) => {
+              const currentLabel = field.value ? weekdays[field.value - 1] : "";
+              return (
+                <DropdownButton
+                  options={weekdays}
+                  value={currentLabel}
+                  onChange={(selectedDay) => {
+                    const index = weekdays.indexOf(selectedDay);
+                    const numericValue = index !== -1 ? index + 1 : null;
+                    field.onChange(numericValue);
+                  }}
+                /> 
+              )
+            }}
+          />
+          <AreaRoleInput areaRoles={areaRoles} />
         </>
       )
     },
@@ -100,7 +85,8 @@ export default function CreateRequirementForm({
       schema: z.object({
         requiredUsers: RequirementCreateSchema.shape.requiredUsers,
         endsAt: RequirementCreateSchema.shape.endsAt,
-        startAt: RequirementCreateSchema.shape.startsAt,
+        // Fixed typo: startsAt (added 's')
+        startsAt: RequirementCreateSchema.shape.startsAt,
       }),
       component: (
         <>
@@ -123,9 +109,10 @@ export default function CreateRequirementForm({
   ]
 
   return (
-    <div className=" bg-background w-dvw h-dvh xs:px-6 centered-col space-y-6 py-6 text-else overflow-y-scroll scrollbar-adjust ">
-      <h2 className="text-3xl text-main">Create Requirement</h2>
-      <div className="surface-1 rounded-xl">
+    // Fixed: Replaced `w-dvw h-dvh` with fluid container bounds
+    <section className="py-6 flex-1  centered-col text-else">
+      <h2 className="text-3xl text-main mb-6">Create Requirement</h2>
+      <div className=" rounded-xl w-full">
         <ActionForm 
           initialValues={defaultData}
           actionFn={createRequirement}
@@ -136,8 +123,6 @@ export default function CreateRequirementForm({
           <FormStepper slides={slides} />
         </ActionForm>
       </div>
-    </div>
+    </section>
   )
 }
-
-

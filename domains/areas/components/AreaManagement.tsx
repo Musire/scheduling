@@ -26,7 +26,7 @@ export default function AreaManagement<T extends AreaWithRoles > ({
                 + Add
             </button>
             {!!items.length && (
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid xs:max-md:grid-cols-2 md:grid-cols-3 gap-4">
                     {items.map(i => {
                         return (
                             <AreaCard key={i.id} data={i} />

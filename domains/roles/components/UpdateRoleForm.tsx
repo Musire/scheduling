@@ -23,9 +23,9 @@ export default function CreateRoleForm({ data }: Props) {
   const defaultData = data ?? { name: "", areaSlug: area, id: "" }
 
   return (
-    <div className=" bg-background w-dvw h-dvh xs:px-6 centered-col space-y-6 py-6 text-else">
+    <div className=" bg-background xs:max-md:w-dvw xs:max-md:h-dvh xs:px-6 centered-col space-y-6 py-6 text-else">
       <h2 className="text-3xl text-main">Update Role</h2>
-      <div className="surface-1 rounded-xl">
+      <div className="w-full rounded-xl">
         <ActionForm 
           initialValues={defaultData}
           actionFn={updateRole}

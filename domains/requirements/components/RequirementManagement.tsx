@@ -2,8 +2,8 @@
 
 import { useSidePanel } from "@/context/SidepanelProvider";
 import ManageTabs from "../../../features/admin_manage/components/ManageTabs";
-import RequirementCard from "./RequirementCard";
 import { requirementWithMeta } from "../requirement.types";
+import RequirementCard from "./RequirementCard";
 
 type Props = {
   requirements: requirementWithMeta[]
@@ -24,7 +24,7 @@ export default function RequirementMangement ({ requirements }: Props) {
                 + Add
             </button>
             {!!requirements.length && (
-                <div className="grid grid-cols-2 gap-x-4">
+                <div className="grid xs:max-md:grid-cols-2 md:grid-cols-3 gap-x-4">
                     {requirements?.map(r => {
                         return (
                             <RequirementCard key={r?.id} data={r} />

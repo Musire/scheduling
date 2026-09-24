@@ -39,7 +39,7 @@ export default function RoleManagement<T extends Area> ({
                 </button>
             </div>
             {!!items.length && (
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid xs:max-md:grid-cols-2 md:grid-cols-3 gap-4">
                     {items.map(i => {
                         return (
                             <RoleCard key={i.id} data={i} />

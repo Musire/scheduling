@@ -117,9 +117,9 @@ export default function UpdateRequirementForm({
   ]
 
   return (
-    <div className=" bg-background w-dvw h-dvh xs:px-6 centered-col space-y-6 py-6 text-else overflow-y-scroll scrollbar-adjust ">
+    <div className=" bg-background xs:max-md:w-dvw xs:max-md:h-dvh w-full xs:px-6 centered-col space-y-6 py-6 text-else overflow-y-scroll scrollbar-adjust ">
       <h2 className="text-3xl text-main">Update Requirement</h2>
-      <div className="surface-1 rounded-xl">
+      <div className="w-full rounded-xl">
         <ActionForm 
           initialValues={defaultData}
           actionFn={updateRequirement}

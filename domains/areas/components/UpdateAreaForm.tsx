@@ -12,16 +12,21 @@ type Props = {
 export default function UpdateAreaForm({ data }: Props) {
   const router = useRouter()
 
+  const defaultData = data ?? {
+	  id: '',
+	  name: ''
+  }
+
   const onSuccess = () => {
     router.push('/manage/areas')
   }
 
   return (
-    <div className=" bg-background w-dvw h-dvh xs:px-6 centered-col space-y-6 py-6 text-else">
+    <div className=" bg-background flex-1 xs:px-6 centered-col space-y-6 py-6 text-else">
       <h2 className="text-3xl text-main">Update Area</h2>
-      <div className="surface-1 rounded-xl">
+      <div className="w-full rounded-xl">
         <ActionForm 
-          initialValues={data}
+          initialValues={defaultData}
           actionFn={updateArea}
           schema={AreaUpdateSchema}
           onSuccess={onSuccess}

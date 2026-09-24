@@ -6,7 +6,6 @@ import { useSidePanel } from "@/context/SidepanelProvider";
 import { deleteArea } from "@/domains/areas/area.actions";
 import RoleCard from "@/domains/roles/components/RoleCard";
 import { useDrawer } from "@/hooks";
-import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { AreaWithRoles } from "../area.types";
 
@@ -20,7 +19,6 @@ export default function AreaDetails ({ data }: Props) {
     const { clearModal: clearDrawer } = useBottomDrawer()
     const { createSuccess, createError } = useToast();
     const { isMounted, openDrawer, closeDrawer } = useDrawer()
-    const router = useRouter()
 
     if (!data) return null
 
@@ -39,14 +37,15 @@ export default function AreaDetails ({ data }: Props) {
     };
 
     const handleEdit = () => {
-        loadSidepanel('update-area', { data })
+        loadSidepanel('update-area', data )
         clearDrawer()
     }
 
-    const handleRedirect = () => {
-        router.push(`/manage/areas/${data.name}`)
+    const handleCreation = () => {
+        loadSidepanel('create-role')
         clearDrawer()
     }
+
     return (
         <DrawerTemplate
             onEdit={handleEdit}
@@ -55,20 +54,19 @@ export default function AreaDetails ({ data }: Props) {
         >
             <div className=" min-h-20 w-5/6 stacked ">
                 <div className="spaced">
-                    <h2 className="capitalize text-lg font-semibold">
+                    <h2 className="capitalize text-lg font-semibold ">
                         {data.name}
                     </h2>
-
                     <button 
-                        type="button"
-                        onClick={handleRedirect} 
-                        className="cursor-pointer normal-space text-else hover:text-main rounded-md"
+                        onClick={handleCreation}
+                        type="button" 
+                        className="bg-whitesmoke/87 w-20 text-background normal-space rounded-md self-end cursor-pointer"
                     >
-                        View Roles
+                        + Add
                     </button>
                 </div>
-                <div className="">
-                    <h3 className="capitalize">roles</h3>
+                <h3 className="capitalize text-else text-sm">roles</h3>
+                <div className="pl-4 stacked space-y-2">
                     {!!data.roles.length && data.roles.map(r =>  {
                         return (
                             <RoleCard key={r.id} data={r} />
