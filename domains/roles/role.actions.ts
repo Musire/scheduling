@@ -33,8 +33,6 @@ export const deleteRole = createSafeAction(
         allowedRoles: ['MANAGER']
     },
     async (input: DeleteRoleType) => {
-        console.log('running server action')
-        console.log(input)
         const validated = validateSchema(DeleteRoleSchema, input)
         console.log(validated)
 

@@ -15,7 +15,7 @@ export default function AreaCard ({ data }: Props) {
     return (
         <article
             onClick={() => loadModal('area-details', {data})}
-            className="text-mai p-6 bg-surface-1  cursor-pointer flex flex-col space-y-2"
+            className="text-mai p-6 border-border border rounded-lg  cursor-pointer flex flex-col space-y-2"
         >
             <p className="text-main text-xl capitalize">{data?.name}</p>
             <p className="text-else text-sm self-end">{`${data._count.roles} roles`}</p>

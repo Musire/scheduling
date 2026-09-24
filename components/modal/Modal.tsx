@@ -62,7 +62,7 @@ export default function Modal({ children, isOpen, onClose, title }: ModalProps) 
               {title}
             </h2>
             <button
-              className="text-white/87 w-7 h-7 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors"
+              className="text-white/87 w-7 h-7 cursor-pointer flex items-center justify-center rounded-full hover:bg-white/10 transition-colors"
               onClick={onClose}
             >
               ✕
