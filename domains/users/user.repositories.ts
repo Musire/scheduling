@@ -53,25 +53,17 @@ export const UserRepository = {
             payRate: payRate ? payRate.toNumber() : null, 
         };
     },
-    async deleteUsers(ids: string[]) {
-        const users = await prisma.user.updateMany({
-            where: {
-                id: {
-                    in: ids
-                }
-            },
+    async deleteUsers(id: string) {
+        const user = await prisma.user.update({
+            where: { id },
             data: {
                 status: 'DISABLED'
             }
         })
-        const formattedUsers = users.map(u => {
-            const { payRate, ...rest} = u
-            return {
-                ...rest,
-                payRate: payRate ? payRate.toNumber() : null
-            }
-        })
-        return formattedUsers
+        return !user ? null : {
+            ...user,
+            payRate: user?.payRate?.toNumber()
+        }
     }
 }
 

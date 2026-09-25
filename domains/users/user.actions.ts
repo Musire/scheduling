@@ -1,8 +1,9 @@
 'use server'
 
-import { createSafeAction, validateFormData } from "@/domains/identity/auth/safeAction";
+import { createSafeAction, validateFormData, validateSchema } from "@/domains/identity/auth/safeAction";
+import { revalidatePath } from "next/cache";
 import { createUserService, deleteUsersService } from "./user.services";
-import { UserCreationSchema } from "./user.validations";
+import { UserCreationSchema, UserDeleteSchema, UserDeleteType } from "./user.validations";
 
 export const createUser = createSafeAction(
     {
@@ -14,10 +15,15 @@ export const createUser = createSafeAction(
     }
 )
 
-
-export const deleteUsers = createSafeAction(
+export const deleteUser = createSafeAction(
     {
         allowedRoles: ['MANAGER']
     },
-    deleteUsersService
+    async (input: UserDeleteType) => {
+        const validated = validateSchema(UserDeleteSchema, input)
+        const res = await deleteUsersService(validated)
+        revalidatePath('/manage/users')
+        return res
+    }
+    
 )

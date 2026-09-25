@@ -3,7 +3,6 @@
 import { useToast } from "@/context";
 import { useSidePanel } from "@/context/SidepanelProvider";
 import UserCard from "@/domains/users/components/UserCard";
-import { deleteUsers } from "@/domains/users/user.actions";
 import { User } from "@/generated/prisma/client";
 import { useTransition } from "react";
 import ManageTabs from "../../../features/admin_manage/components/ManageTabs";
@@ -17,18 +16,6 @@ export default function UserMangement ({ users }: Props) {
     
     const [isPending, startTransition] = useTransition()
     const { createSuccess, createError } = useToast()
-
-    const handleDelete = (id: string) => {
-
-        startTransition(async()=> {
-            const res = await deleteUsers(id)
-            if (!res.success && res.error) {
-                createError(res.error)
-                return
-            }
-            createSuccess('user created successfully')
-        })
-    }
 
     return (
         <section className="py-6 flex-1 stacked">

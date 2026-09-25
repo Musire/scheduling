@@ -14,5 +14,10 @@ export const UserUpdateSchema = z.object({
     payRate: z.coerce.number().min(1, '')
 })
 
+export const UserDeleteSchema = z.object({
+    id: z.uuid().min(1, 'id is needed for deletion')
+})
+
 export type UserCreationType = z.infer<typeof UserCreationSchema>;
 export type UserUpdateType = z.infer<typeof UserUpdateSchema>;
+export type UserDeleteType = z.infer<typeof UserDeleteSchema>;
