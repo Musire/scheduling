@@ -28,10 +28,12 @@ export type AggregateUser = {
 
 export type UserAvgAggregateOutputType = {
   payRate: runtime.Decimal | null
+  maxHours: number | null
 }
 
 export type UserSumAggregateOutputType = {
   payRate: runtime.Decimal | null
+  maxHours: number | null
 }
 
 export type UserMinAggregateOutputType = {
@@ -43,6 +45,7 @@ export type UserMinAggregateOutputType = {
   role: $Enums.UserRole | null
   status: $Enums.UserStatus | null
   payRate: runtime.Decimal | null
+  maxHours: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -56,6 +59,7 @@ export type UserMaxAggregateOutputType = {
   role: $Enums.UserRole | null
   status: $Enums.UserStatus | null
   payRate: runtime.Decimal | null
+  maxHours: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -69,6 +73,7 @@ export type UserCountAggregateOutputType = {
   role: number
   status: number
   payRate: number
+  maxHours: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -77,10 +82,12 @@ export type UserCountAggregateOutputType = {
 
 export type UserAvgAggregateInputType = {
   payRate?: true
+  maxHours?: true
 }
 
 export type UserSumAggregateInputType = {
   payRate?: true
+  maxHours?: true
 }
 
 export type UserMinAggregateInputType = {
@@ -92,6 +99,7 @@ export type UserMinAggregateInputType = {
   role?: true
   status?: true
   payRate?: true
+  maxHours?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -105,6 +113,7 @@ export type UserMaxAggregateInputType = {
   role?: true
   status?: true
   payRate?: true
+  maxHours?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -118,6 +127,7 @@ export type UserCountAggregateInputType = {
   role?: true
   status?: true
   payRate?: true
+  maxHours?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -218,6 +228,7 @@ export type UserGroupByOutputType = {
   role: $Enums.UserRole
   status: $Enums.UserStatus
   payRate: runtime.Decimal | null
+  maxHours: number
   createdAt: Date
   updatedAt: Date
   _count: UserCountAggregateOutputType | null
@@ -254,6 +265,7 @@ export type UserWhereInput = {
   role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
   payRate?: Prisma.DecimalNullableFilter<"User"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: Prisma.IntFilter<"User"> | number
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   areaRoles?: Prisma.UserAreaRoleListRelationFilter
@@ -275,6 +287,7 @@ export type UserOrderByWithRelationInput = {
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   payRate?: Prisma.SortOrderInput | Prisma.SortOrder
+  maxHours?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   areaRoles?: Prisma.UserAreaRoleOrderByRelationAggregateInput
@@ -299,6 +312,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
   payRate?: Prisma.DecimalNullableFilter<"User"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: Prisma.IntFilter<"User"> | number
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   areaRoles?: Prisma.UserAreaRoleListRelationFilter
@@ -320,6 +334,7 @@ export type UserOrderByWithAggregationInput = {
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   payRate?: Prisma.SortOrderInput | Prisma.SortOrder
+  maxHours?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
@@ -341,6 +356,7 @@ export type UserScalarWhereWithAggregatesInput = {
   role?: Prisma.EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
   status?: Prisma.EnumUserStatusWithAggregatesFilter<"User"> | $Enums.UserStatus
   payRate?: Prisma.DecimalNullableWithAggregatesFilter<"User"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: Prisma.IntWithAggregatesFilter<"User"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
@@ -354,6 +370,7 @@ export type UserCreateInput = {
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   areaRoles?: Prisma.UserAreaRoleCreateNestedManyWithoutUserInput
@@ -375,6 +392,7 @@ export type UserUncheckedCreateInput = {
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   areaRoles?: Prisma.UserAreaRoleUncheckedCreateNestedManyWithoutUserInput
@@ -396,6 +414,7 @@ export type UserUpdateInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   areaRoles?: Prisma.UserAreaRoleUpdateManyWithoutUserNestedInput
@@ -417,6 +436,7 @@ export type UserUncheckedUpdateInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   areaRoles?: Prisma.UserAreaRoleUncheckedUpdateManyWithoutUserNestedInput
@@ -438,6 +458,7 @@ export type UserCreateManyInput = {
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -451,6 +472,7 @@ export type UserUpdateManyMutationInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -464,6 +486,7 @@ export type UserUncheckedUpdateManyInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -477,12 +500,14 @@ export type UserCountOrderByAggregateInput = {
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   payRate?: Prisma.SortOrder
+  maxHours?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type UserAvgOrderByAggregateInput = {
   payRate?: Prisma.SortOrder
+  maxHours?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
@@ -494,6 +519,7 @@ export type UserMaxOrderByAggregateInput = {
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   payRate?: Prisma.SortOrder
+  maxHours?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -507,12 +533,14 @@ export type UserMinOrderByAggregateInput = {
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   payRate?: Prisma.SortOrder
+  maxHours?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type UserSumOrderByAggregateInput = {
   payRate?: Prisma.SortOrder
+  maxHours?: Prisma.SortOrder
 }
 
 export type UserScalarRelationFilter = {
@@ -542,6 +570,14 @@ export type NullableDecimalFieldUpdateOperationsInput = {
   decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
   multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
   divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
+}
+
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -669,6 +705,7 @@ export type UserCreateWithoutInvitationInput = {
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   areaRoles?: Prisma.UserAreaRoleCreateNestedManyWithoutUserInput
@@ -689,6 +726,7 @@ export type UserUncheckedCreateWithoutInvitationInput = {
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   areaRoles?: Prisma.UserAreaRoleUncheckedCreateNestedManyWithoutUserInput
@@ -714,6 +752,7 @@ export type UserCreateWithoutInvitationsSentInput = {
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   areaRoles?: Prisma.UserAreaRoleCreateNestedManyWithoutUserInput
@@ -734,6 +773,7 @@ export type UserUncheckedCreateWithoutInvitationsSentInput = {
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   areaRoles?: Prisma.UserAreaRoleUncheckedCreateNestedManyWithoutUserInput
@@ -770,6 +810,7 @@ export type UserUpdateWithoutInvitationInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   areaRoles?: Prisma.UserAreaRoleUpdateManyWithoutUserNestedInput
@@ -790,6 +831,7 @@ export type UserUncheckedUpdateWithoutInvitationInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   areaRoles?: Prisma.UserAreaRoleUncheckedUpdateManyWithoutUserNestedInput
@@ -821,6 +863,7 @@ export type UserUpdateWithoutInvitationsSentInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   areaRoles?: Prisma.UserAreaRoleUpdateManyWithoutUserNestedInput
@@ -841,6 +884,7 @@ export type UserUncheckedUpdateWithoutInvitationsSentInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   areaRoles?: Prisma.UserAreaRoleUncheckedUpdateManyWithoutUserNestedInput
@@ -861,6 +905,7 @@ export type UserCreateWithoutAreaRolesInput = {
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   shifts?: Prisma.ShiftCreateNestedManyWithoutUserInput
@@ -881,6 +926,7 @@ export type UserUncheckedCreateWithoutAreaRolesInput = {
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutUserInput
@@ -917,6 +963,7 @@ export type UserUpdateWithoutAreaRolesInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   shifts?: Prisma.ShiftUpdateManyWithoutUserNestedInput
@@ -937,6 +984,7 @@ export type UserUncheckedUpdateWithoutAreaRolesInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   shifts?: Prisma.ShiftUncheckedUpdateManyWithoutUserNestedInput
@@ -957,6 +1005,7 @@ export type UserCreateWithoutAvailabilityInput = {
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   areaRoles?: Prisma.UserAreaRoleCreateNestedManyWithoutUserInput
@@ -977,6 +1026,7 @@ export type UserUncheckedCreateWithoutAvailabilityInput = {
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   areaRoles?: Prisma.UserAreaRoleUncheckedCreateNestedManyWithoutUserInput
@@ -1013,6 +1063,7 @@ export type UserUpdateWithoutAvailabilityInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   areaRoles?: Prisma.UserAreaRoleUpdateManyWithoutUserNestedInput
@@ -1033,6 +1084,7 @@ export type UserUncheckedUpdateWithoutAvailabilityInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   areaRoles?: Prisma.UserAreaRoleUncheckedUpdateManyWithoutUserNestedInput
@@ -1053,6 +1105,7 @@ export type UserCreateWithoutShiftsInput = {
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   areaRoles?: Prisma.UserAreaRoleCreateNestedManyWithoutUserInput
@@ -1073,6 +1126,7 @@ export type UserUncheckedCreateWithoutShiftsInput = {
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   areaRoles?: Prisma.UserAreaRoleUncheckedCreateNestedManyWithoutUserInput
@@ -1109,6 +1163,7 @@ export type UserUpdateWithoutShiftsInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   areaRoles?: Prisma.UserAreaRoleUpdateManyWithoutUserNestedInput
@@ -1129,6 +1184,7 @@ export type UserUncheckedUpdateWithoutShiftsInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   areaRoles?: Prisma.UserAreaRoleUncheckedUpdateManyWithoutUserNestedInput
@@ -1149,6 +1205,7 @@ export type UserCreateWithoutManagerConversationsInput = {
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   areaRoles?: Prisma.UserAreaRoleCreateNestedManyWithoutUserInput
@@ -1169,6 +1226,7 @@ export type UserUncheckedCreateWithoutManagerConversationsInput = {
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   areaRoles?: Prisma.UserAreaRoleUncheckedCreateNestedManyWithoutUserInput
@@ -1194,6 +1252,7 @@ export type UserCreateWithoutEndUserConversationsInput = {
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   areaRoles?: Prisma.UserAreaRoleCreateNestedManyWithoutUserInput
@@ -1214,6 +1273,7 @@ export type UserUncheckedCreateWithoutEndUserConversationsInput = {
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   areaRoles?: Prisma.UserAreaRoleUncheckedCreateNestedManyWithoutUserInput
@@ -1250,6 +1310,7 @@ export type UserUpdateWithoutManagerConversationsInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   areaRoles?: Prisma.UserAreaRoleUpdateManyWithoutUserNestedInput
@@ -1270,6 +1331,7 @@ export type UserUncheckedUpdateWithoutManagerConversationsInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   areaRoles?: Prisma.UserAreaRoleUncheckedUpdateManyWithoutUserNestedInput
@@ -1301,6 +1363,7 @@ export type UserUpdateWithoutEndUserConversationsInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   areaRoles?: Prisma.UserAreaRoleUpdateManyWithoutUserNestedInput
@@ -1321,6 +1384,7 @@ export type UserUncheckedUpdateWithoutEndUserConversationsInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   areaRoles?: Prisma.UserAreaRoleUncheckedUpdateManyWithoutUserNestedInput
@@ -1341,6 +1405,7 @@ export type UserCreateWithoutSentMessagesInput = {
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   areaRoles?: Prisma.UserAreaRoleCreateNestedManyWithoutUserInput
@@ -1361,6 +1426,7 @@ export type UserUncheckedCreateWithoutSentMessagesInput = {
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   payRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   areaRoles?: Prisma.UserAreaRoleUncheckedCreateNestedManyWithoutUserInput
@@ -1397,6 +1463,7 @@ export type UserUpdateWithoutSentMessagesInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   areaRoles?: Prisma.UserAreaRoleUpdateManyWithoutUserNestedInput
@@ -1417,6 +1484,7 @@ export type UserUncheckedUpdateWithoutSentMessagesInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   payRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  maxHours?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   areaRoles?: Prisma.UserAreaRoleUncheckedUpdateManyWithoutUserNestedInput
@@ -1522,6 +1590,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   role?: boolean
   status?: boolean
   payRate?: boolean
+  maxHours?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   areaRoles?: boolean | Prisma.User$areaRolesArgs<ExtArgs>
@@ -1544,6 +1613,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   role?: boolean
   status?: boolean
   payRate?: boolean
+  maxHours?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -1557,6 +1627,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   role?: boolean
   status?: boolean
   payRate?: boolean
+  maxHours?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -1570,11 +1641,12 @@ export type UserSelectScalar = {
   role?: boolean
   status?: boolean
   payRate?: boolean
+  maxHours?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "authUserId" | "email" | "name" | "avatarUrl" | "role" | "status" | "payRate" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "authUserId" | "email" | "name" | "avatarUrl" | "role" | "status" | "payRate" | "maxHours" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   areaRoles?: boolean | Prisma.User$areaRolesArgs<ExtArgs>
   shifts?: boolean | Prisma.User$shiftsArgs<ExtArgs>
@@ -1610,6 +1682,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     role: $Enums.UserRole
     status: $Enums.UserStatus
     payRate: runtime.Decimal | null
+    maxHours: number
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["user"]>
@@ -2051,6 +2124,7 @@ export interface UserFieldRefs {
   readonly role: Prisma.FieldRef<"User", 'UserRole'>
   readonly status: Prisma.FieldRef<"User", 'UserStatus'>
   readonly payRate: Prisma.FieldRef<"User", 'Decimal'>
+  readonly maxHours: Prisma.FieldRef<"User", 'Int'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
 }

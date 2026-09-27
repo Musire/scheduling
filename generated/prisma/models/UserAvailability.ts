@@ -469,14 +469,6 @@ export type UserAvailabilityUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.UserAvailabilityScalarWhereInput | Prisma.UserAvailabilityScalarWhereInput[]
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type UserAvailabilityCreateWithoutUserInput = {
   id?: string
   dayOfWeek: number

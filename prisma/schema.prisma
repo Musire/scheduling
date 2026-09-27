@@ -49,6 +49,7 @@ model User {
 
   // Hourly pay rate for EndUsers.
   payRate Decimal? @db.Decimal(10, 2)
+  maxHours Int @default(40)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

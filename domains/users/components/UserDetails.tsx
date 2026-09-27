@@ -56,15 +56,12 @@ export default function UserDetails ({ data }: Props) {
             onEdit={handleEdit}
             className="stacked items-center "
         >
-            <div className="grid grid-cols-3 items-center gap-x-6">
-                <div className="bg-surface-2 size-32 rounded-full" />
-                <p className="stacked space-y-2 self-end">
+            <div className="grid grid-cols-2 items-center gap-x-6">
+                <div className="bg-surface-2 size-32 rounded-full row-span-2" />
+                <p   className="text-xs text-alternate  text-right">{`${formatCurrency(data.payRate)} / hr - 35 / 40 hrs`}</p>
+                <p className="stacked space-y-2 self-end ">
                     <span className="text-xl">{data.name}</span>
                     <span className="text-sm text-else ">{data.email}</span>
-                </p>
-                <p className="">
-                    <span className="text-lg ">{`35 / 40 hrs`}</span>
-                    <span className="">{`${formatCurrency(data.payRate)} / hr`}</span>
                 </p>
             </div>
             <div className="w-full">

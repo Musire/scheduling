@@ -11,7 +11,9 @@ export const createUser = createSafeAction(
     },
     async(_:any, formData: FormData) => {
         const validated = validateFormData(UserCreationSchema, formData)
-        return createUserService(validated)
+        const res = createUserService(validated)
+        revalidatePath('/manage/users')
+        return res
     }
 )
 
