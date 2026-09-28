@@ -1,7 +1,6 @@
 'use client';
 
 import { useSidePanel } from "@/context/SidepanelProvider";
-import ManageTabs from "../../../features/admin_manage/components/ManageTabs";
 import { requirementWithMeta } from "../requirement.types";
 import RequirementCard from "./RequirementCard";
 
@@ -15,7 +14,6 @@ export default function RequirementMangement ({ requirements }: Props) {
 
     return (
         <section className="py-6 flex-1 stacked">
-            <ManageTabs activeValue="requirements" />
             <button 
                 type="button"
                 onClick={() => loadModal('create-requirement')}

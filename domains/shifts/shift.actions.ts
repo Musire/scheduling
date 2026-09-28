@@ -1,9 +1,9 @@
 'use server';
 
 import { createSafeAction, validateFormData } from "@/domains/identity/auth/safeAction";
-import { createShiftService } from "../services/shift.services";
-import { ShiftCreationSchema } from "../validations/ShiftSchema";
 import { revalidatePath } from "next/cache";
+import { createShiftService } from "./shfit.services";
+import { ShiftCreationSchema } from "./shift.validations.ts";
 
 
 export const createShift = createSafeAction(

@@ -2,16 +2,16 @@ import { ActionForm } from "@/components/forms";
 import FormDropdown from "@/components/forms/inputs/FormDropdown";
 import { useToast } from "@/context";
 import { useSidePanel } from "@/context/SidepanelProvider";
-import { createSchedule } from "@/domains/scheduling/actions/schedule.actions";
-import { ScheduleCreationSchema } from "@/domains/scheduling/validations/ScheduleSchema";
 import { getWeekRange } from "@/lib/timeUtils";
+import { createWeek } from "../week.actions";
+import { WeekCreationSchema } from "../week.validations";
 
-export default function CreateScheduleForm () {
+export default function CreateWeekForm () {
     const { createSuccess } = useToast()
     const { clearModal } = useSidePanel()
 
     const defaultData = {
-        weekStart: ''
+        week: ''
     }
     const successHandler = () => {
         createSuccess('new schedule created successfully')
@@ -19,10 +19,10 @@ export default function CreateScheduleForm () {
     }
     return (
         <ActionForm 
-            schema={ScheduleCreationSchema}
+            schema={WeekCreationSchema}
             onSuccess={successHandler}
             initialValues={defaultData}
-            actionFn={createSchedule}
+            actionFn={createWeek}
         >
             <FormDropdown 
                 label='Select Week'

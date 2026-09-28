@@ -1,5 +1,5 @@
-import { ShiftRepository } from "../repositories/ShiftRepository";
-import { ShiftCreationType, ShiftDbSchema, ShiftDbType } from "../validations/ShiftSchema";
+import { ShiftRepository } from "./shift.repositories";
+import { ShiftCreationType, ShiftDbSchema, ShiftDbType } from "./shift.validations.ts";
 
 
 export async function getShiftsService (weekStart: string) {

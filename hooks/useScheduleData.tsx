@@ -1,5 +1,5 @@
 import { useToast } from "@/context";
-import { getShifts } from "@/domains/scheduling/queries/getShifts";
+import { getShifts } from "@/domains/shifts/shift.queries";
 import { format, parseISO } from "date-fns";
 import { useEffect, useState, useTransition } from "react";
 

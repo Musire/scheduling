@@ -3,7 +3,7 @@
 import { format, parseISO } from "date-fns";
 import { useMemo, useState } from "react";
 
-import type { CalendarView } from "./components/CalendarHeader";
+import type { CalendarView } from "./components/date-picker/CalendarHeader";
 
 import {
   getMonday,
@@ -11,7 +11,7 @@ import {
   getYearMonths,
 } from "./CalendarUtils";
 
-import { generateDayTabs } from "@/domains/scheduling/utils/weekView";
+import { generateDayTabs } from "@/domains/weeks/utils/weekView";
 
 interface UseCalendarControllerProps {
   currentWeekStart: Date;

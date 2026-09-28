@@ -3,7 +3,6 @@
 import { useSidePanel } from "@/context/SidepanelProvider";
 import { AreaWithRoles } from "@/domains/areas/area.types";
 import AreaCard from "@/domains/areas/components/AreaCard";
-import ManageTabs from "../../../features/admin_manage/components/ManageTabs";
 
 type Props<T> = {
   items: T[]
@@ -17,7 +16,6 @@ export default function AreaManagement<T extends AreaWithRoles > ({
 
     return (
         <section className="pt-6 flex-1 flex flex-col space-y-6">
-            <ManageTabs activeValue="areas" />
             <button 
                 type="button"
                 onClick={() => loadModal('create-area')}

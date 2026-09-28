@@ -1,7 +1,7 @@
 'use server';
 
 import { createSafeAction } from "@/domains/identity/auth/safeAction";
-import { getScheduleService, getSchedulingService } from "../services/shift.services";
+import { getScheduleService, getSchedulingService } from "../shifts/shfit.services";
 
 
 export const getSchedulingData = createSafeAction(

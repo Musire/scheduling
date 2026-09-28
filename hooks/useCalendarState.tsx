@@ -1,6 +1,6 @@
 "use client";
 
-import { getWeekRange } from "@/domains/scheduling/utils/weekView";
+import { getWeekRange } from "@/domains/weeks/utils/weekView";
 import { format, parseISO } from "date-fns";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";

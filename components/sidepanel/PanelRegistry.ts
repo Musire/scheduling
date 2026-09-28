@@ -7,6 +7,7 @@ export type PanelProps = {
 
 export const PANEL_REGISTRY: Record<string, React.ComponentType<PanelProps>> = {
     'test-component': dynamic(() => import('./TestComponent')),
+    'create-week': dynamic(() => import('@/domains/weeks/components/CreateWeekForm')),
     'create-shift': dynamic(() => import('@/domains/shifts/components/CreateShiftForm')),
     'update-shift': dynamic(() => import('@/domains/shifts/components/UpdateShiftForm')),
     'create-user': dynamic(() => import ('@/domains/users/components/CreateUserForm')),

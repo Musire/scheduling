@@ -1,14 +1,16 @@
-import { UserRole } from "@/generated/prisma/enums"
+import { UserRole } from "@/generated/prisma/enums";
 
-export type NavItem = {
-  label: string
-  href?: string // Make href optional since an action button might not link anywhere
-  icon?: string
-  index?: boolean
-  isAction?: boolean // Flag to identify the modal button
-}
 
 export type Role = 'MANAGER' | 'ENDUSER' 
+
+export type NavItem = {
+  label: string;
+  href?: string; 
+  icon?: string;
+  index?: boolean;
+  isAction?: boolean; 
+  children?: { label: string; href: string }[]; // 👈 Added for dropdown menus
+}
 
 export const navByRole: Record<UserRole, NavItem[]> = {
   MANAGER: [
@@ -18,9 +20,13 @@ export const navByRole: Record<UserRole, NavItem[]> = {
       href: `/schedule`,
     },
     { 
-      label: 'Manage',
-      icon: 'manage',
-      href: `/manage/areas` 
+      label: 'Manage', 
+      icon: 'manage', 
+      children: [
+        { label: 'Areas', href: '/manage/areas' },
+        { label: 'Requirements', href: '/manage/requirements' },
+        { label: 'Users', href: '/manage/users' }
+      ]
     },
     {
       label: 'Add',

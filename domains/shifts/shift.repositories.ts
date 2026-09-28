@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { getWeekLimits } from "@/lib/timeUtils";
-import { ShiftDbType } from "../validations/ShiftSchema";
+import { ShiftDbType } from "./shift.validations.ts";
 
 
 

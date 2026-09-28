@@ -7,13 +7,13 @@ import FormDatePicker from "@/components/forms/inputs/FormDatepicker";
 import FormDropdown from "@/components/forms/inputs/FormDropdown";
 import FormTimePicker from "@/components/forms/inputs/FormTimepicker";
 import { useSidePanel } from "@/context/SidepanelProvider";
-import { createShift } from "@/domains/scheduling/actions/shift.actions";
-import { getSchedulingData } from "@/domains/scheduling/queries/getSchedulingData";
-import { ShiftCreationSchema } from "@/domains/scheduling/validations/ShiftSchema";
+import { getSchedulingData } from "@/domains/weeks/week.queries";
 import { useFetch } from "@/hooks/useFetch";
 import { RotateCw } from "lucide-react";
 import { useEffect } from "react";
 import z from "zod";
+import { createShift } from "../shift.actions";
+import { ShiftCreationSchema } from "../shift.validations.ts";
 
 type SchedulingData = {
     schedules: {

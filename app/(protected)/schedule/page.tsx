@@ -1,5 +1,5 @@
 import RoleRenderer from "@/components/RoleRenderer";
-import { getSchedule } from "@/domains/scheduling/queries/getSchedulingData";
+import { getSchedule } from "@/domains/weeks/week.queries";
 import AdminSchedule from "@/features/admin_schedule/components/AdminSchedule";
 import { getCurrentWeekString } from "@/lib/timeUtils";
 import { redirect } from "next/navigation"; // 👈 Fixed import
