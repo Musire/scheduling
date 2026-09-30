@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma"
-import { WeekCreationType } from "./week.validations"
+import { WeekCreationType, WeekPublishType } from "./week.validations"
 
 
 export const WeekRepository = {
@@ -10,5 +10,25 @@ export const WeekRepository = {
             }
         })
         return schedule
+    },
+    async publishWeek (data: WeekPublishType) {
+        const week = await prisma.schedule.update({
+            where: {id: data.id},
+            data: {
+                status: 'PUBLISHED'
+            }
+        })
+
+        return week
+    },
+    async unpublishWeek (data: WeekPublishType) {
+        const week = await prisma.schedule.update({
+            where: {id: data.id},
+            data: {
+                status: 'DRAFT'
+            }
+        })
+
+        return week
     }
 }

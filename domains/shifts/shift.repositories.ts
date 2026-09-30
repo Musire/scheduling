@@ -29,6 +29,10 @@ export const ShiftRepository = {
             endsAt: shift.endsAt.toISOString(),
             createdAt: shift.createdAt.toISOString(),
             updatedAt: shift.updatedAt.toISOString(),
+            user: shift.user ? {
+                ...shift.user,
+                payRate: shift?.user?.payRate?.toNumber() 
+            } : null
         }));
     },
     async createShift(data: ShiftDbType) {

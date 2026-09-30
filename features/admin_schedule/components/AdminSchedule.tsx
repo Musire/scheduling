@@ -38,7 +38,7 @@ export default function AdminSchedule({ schedule }:  Props) {
 
   return (
     <section className="py-6 flex flex-1 flex-col space-y-6 items-center bg-neutral-950 text-white ">
-      <StatusButton status={schedule?.status ?? null} />
+      <StatusButton status={schedule?.status ?? null} weekId={schedule?.id ?? ''} />
       <CalendarController areas={AREAS} />
       {!schedule && <NoSchedule />}
       {schedule && (

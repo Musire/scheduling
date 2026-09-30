@@ -2,8 +2,8 @@
 
 import { createSafeAction, validateSchema } from "@/domains/identity/auth/safeAction";
 import { revalidatePath } from "next/cache";
-import { WeekCreationSchema } from "./week.validations";
-import { createWeekService } from "./week.services";
+import { createWeekService, publishWeekService, unpublishWeekService } from "./week.services";
+import { WeekCreationSchema, WeekPublishSchema, WeekPublishType } from "./week.validations";
 
 export const createWeek = createSafeAction(
     {
@@ -16,4 +16,28 @@ export const createWeek = createSafeAction(
         return res
     }
     
+)
+
+export const publishWeek = createSafeAction(
+    {
+        allowedRoles: ['MANAGER']
+    },
+    async (input: WeekPublishType) => {
+        const validated = validateSchema(WeekPublishSchema, input)
+        const res = await publishWeekService(validated)
+        revalidatePath('/schedule')
+        return res
+    }
+)
+
+export const unpublishWeek = createSafeAction(
+    {
+        allowedRoles: ['MANAGER']
+    },
+    async (input: WeekPublishType) => {
+        const validated = validateSchema(WeekPublishSchema, input)
+        const res = await unpublishWeekService(validated)
+        revalidatePath('/schedule')
+        return res
+    }
 )

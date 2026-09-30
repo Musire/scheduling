@@ -3,9 +3,6 @@ import { useDrawer } from "@/hooks";
 import StatusOption from "./StatusOption";
 import { ScheduleStatus } from "@/generated/prisma/enums";
 
-type Props = {
-  status: ScheduleStatus | null
-}
 
 const options = [
     {
@@ -26,7 +23,12 @@ const inidicatorColor = {
 }
 
 
-export default function StatusButton ({ status }: Props) {
+type Props = {
+  status: ScheduleStatus | null;
+  weekId: string;
+}
+
+export default function StatusButton ({ status, weekId }: Props) {
     const { isMounted, animation, toggleDrawer } = useDrawer()
     return (
         <div className="flex justify-end w-full relative">
@@ -38,7 +40,7 @@ export default function StatusButton ({ status }: Props) {
                 <aside className={`absolute z-50 right-0 top-14 ${animation ? "animate-ghostIn ": "animate-ghostOut" }`}>
                     <ul className="z-30 bg-deep flex flex-col rounded-md border border-border">
                         {options?.map(o => (
-                            <StatusOption key={o.id} data={o} isActive={o.title === status} />
+                            <StatusOption key={o.id} weekId={weekId} data={o} isActive={o.title.toLowerCase() === status?.toLowerCase()} />
                         ))}
                     </ul>
                 </aside>

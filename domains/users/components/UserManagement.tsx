@@ -18,13 +18,16 @@ export default function UserMangement ({ users }: Props) {
 
     return (
         <section className="py-6 flex-1 stacked">
-            <button 
-                type="button"
-                onClick={() => loadModal('create-user')}
-                className="bg-whitesmoke/87 w-20 text-background normal-space rounded-md self-end cursor-pointer"
-            >
-                + Add
-            </button>
+            <div className="spaced">
+                <span className="text-2xl font-light">Users</span>
+                <button 
+                    type="button"
+                    onClick={() => loadModal('create-user')}
+                    className="bg-whitesmoke/87 w-20 text-background normal-space rounded-md self-end cursor-pointer"
+                >
+                    + Add
+                </button>
+            </div>
             <ul className="grid xs:max-md:grid-cols-2 md:grid-cols-3 gap-4 ">
                 {users?.map(item => {
                     return (

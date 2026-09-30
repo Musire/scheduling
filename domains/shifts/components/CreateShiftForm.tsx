@@ -128,14 +128,17 @@ export default function CreateShiftForm () {
     ]
 
     return (
-        <ActionForm
-            initialValues={defaultData} 
-            schema={ShiftCreationSchema}
-            actionFn={createShift}
-            onSuccess={onSuccess}
-            isMulti
-        >
-            <FormStepper slides={slides} />
-        </ActionForm>
+        <div className="flex-1 centered">
+            <ActionForm
+                initialValues={defaultData} 
+                schema={ShiftCreationSchema}
+                actionFn={createShift}
+                onSuccess={onSuccess}
+                isMulti
+            >
+                <FormStepper slides={slides} />
+            </ActionForm>
+        </div>
+        
     );
 }

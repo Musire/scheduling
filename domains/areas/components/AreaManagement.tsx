@@ -16,13 +16,16 @@ export default function AreaManagement<T extends AreaWithRoles > ({
 
     return (
         <section className="pt-6 flex-1 flex flex-col space-y-6">
-            <button 
-                type="button"
-                onClick={() => loadModal('create-area')}
-                className="bg-whitesmoke/87 w-20 text-background normal-space rounded-md self-end cursor-pointer"
-            >
-                + Add
-            </button>
+            <div className="spaced">
+                <span className="text-2xl font-light">Areas</span>
+                <button 
+                    type="button"
+                    onClick={() => loadModal('create-area')}
+                    className="bg-whitesmoke/87 w-20 text-background normal-space rounded-md self-end cursor-pointer"
+                >
+                    + Add
+                </button>
+            </div>
             {!!items.length && (
                 <div className="grid xs:max-md:grid-cols-2 md:grid-cols-3 gap-4">
                     {items.map(i => {
