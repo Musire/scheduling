@@ -11,7 +11,6 @@ type Props = {
 export default function RequirementMangement ({ requirements }: Props) {
     const { loadModal } = useSidePanel()
 
-
     return (
         <section className="py-6 flex-1 stacked">
             <div className="spaced">

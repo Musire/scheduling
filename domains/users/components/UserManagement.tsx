@@ -1,20 +1,19 @@
 'use client';
 
-import { useToast } from "@/context";
 import { useSidePanel } from "@/context/SidepanelProvider";
 import UserCard from "@/domains/users/components/UserCard";
 import { User } from "@/generated/prisma/client";
-import { useTransition } from "react";
 
-type Props = {
-  users: User[]
+export type ModifiedUser = Omit<User, 'payRate'> & {
+    payRate: number | null;
+};
+
+type Props =  {
+  users: ModifiedUser[]
 }
 
 export default function UserMangement ({ users }: Props) {
     const { loadModal } = useSidePanel()
-    
-    const [isPending, startTransition] = useTransition()
-    const { createSuccess, createError } = useToast()
 
     return (
         <section className="py-6 flex-1 stacked">

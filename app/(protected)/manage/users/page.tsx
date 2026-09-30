@@ -1,22 +1,17 @@
 import RoleRenderer from "@/components/RoleRenderer";
-import UserMangement from "@/domains/users/components/UserManagement";
-import { getUsers } from "@/domains/users/user.queries";
+import UserDataLayer from "@/domains/users/components/UserDataLayer";
+import { Suspense } from "react";
+import ManagementSkeleton from "../loading";
 
 export default async function UserMangementPage () {
-    const { data } = await getUsers()
-
-    if (!data) {
-        return (
-            <section className="">
-                <p className="">not found</p>
-            </section>
-        )
-    }
-
     return (
         <RoleRenderer 
             roles={{
-                MANAGER: <UserMangement users={data} />   
+                MANAGER: (
+                    <Suspense fallback={<ManagementSkeleton/>}>
+                        <UserDataLayer />
+                    </Suspense>
+                )   
             }}
         />
     );
