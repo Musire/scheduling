@@ -1,13 +1,13 @@
 import RoleRenderer from "@/components/RoleRenderer";
-import { getSchedule } from "@/domains/weeks/week.queries";
-import AdminSchedule from "@/features/admin_schedule/components/AdminSchedule";
+import AdminSchedulingDataLayer from "@/features/admin_schedule/components/AdminSchedulingDataLayer";
 import { getCurrentWeekString } from "@/lib/timeUtils";
-import { redirect } from "next/navigation"; // 👈 Fixed import
+import { redirect } from "next/navigation";
+import { Suspense } from "react";
+import AdminScheduleSkeleton from "./loading";
 
 type Props = {
   searchParams: Promise<{ week?: string }> 
 }
-
 
 export default async function SchedulePage ({ searchParams }: Props) {
     const { week } = await searchParams;
@@ -17,12 +17,16 @@ export default async function SchedulePage ({ searchParams }: Props) {
         redirect(`/schedule?week=${currentWeek}`);
     }
 
-    const { data } = await getSchedule(new Date(week).toISOString());
-    
+    const weekString = new Date(week).toISOString()
+
     return (
         <RoleRenderer 
             roles={{
-                MANAGER: <AdminSchedule schedule={data} />
+                MANAGER: (
+                    <Suspense fallback={<AdminScheduleSkeleton/>}>
+                        <AdminSchedulingDataLayer weekString={weekString} />
+                    </Suspense>
+                )
             }}
         />
     );

@@ -88,5 +88,17 @@ export const AreaRepository = {
             },
         });
         return areas
+    },
+    async getAreaSimple() {
+        const areas = await prisma.area.findMany({
+            select: {
+                id: true,
+                name: true
+            }
+        })
+        return areas.map(a => ({
+            ...a,
+            name: a.name.toLowerCase() 
+        }));
     }
 }

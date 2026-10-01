@@ -8,7 +8,8 @@ import { WeekView } from "./views/WeekView";
 import { YearSelector } from "./views/YearSelector";
 import { YearView } from "./views/YearView";
 
-interface Area {
+
+export interface Area {
   id: string;
   name: string;
 }

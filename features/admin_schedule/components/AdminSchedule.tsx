@@ -9,37 +9,34 @@ import NoSchedule from "./NoSchedule";
 import ScheduleCard from "./ScheduleCard";
 import StatusButton from "./StatusButton";
 
-
-type Props = {
-  schedule: {
+export type Schedule = {
     id: string;
     weekStart: Date;
     status: ScheduleStatus;
     publishedAt: Date | null;
     createdAt: Date;
     updatedAt: Date;
-  } | null | undefined;
+}
+
+export interface Area {
+  id: string;
+  name: string;
+}
+
+type Props = {
+  schedule: Schedule | null | undefined;
+  areas: Area[]
 }
 
 
-const AREAS = [
-  {
-    id: "area_kitchen",
-    name: "Kitchen",
-  },
-  {
-    id: "area_dining",
-    name: "Dining",
-  },
-];
 
-export default function AdminSchedule({ schedule }:  Props) {
+export default function AdminSchedule({ schedule, areas }:  Props) {
   const { filteredShifts } = useCalendar(schedule?.id);
 
   return (
     <section className="py-6 flex flex-1 flex-col space-y-6 items-center bg-neutral-950 text-white ">
       <StatusButton status={schedule?.status ?? null} weekId={schedule?.id ?? ''} />
-      <CalendarController areas={AREAS} />
+      <CalendarController areas={areas} />
       {!schedule && <NoSchedule />}
       {schedule && (
         <div className="flex flex-col flex-1 w-full rounded-lg max-w-md">

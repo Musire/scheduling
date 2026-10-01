@@ -25,7 +25,7 @@ export default function StatusOption ({ isActive, data, weekId, children }: Prop
         if (!data.id) return;
         startTransition(async() => {
             const actionFn = data.title.toLowerCase() === 'draft'
-                ? publishWeek : unpublishWeek
+                ? unpublishWeek : publishWeek
 
             const res = await actionFn({id: weekId})
 
@@ -41,7 +41,7 @@ export default function StatusOption ({ isActive, data, weekId, children }: Prop
 
     return (
         <li >
-            <button onClick={handleClick} disabled={!isActive} type="button" className={`disabled:cursor-not-allowed w-fit p-4 flex space-x-2 bg-background cursor-pointer ${isActive ? "hover:bg-surface-1" : ''} "}`}>
+            <button onClick={handleClick} disabled={isActive} type="button" className={`disabled:cursor-not-allowed w-fit p-4 flex space-x-2 bg-background cursor-pointer ${!isActive ? "hover:bg-surface-1" : ''} "}`}>
                 <div className={`rounded-full size-2 mt-1 ${data.title !== 'Draft' ? "bg-success" : "bg-o"}`} />
                 {children}
                 <p className="flex flex-col items-start">

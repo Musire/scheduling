@@ -1,7 +1,7 @@
-import LGClockScreensaver from "../../../features/tinker/LGClockScreenSaver";
+import AdminScheduleSkeleton from "../schedule/loading";
 
 export default function TestPage () {
     return (
-      <LGClockScreensaver /> 
+      <AdminScheduleSkeleton /> 
     );
 }

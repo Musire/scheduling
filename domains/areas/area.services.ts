@@ -29,3 +29,6 @@ export async function getAreaRoleService () {
     return AreaRepository.getAreaRoles()
 }
 
+export async function getAreaSimpleService () {
+    return AreaRepository.getAreaSimple()
+}

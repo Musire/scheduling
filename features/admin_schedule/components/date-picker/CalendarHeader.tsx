@@ -1,5 +1,6 @@
 "use client";
 
+import { DropdownButton } from "@/components/buttons";
 import {
   CalendarDays,
   CalendarRange,
@@ -42,44 +43,19 @@ export function CalendarHeader({
     <div className="flex items-center justify-between w-full gap-2">
       {/* Area Filter */}
       <div className="relative">
-        <select
-          value={selectedArea}
-          onChange={(event) =>
-            setSelectedArea(event.target.value)
-          }
-          className="
-            appearance-none
-            bg-transparent
-            text-sm
-            font-medium
-            text-else
-            border
-            border-whitesmoke/15
-            rounded
-            pl-3
-            pr-8
-            py-2
-            outline-none
-            cursor-pointer
-            transition
-            hover:bg-lighten-1/background
-            focus:border-whitesmoke/40
-          "
-        >
-          <option value="all">
-            All Areas
-          </option>
-
-          {areas.map((area) => (
-            <option
-              key={area.id}
-              value={area.id}
-            >
-              {area.name}
-            </option>
-          ))}
-        </select>
-
+        <DropdownButton
+          buttonStyle="appearance-none bg-transparent text-sm font-medium text-else border border-whitesmoke/15 rounded pl-3 pr-8 py-2 outline-none cursor-pointer transition hover:bg-lighten-1/background focus:border-whitesmoke/40"
+          options={["All Areas", ...areas.map(area => area.name)]}
+          value={selectedArea === "all" ? "All Areas" : areas.find(a => a.id === selectedArea)?.name || "All Areas"}
+          onChange={(name) => {
+            if (name === "All Areas") {
+              setSelectedArea("all");
+            } else {
+              const found = areas.find(a => a.name === name);
+              if (found) setSelectedArea(found.id);
+            }
+          }}
+        />
         <ChevronDown
           size={14}
           className="
