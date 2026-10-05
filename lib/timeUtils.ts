@@ -15,7 +15,7 @@ import {
 import {
   formatInTimeZone,
   fromZonedTime,
-  toZonedTime
+  toZonedTime,
 } from "date-fns-tz";
 
 export const APP_TIMEZONE = "America/Chicago";
@@ -379,3 +379,12 @@ export function getShiftDuration(isoString1: string, isoString2: string) {
   
   return `${diffHours}${unit}`;
 }
+
+
+export const createDenverCityTimestamp = (): string => {
+  return formatInTimeZone(
+    new Date(), 
+    APP_TIMEZONE, 
+    "yyyy-MM-dd'T'HH:mm:ssXXX"
+  );
+};

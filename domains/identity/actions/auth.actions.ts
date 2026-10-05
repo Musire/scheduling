@@ -3,6 +3,11 @@
 import { supabaseAdminClient } from "@/lib/supabase/admin";
 import { createSupabaseServerClient, createSupabaseServerClientReadOnly } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import { AuthRepository } from "../auth.repositories";
+import { loginSchema } from "../auth.validations";
+import { createRegAction, validateFormData } from "../auth/safeAction";
+
+export type FormState = { success: boolean, error: string | null }
 
 export async function logout() {
 
@@ -13,36 +18,24 @@ export async function logout() {
   redirect("/login")
 }
 
+export const login = createRegAction(
+  async(_: FormState, formData: FormData) => {
+    const validated = validateFormData(loginSchema, formData)
 
+    const supabase = createSupabaseServerClient()
+    const { error } = await supabase.auth.signInWithPassword({
+      email: validated.email,
+      password: validated.password,
+    })
 
+    if (error) {
+      throw new Error(error.message)
+    }
 
-export type FormState = { success: boolean, error: string | null }
-
-
-export async function login(
-  _: FormState, 
-  formData: FormData
-) {
-  const email = formData.get('email') as string
-  const password = formData.get('password') as string
-
-  if (!email || !password) {
-    return { success: false, error: 'missing credentials'}
+    return
+    
   }
-
-  const supabase = createSupabaseServerClient()
-  const { error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  })
-
-  if (error) {
-    return { success: false, error: error.message}
-  }
-
-  return { success: true, error: null}
-
-}
+)
 
 
 export async function inviteAdmin(email: string) {
@@ -78,7 +71,10 @@ export async function getCurrentUser() {
   return user
 }
 
-
+export async function getPrismaUserId () {
+  const user = await getCurrentUser()
+  return AuthRepository.getUserPrismaId(user?.id ?? '')
+}
 
 export async function signup(
   _: FormState, 

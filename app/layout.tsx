@@ -16,38 +16,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html data-scroll-behavior="smooth" lang="en" suppressHydrationWarning className={cn("font-sans", inter.variable)}>
+    <html lang="en" className="dark" suppressHydrationWarning>
       <head>
-        <template
-          id="theme-script"
-          dangerouslySetInnerHTML={{
-            __html: `
-              <script>
-                (function () {
-                  try {
-                    const theme = localStorage.getItem("theme");
-                    if (theme === "dark") {
-                      document.documentElement.classList.add("dark");
-                    } else {
-                      document.documentElement.classList.remove("dark");
-                    }
-                  } catch (e) {}
-                })();
-              </script>
-            `,
-          }}
-        />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              // This immediately runs and executes the script inside the template above
-              const template = document.getElementById('theme-script');
-              if (template) {
-                document.head.appendChild(template.content.cloneNode(true));
-              }
-            `,
-          }}
-        />
       </head>
       <body
         className="font-poppins text-auto"

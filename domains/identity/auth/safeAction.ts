@@ -1,4 +1,5 @@
 import { formatActionError } from "@/lib/utils/formatError";
+import { isRedirectError } from "next/dist/client/components/redirect-error";
 import z from "zod";
 import { getCurrentUser } from "../actions/auth.actions";
 import { ActionResponse, ActionResult, SecureActionConfig } from "../types";
@@ -50,6 +51,33 @@ export function createSafeAction<Args extends any[], Output>(
         error: undefined,
       };
     } catch (error) {
+
+      if (isRedirectError(error)) {
+        throw error;
+      }
+      
+      return formatActionError(error);
+    }
+  };
+}
+
+export function createRegAction<Args extends any[], Output>(
+  handler: (...args: Args) => Promise<Output>
+): (...args: Args) => Promise<ActionResponse<Awaited<Output>>> {
+  return async (...args: Args): Promise<ActionResponse<Awaited<Output>>> => {
+    try {
+      const data = await handler(...args);
+      return {
+        success: true,
+        data,
+        error: undefined,
+      };
+    } catch (error) {
+
+      if (isRedirectError(error)) {
+        throw error;
+      }
+
       return formatActionError(error);
     }
   };
