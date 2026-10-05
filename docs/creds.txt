@@ -2,4 +2,6 @@ mnger
 manager@example.com
 ChangeThisPassword123!
 
-
+user
+luffy@strawhat.com
+nakama

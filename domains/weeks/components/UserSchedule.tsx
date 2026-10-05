@@ -2,12 +2,10 @@
 
 
 import { useCalendar } from "@/context/CalanderProvider";
+import ShiftCard from "@/domains/shifts/components/ShiftCard";
 import { ScheduleStatus } from "@/generated/prisma/enums";
-import { format, parseISO } from "date-fns";
-import { CalendarController } from "./date-picker/CalendarController";
-import NoSchedule from "./NoSchedule";
-import ScheduleCard from "./ScheduleCard";
-import StatusButton from "./StatusButton";
+import { CalendarController } from "../../../features/admin_schedule/components/date-picker/CalendarController";
+import NoSchedule from "../../../features/admin_schedule/components/NoSchedule";
 
 export type Schedule = {
     id: string;
@@ -29,13 +27,11 @@ type Props = {
 }
 
 
-
-export default function AdminSchedule({ schedule, areas }:  Props) {
+export default function UserSchedule({ schedule, areas }:  Props) {
   const { filteredShifts } = useCalendar(schedule?.id);
 
   return (
     <section className="py-6 flex flex-1 flex-col space-y-6 items-center bg-neutral-950 text-white ">
-      <StatusButton status={schedule?.status ?? null} weekId={schedule?.id ?? ''} />
       <CalendarController areas={areas} />
       {!schedule && <NoSchedule />}
       {schedule && (
@@ -46,25 +42,8 @@ export default function AdminSchedule({ schedule, areas }:  Props) {
               day and area.
             </p>
           ) : (
-            <ul className="space-y-2">
-              {filteredShifts.map((shift) => {
-                const startTime = format(
-                  parseISO(shift.startsAt),
-                  "hh:mm a"
-                );
-
-                const endTime = format(
-                  parseISO(shift.endsAt),
-                  "hh:mm a"
-                );
-
-                const formattedTime =
-                  `${startTime} - ${endTime}`;
-
-                return (
-                  <ScheduleCard key={shift.id} shift={shift} formattedTime={formattedTime} />
-                );
-              })}
+            <ul className="space-y-2 flex-1 max-h-[70dvh] overflow-y-auto scrollbar-adjust">
+              {filteredShifts.map((shift) => <ShiftCard key={shift.id} shift={shift} />)}
             </ul>
           )}
         </div>

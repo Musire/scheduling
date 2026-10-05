@@ -87,5 +87,38 @@ export const ShiftRepository = {
             }
         })
         return schedule
+    },
+    async getEmployeeShifts(weekStart: string, authUserId: string) {
+        const [startDate, endDate] = getWeekLimits(weekStart);
+
+        const shifts = await prisma.shift.findMany({
+            where: {
+                shiftDate: {
+                    gte: startDate,
+                    lte: endDate,
+                },
+                user: {
+                    authUserId: authUserId, 
+                },
+            },
+            include: {
+                user: true,
+                area: true,
+                role: true,
+            },
+        });
+
+        return shifts.map(shift => ({
+            ...shift,
+            shiftDate: shift.shiftDate.toISOString(),
+            startsAt: shift.startsAt.toISOString(),
+            endsAt: shift.endsAt.toISOString(),
+            createdAt: shift.createdAt.toISOString(),
+            updatedAt: shift.updatedAt.toISOString(),
+            user: shift.user ? {
+                ...shift.user,
+                payRate: shift?.user?.payRate?.toNumber() 
+            } : null
+        }));
     }
 }

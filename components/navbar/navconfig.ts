@@ -4,7 +4,7 @@ import { UserRole } from "@/generated/prisma/enums";
 export type Role = 'MANAGER' | 'ENDUSER' 
 
 export type NavItem = {
-  label: string;
+  label?: string;
   href?: string; 
   icon?: string;
   index?: boolean;
@@ -45,22 +45,28 @@ export const navByRole: Record<UserRole, NavItem[]> = {
     },
   ],
   END_USER: [
-      { 
-        label: 'Inicio', 
-        href: `/dashboard`,
-        icon: 'home',
-        index: true 
-      },
-      { 
-        label: 'Historial', 
-        href: `/history`,
-        icon: 'history'
-      },
-      { 
-        label: 'Reserva', 
-        icon: 'booking',
-        href: `/booking` 
-      },
+    { 
+      label: 'Schedule',
+      icon: 'schedule',
+      href: `/schedule`,
+    },
+    {
+      href: 'tinkering'
+    },
+    {
+      href: 'tinkering2'
+    },
+    {},
+    { 
+      label: 'Messages',
+      icon: 'messages',
+      href: `/messages` 
+    },
+    { 
+      label: 'Account',
+      icon: 'account',
+      href: `/account` 
+    },
   ],
 }
 

@@ -77,7 +77,7 @@ export default function MobileNav({ items }: MobileNavProps) {
           if (item.children) {
             return (
               <NavDropdownButton
-                key={item.label}
+                key={`${item.label}-${item.href}`}
                 item={item}
                 pathname={pathname}
                 isOpen={isDropdownOpen}
@@ -89,7 +89,7 @@ export default function MobileNav({ items }: MobileNavProps) {
           // 3️⃣ Regular Link items
           return (
             <NavLinkItem 
-              key={item.href} 
+              key={`navlink-${item.label}-${item.href}`}
               item={item} 
               pathname={pathname} 
             />

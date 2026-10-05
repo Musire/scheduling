@@ -33,8 +33,7 @@ export default function ControlledInput({
         render={({ field }) => render(field)}
       />
 
-      <Caption className={`text-sm relative text-console.error();
-       snappy h-4 ${
+      <Caption className={`text-sm relative text-error snappy h-4 ${
             error ? "visible animate-ghostIn" : "invisible"
           }`}
         >

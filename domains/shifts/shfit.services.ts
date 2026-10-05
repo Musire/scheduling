@@ -1,8 +1,14 @@
+import { getCurrentUser } from "../identity/actions/auth.actions";
 import { ShiftRepository } from "./shift.repositories";
 import { ShiftCreationType, ShiftDbSchema, ShiftDbType } from "./shift.validations.ts";
 
 
 export async function getShiftsService (weekStart: string) {
+    const user = await getCurrentUser()
+
+    if (user?.user_metadata.role === 'END_USER') {
+      return ShiftRepository.getEmployeeShifts(weekStart, user.id)
+    }
     return ShiftRepository.getShifts(weekStart)
 }
 
@@ -14,6 +20,8 @@ export async function createShiftService(data: ShiftCreationType) {
     startsAt: new Date(data.startsAt), 
     endsAt: new Date(data.endsAt),    
   };
+
+  console.log(databasePayload)
 
   const validatedDbData = ShiftDbSchema.parse(databasePayload);
   return ShiftRepository.createShift(validatedDbData);

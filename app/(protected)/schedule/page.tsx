@@ -1,9 +1,10 @@
 import RoleRenderer from "@/components/RoleRenderer";
-import AdminSchedulingDataLayer from "@/features/admin_schedule/components/AdminSchedulingDataLayer";
+import AdminSchedulingDataLayer from "@/domains/weeks/components/AdminSchedulingDataLayer";
 import { getCurrentWeekString } from "@/lib/timeUtils";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import AdminScheduleSkeleton from "./loading";
+import UserSchedulingDataLayer from "@/domains/weeks/components/UserSchedulingDataLayer";
 
 type Props = {
   searchParams: Promise<{ week?: string }> 
@@ -25,6 +26,11 @@ export default async function SchedulePage ({ searchParams }: Props) {
                 MANAGER: (
                     <Suspense fallback={<AdminScheduleSkeleton/>}>
                         <AdminSchedulingDataLayer weekString={weekString} />
+                    </Suspense>
+                ),
+                END_USER: (
+                    <Suspense fallback={<AdminScheduleSkeleton/>}>
+                        <UserSchedulingDataLayer weekString={weekString} />
                     </Suspense>
                 )
             }}

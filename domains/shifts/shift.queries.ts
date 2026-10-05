@@ -6,7 +6,7 @@ import { getShiftsService } from "./shfit.services"
 
 export const getShifts = createSafeAction(
     {
-        allowedRoles: ['MANAGER']
+        allowedRoles: ['MANAGER', 'END_USER']
     },
     getShiftsService
 )

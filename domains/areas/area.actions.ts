@@ -41,7 +41,7 @@ export const deleteArea = createSafeAction(
 
 export const getAreaSimple = createSafeAction(
     {
-        allowedRoles: ['MANAGER']
+        allowedRoles: ['MANAGER', 'END_USER']
     },
     getAreaSimpleService
 ) 

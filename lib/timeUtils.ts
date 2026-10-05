@@ -24,72 +24,153 @@ export const APP_TIMEZONE = "America/Chicago";
              Time Conversion Helpers
    ========================================================= */
 
-/**
- * Converts a standard Date object or string into a zoned Date instance 
- * set to the application's default timezone.
- */
 
-export const toAppTime = (dbValue?: string | Date): string => {
+export const toAppTime = (
+  dbValue?: string | Date
+): string => {
   if (!dbValue) return "";
 
-  // If it's already a Date object
+  // Full Date object / UTC timestamp
   if (dbValue instanceof Date) {
-    return isValid(dbValue) ? format(dbValue, "h:mm a") : "";
+    if (!isValid(dbValue)) return "";
+
+    const zonedDate = toZonedTime(
+      dbValue,
+      APP_TIMEZONE
+    );
+
+    return format(zonedDate, "h:mm a");
   }
 
-  // If it's stored as a 24h time string (e.g., "17:27:00" or "17:27")
-  const parsed24h = parse(dbValue, "HH:mm:ss", new Date());
+  // Raw 24-hour time string such as "17:27:00"
+  // or "17:27". These have no timezone information,
+  // so they are already assumed to be application time.
+  const parsed24h = parse(
+    dbValue,
+    "HH:mm:ss",
+    new Date()
+  );
+
   if (isValid(parsed24h)) {
     return format(parsed24h, "h:mm a");
   }
 
-  const parsedShort24h = parse(dbValue, "HH:mm", new Date());
+  const parsedShort24h = parse(
+    dbValue,
+    "HH:mm",
+    new Date()
+  );
+
   if (isValid(parsedShort24h)) {
     return format(parsedShort24h, "h:mm a");
   }
 
-  // Fallback: try parsing as a full ISO/datetime string
+  // Full ISO / UTC datetime
   const fallbackDate = new Date(dbValue);
+
   if (isValid(fallbackDate)) {
-    return format(fallbackDate, "h:mm a");
+    const zonedDate = toZonedTime(
+      fallbackDate,
+      APP_TIMEZONE
+    );
+
+    return format(zonedDate, "h:mm a");
   }
 
   return "";
 };
 
-/**
- * Converts a zoned Date instance back into a standard JavaScript Date object 
- * representing the exact UTC instant.
- */
+
 
 export const fromAppTime = (
-  time12h: string, 
+  time12h: string,
   existingValue?: Date | string,
-  targetTimeZone: string = "America/Chicago"
+  targetTimeZone: string = APP_TIMEZONE
 ): string => {
-  const parsedTime = parse(time12h, "h:mm a", new Date());
+  if (!time12h) return "";
+
+  const parsedTime = parse(
+    time12h,
+    "h:mm a",
+    new Date()
+  );
+
+  if (!isValid(parsedTime)) {
+    return "";
+  }
+
   const hours = parsedTime.getHours();
   const minutes = parsedTime.getMinutes();
 
-  // Get the base YYYY-MM-DD from the existing value or today
-  const baseDate = existingValue ? new Date(existingValue) : new Date();
-  const year = baseDate.getFullYear();
-  const month = String(baseDate.getMonth() + 1).padStart(2, "0");
-  const day = String(baseDate.getDate()).padStart(2, "0");
+  /*
+   * Determine the calendar date.
+   *
+   * IMPORTANT:
+   * The date is a calendar date belonging to the application,
+   * not the browser's local timezone.
+   */
+  let year: number;
+  let month: number;
+  let day: number;
 
-  // Construct a strict wall-clock ISO string for the target zone
-  const wallClockString = `${year}-${month}-${day}T${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:00`;
+  if (existingValue) {
+    const baseDate =
+      existingValue instanceof Date
+        ? existingValue
+        : new Date(existingValue);
 
-  // Explicitly treat this string as local time in America/Chicago and get the true UTC date
-  const utcDate = fromZonedTime(wallClockString, targetTimeZone);
+    if (!isValid(baseDate)) {
+      return "";
+    }
+
+    /*
+     * If the supplied value is an ISO/UTC timestamp,
+     * extract its UTC calendar components.
+     *
+     * This prevents the browser timezone from changing
+     * the shift date.
+     */
+    year = baseDate.getUTCFullYear();
+    month = baseDate.getUTCMonth() + 1;
+    day = baseDate.getUTCDate();
+  } else {
+    /*
+     * No existing date: use today's date in Chicago.
+     */
+    const nowChicago = toZonedTime(
+      new Date(),
+      targetTimeZone
+    );
+
+    year = nowChicago.getFullYear();
+    month = nowChicago.getMonth() + 1;
+    day = nowChicago.getDate();
+  }
+
+  const wallClockString =
+    `${year}-${String(month).padStart(2, "0")}-` +
+    `${String(day).padStart(2, "0")}T` +
+    `${String(hours).padStart(2, "0")}:` +
+    `${String(minutes).padStart(2, "0")}:00`;
+
+  /*
+   * Interpret the wall-clock time as America/Chicago,
+   * then convert that instant to UTC.
+   *
+   * date-fns-tz handles CST/CDT automatically.
+   */
+  const utcDate = fromZonedTime(
+    wallClockString,
+    targetTimeZone
+  );
 
   return utcDate.toISOString();
 };
 
 
 export const toTimePicker = (
-  dbValue?: string | Date, 
-  targetTimeZone: string = "America/Chicago"
+  dbValue?: string | Date,
+  targetTimeZone: string = APP_TIMEZONE
 ): string => {
   if (!dbValue) return "";
 
@@ -98,32 +179,56 @@ export const toTimePicker = (
   if (dbValue instanceof Date) {
     utcDate = dbValue;
   } else {
-    // Standardize database/ISO string parsing
+    /*
+     * Full ISO / UTC timestamp.
+     */
     const parsedTimestamp = Date.parse(dbValue);
-    if (!isNaN(parsedTimestamp)) {
-      utcDate = new Date(dbValue);
+
+    if (!Number.isNaN(parsedTimestamp)) {
+      utcDate = new Date(parsedTimestamp);
     } else {
-      // Handle raw 24h strings without timezone context
-      const parsed = parse(dbValue, "HH:mm:ss", new Date());
-      const parsedShort = parse(dbValue, "HH:mm", new Date());
-      const localDate = isValid(parsed) ? parsed : parsedShort;
-      
-      if (!isValid(localDate)) return "";
-      
-      // If it's a raw 24h string, assume it's already in Chicago time
-      return format(localDate, "h:mm a"); 
+      /*
+       * Raw 24-hour strings have no timezone.
+       * Treat them as already being America/Chicago time.
+       */
+      const parsed = parse(
+        dbValue,
+        "HH:mm:ss",
+        new Date()
+      );
+
+      const parsedShort = parse(
+        dbValue,
+        "HH:mm",
+        new Date()
+      );
+
+      const localDate = isValid(parsed)
+        ? parsed
+        : parsedShort;
+
+      if (!isValid(localDate)) {
+        return "";
+      }
+
+      return format(localDate, "h:mm a");
     }
   }
 
-  if (!isValid(utcDate)) return "";
+  if (!isValid(utcDate)) {
+    return "";
+  }
 
-  // CRITICAL FIX: Convert the absolute UTC time to Chicago's wall-clock time
-  const zonedDate = toZonedTime(utcDate, targetTimeZone);
+  /*
+   * UTC instant → America/Chicago wall-clock time.
+   */
+  const zonedDate = toZonedTime(
+    utcDate,
+    targetTimeZone
+  );
 
-  // Return the AM/PM string format your TimePicker expects
   return format(zonedDate, "h:mm a");
 };
-
 
 export const getNow = (targetTimeZone: string = "America/Chicago"): string => {
   // 1. Get the real-world current system date and time
@@ -247,4 +352,30 @@ export function getWeekLimits(weekStart: string): Date[] {
 
   return [startDate, endDate]
 
+}
+
+export function formatToAppTime(startsAt: string, endsAt: string): string {
+  const startTime = toAppTime(startsAt);
+  const endTime = toAppTime(endsAt);
+
+  return `${startTime} - ${endTime}`;
+}
+
+export function getShiftDuration(isoString1: string, isoString2: string) {
+  const date1 = parseISO(isoString1);
+  const date2 = parseISO(isoString2);
+  
+  // Get total difference in minutes (absolute value handles any argument order)
+  const diffMins = Math.abs(differenceInMinutes(date1, date2));
+  
+  // Under 60 minutes -> show minutes
+  if (diffMins < 60) {
+    return `${diffMins} mins`;
+  }
+  
+  // 60 minutes or more -> convert to hours and round to 1 decimal place
+  const diffHours = Math.round((diffMins / 60) * 10) / 10;
+  const unit = diffHours === 1 ? 'hr' : 'hrs';
+  
+  return `${diffHours}${unit}`;
 }

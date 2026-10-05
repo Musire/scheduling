@@ -13,7 +13,7 @@ export const createShift = createSafeAction(
     async (_:any, formData: FormData) =>{
         const validated = validateFormData(ShiftCreationSchema, formData)
         const res = await createShiftService(validated)
-        revalidatePath('/schedule')
+        revalidatePath('/schedule', 'page')
         return res
     }
 )

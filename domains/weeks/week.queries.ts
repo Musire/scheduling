@@ -13,7 +13,7 @@ export const getSchedulingData = createSafeAction(
 
 export const getSchedule = createSafeAction(
     {
-        allowedRoles: ["MANAGER"]
+        allowedRoles: ["MANAGER", 'END_USER']
     },
     getScheduleService
 )

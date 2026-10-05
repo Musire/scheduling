@@ -13,11 +13,10 @@ export interface Shift {
   endsAt: string;
   createdAt: string;
   updatedAt: string;
-  user: { name: string };
+  user: { name: string } | null; 
   area: { id: string; name: string };
   role: { name: string };
 }
-
 export function useScheduleData(
   currentWeekStart: Date,
   selectedDate: string,

@@ -6,7 +6,7 @@ import AreaRoleInput from "@/components/forms/inputs/AreaRoleInput";
 import FormDatePicker from "@/components/forms/inputs/FormDatepicker";
 import FormDropdown from "@/components/forms/inputs/FormDropdown";
 import FormTimePicker from "@/components/forms/inputs/FormTimepicker";
-import { useSidePanel } from "@/context/SidepanelProvider";
+import { ScheduleSyncListener } from "@/components/forms/inputs/ScheduleSyncListener";
 import { getSchedulingData } from "@/domains/weeks/week.queries";
 import { useFetch } from "@/hooks/useFetch";
 import { RotateCw } from "lucide-react";
@@ -15,28 +15,9 @@ import z from "zod";
 import { createShift } from "../shift.actions";
 import { ShiftCreationSchema } from "../shift.validations.ts";
 
-type SchedulingData = {
-    schedules: {
-        id: string;
-        weekStart: Date;
-    }[],
-    areaRoles: {
-        id: string;
-        name: string;
-        roles: {
-            id: string;
-            name: string;
-        }[]
-    }[],
-    users: {
-        id: string;
-        name: string;
-    }[]
-}
 
 export default function CreateShiftForm () {
-    const { data: schedulingData, error, isPending, execute } = useFetch(getSchedulingData)
-    const { clearModal } = useSidePanel()
+    const { data: schedulingData, isPending, execute } = useFetch(getSchedulingData)
 
     useEffect(() => {
         execute()
@@ -51,7 +32,7 @@ export default function CreateShiftForm () {
     }
 
     const defaultData = {
-        scheduleId: schedulingData?.schedules[0]?.id ?? '',
+        scheduleId: '',
         areaId: '',
         roleId: '',
         shiftDate: new Date(),
@@ -61,24 +42,38 @@ export default function CreateShiftForm () {
     }
 
     const onSuccess = () => {
-        clearModal()
+        window.location.reload() 
     }
 
     const slides = [
         {
             schema: z.object({
-                dayofWeek: ShiftCreationSchema.shape.scheduleId,
-                shiftDate: ShiftCreationSchema.shape.shiftDate
+                shiftDate: ShiftCreationSchema.shape.shiftDate,
+            }).superRefine((data, ctx) => {
+                if (!data.shiftDate) return;
+
+                const shiftDate = new Date(data.shiftDate);
+
+                const scheduleExists = schedulingData?.schedules.some((schedule) => {
+                const weekStart = new Date(schedule.weekStart);
+                const weekEnd = new Date(weekStart);
+
+                weekEnd.setDate(weekEnd.getDate() + 7);
+
+                return shiftDate >= weekStart && shiftDate < weekEnd;
+                });
+
+                if (!scheduleExists) {
+                    ctx.addIssue({
+                        code: 'custom',
+                        path: ['shiftDate'],
+                        message: 'Selected date does not fall within an active schedule week.',
+                    });
+                }
             }),
             component: (
-                <> 
-                    <FormDropdown
-                        name="scheduleId"
-                        label="scheduled week"
-                        options={schedulingData?.schedules ?? []}
-                        getOptionLabel={(item) => item.weekStart.toLocaleDateString()}  
-                        getOptionValue={(item) => item.id}    
-                    />
+                <>
+                    <ScheduleSyncListener schedules={schedulingData?.schedules ?? []} />
                     <FormDatePicker 
                         name="shiftDate"
                         label="Pick Date"
