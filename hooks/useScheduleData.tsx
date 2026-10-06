@@ -13,15 +13,16 @@ export interface Shift {
   endsAt: string;
   createdAt: string;
   updatedAt: string;
-  user: { name: string } | null; 
+  user: { name: string } | null;
   area: { id: string; name: string };
   role: { name: string };
 }
+
 export function useScheduleData(
   currentWeekStart: Date,
   selectedDate: string,
   selectedAreaId: string,
-  scheduleId: string | undefined | null 
+  scheduleId: string | undefined | null
 ) {
   const { createError } = useToast();
   const [shifts, setShifts] = useState<Shift[]>([]);
@@ -30,8 +31,8 @@ export function useScheduleData(
   const formattedWeek = format(currentWeekStart, "yyyy-MM-dd");
 
   useEffect(() => {
+    // Early return if no schedule exists — do not invoke setShifts synchronously here
     if (!scheduleId) {
-      setShifts([]);
       return;
     }
 
@@ -56,12 +57,16 @@ export function useScheduleData(
     return () => {
       isMounted = false;
     };
-  }, [formattedWeek, scheduleId, createError]); 
-  
-  const filteredShifts = shifts.filter((shift) => {
+  }, [formattedWeek, scheduleId, createError]);
+
+  // Derive active shifts: if scheduleId is falsy, evaluate to an empty list immediately during render
+  const activeShifts = scheduleId ? shifts : [];
+
+  const filteredShifts = activeShifts.filter((shift) => {
     const shiftDate = format(parseISO(shift.startsAt), "yyyy-MM-dd");
     const matchesDate = shiftDate === selectedDate;
-    const matchesArea = selectedAreaId === "all" || shift.areaId === selectedAreaId;
+    const matchesArea =
+      selectedAreaId === "all" || shift.areaId === selectedAreaId;
     return matchesDate && matchesArea;
   });
 

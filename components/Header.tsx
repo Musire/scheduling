@@ -1,8 +1,8 @@
 "use client";
 
-import { AvatarButton } from "@/components";
 import { useHeaderTitle } from "@/hooks";
 import { BackButton } from "./buttons";
+import AvatarButton from "./AvatarButton";
 
 type Props = {
     avatarUrl: string | null

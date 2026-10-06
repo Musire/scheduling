@@ -10,23 +10,23 @@ export default function PanelManager() {
   const [renderedModal, setRenderedModal] = useState<string | null>(currentModal);
   const [activeData, setActiveData] = useState<unknown>(modalData);
 
+  // 1. Adjust state synchronously during render when currentModal exists
+  if (currentModal && (renderedModal !== currentModal || activeData !== modalData)) {
+    setRenderedModal(currentModal);
+    setActiveData(modalData);
+  }
+
+  // 2. Use useEffect strictly for asynchronous side-effects (exit animations)
   useEffect(() => {
-    let timer: NodeJS.Timeout;
+    if (currentModal) return;
 
-    if (currentModal) {
-      setRenderedModal(currentModal);
-      setActiveData(modalData);
-    } else {
-      timer = setTimeout(() => {
-        setRenderedModal(null);
-        setActiveData(null);
-      }, 300);
-    }
+    const timer = setTimeout(() => {
+      setRenderedModal(null);
+      setActiveData(null);
+    }, 300);
 
-    return () => {
-      if (timer) clearTimeout(timer);
-    };
-  }, [currentModal, modalData]);
+    return () => clearTimeout(timer);
+  }, [currentModal]);
 
   const ActiveComponent = renderedModal ? PANEL_REGISTRY[renderedModal] : null;
 

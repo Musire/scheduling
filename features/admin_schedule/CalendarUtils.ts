@@ -1,4 +1,4 @@
-import { DayTab } from "@/domains/scheduling/utils/weekView";
+import { DayTab } from "@/domains/weeks/utils/weekView";
 
 export function formatDate(date: Date): string {
   return [

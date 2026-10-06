@@ -1,9 +1,8 @@
 import { cn } from "@/lib/utils";
-import { getIcon, IconKey } from "./icon-map";
-import { styles } from "./MobileNav";
 import { Caption } from "../typography";
+import { ICON_MAP, IconKey } from "./icon-map";
+import { styles } from "./MobileNav";
 import { SubComponentProps } from "./NavActionButton";
-
 
 interface DropdownProps extends SubComponentProps {
   pathname: string;
@@ -11,27 +10,41 @@ interface DropdownProps extends SubComponentProps {
   onClick: () => void;
 }
 
-export default function NavDropdownButton({ item, pathname, isOpen, onClick }: DropdownProps) {
-  const Icon = getIcon(item.icon as IconKey);
-  const isChildActive = item.children?.some(child => pathname.startsWith(child.href)) ?? false;
+export default function NavDropdownButton({
+  item,
+  pathname,
+  isOpen,
+  onClick,
+}: DropdownProps) {
+  const Icon = ICON_MAP[item.icon as IconKey];
+
+  const isChildActive =
+    item.children?.some((child) => pathname.startsWith(child.href)) ?? false;
   const isActiveState = isChildActive || isOpen;
 
   return (
-    <button 
-      type="button" 
-      onClick={onClick} 
-      className={cn(styles.standard, isActiveState ? styles.active : styles.inactive)}
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn(
+        styles.standard,
+        isActiveState ? styles.active : styles.inactive
+      )}
     >
       {Icon && (
-        <div className={cn(
-          "centered rounded-full size-8 transition-transform", 
-          isActiveState ? "bg-primary/20 text-primary" : "bg-background/40", 
-          isOpen && "scale-110"
-        )}>
+        <div
+          className={cn(
+            "centered size-8 rounded-full transition-transform",
+            isActiveState ? "bg-primary/20 text-primary" : "bg-background/40",
+            isOpen && "scale-110"
+          )}
+        >
           <Icon size={15} />
         </div>
       )}
-      <Caption className={cn(isActiveState && "text-primary")}>{item.label}</Caption>
+      <Caption className={cn(isActiveState && "text-primary")}>
+        {item.label}
+      </Caption>
     </button>
   );
 }

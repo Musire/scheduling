@@ -15,15 +15,15 @@ export default function SelectableRoles<T> ({ roles }: Props<T>) {
     const [isPending, startTransition] = useTransition()
     const { createSuccess, createError } = useToast()
 
-    const handleDelete = (ids?: string[]) => {
-        if (!ids || ids.length === 0) return;
+    const handleDelete = (id?: string) => {
+        if (!id) return;
         
         startTransition(async() => {
             const clean = Array.isArray(areaSlug) 
                 ? areaSlug[0] 
                 : (areaSlug ?? "");
         
-            const res = await deleteRole({ areaSlug: clean, ids})
+            const res = await deleteRole({ areaSlug: clean, id})
             if (!res.success && res.error) {
                 createError(res.error)
                 return;

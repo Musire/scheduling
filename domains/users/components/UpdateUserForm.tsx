@@ -3,8 +3,8 @@
 import { ActionForm, Input } from "@/components/forms";
 import { createUser } from "@/domains/users/user.actions";
 import { UserUpdateSchema } from "@/domains/users/user.validations";
-import { ModifiedUser } from "@/features/admin_manage/components/users/UserDetails";
 import { useRouter } from "next/navigation";
+import { ModifiedUser } from "./UserManagement";
 
 type Props = {
   data?: ModifiedUser

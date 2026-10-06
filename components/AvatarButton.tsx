@@ -1,12 +1,12 @@
 "use client";
 
-import { Drawer, Theme } from "@/components";
 import { logout } from "@/domains/identity/actions/auth.actions";
 import { useDrawer } from "@/hooks";
 import { LogOut, ShieldPlus, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./buttons";
+import Drawer from "./Drawer";
 
 
 type Props = {
@@ -46,7 +46,6 @@ export default function AvatarButton({ avatarUrl }: Props) {
       >
         <div className="fixed inset-y-0 right-0 w-80 surface-1 shadow-2xl p-6 stacked  ">
            {/* Drawer content goes here */}
-           <Theme />
            <Link 
               href={`profile`} 
               onClick={closeDrawer} 

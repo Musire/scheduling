@@ -1,6 +1,6 @@
-import type { CrudMode, SelectionMode } from "../types";
+import type { ContainerMode, SelectionMode } from "../types";
 
-export function getSelectionMode(mode: CrudMode): SelectionMode {
+export function getSelectionMode(mode: ContainerMode): SelectionMode {
   switch (mode) {
     case "view":
       return "none";
@@ -14,7 +14,7 @@ export function getSelectionMode(mode: CrudMode): SelectionMode {
 }
 
 export function canContinue(
-  mode: CrudMode,
+  mode: ContainerMode,
   selectedCount: number
 ): boolean {
   if (mode === "view") return false;

@@ -22,7 +22,7 @@ export const getAreaDetails = createSafeAction(
     {
         allowedRoles: ['MANAGER']
     },
-    async(input: { name: String}) => {
+    async(input: { name: string}) => {
         const validated = validateSchema(AreaCreateSchema, input)
         return getAreaDetailsService(validated.name)
     }

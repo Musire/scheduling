@@ -23,7 +23,7 @@ export default function CreateRequirementForm({ data }: PanelProps) {
 
   useEffect(() => {
     execute()
-  }, [])
+  }, [execute])
 
   const onSuccess = () => {
     createSuccess('created shift requirement')
@@ -52,7 +52,6 @@ export default function CreateRequirementForm({ data }: PanelProps) {
   const slides = [
     {
       schema: z.object({
-        // Fixed typo: dayOfWeek (capital O)
         dayOfWeek: RequirementCreateSchema.shape.dayOfWeek,
         areaId: RequirementCreateSchema.shape.areaId,
         roleId: RequirementCreateSchema.shape.roleId,
@@ -77,7 +76,7 @@ export default function CreateRequirementForm({ data }: PanelProps) {
               )
             }}
           />
-          <AreaRoleInput areaRoles={areaRoles} />
+          <AreaRoleInput areaRoles={areaRoles ?? []} />
         </>
       )
     },
@@ -85,7 +84,6 @@ export default function CreateRequirementForm({ data }: PanelProps) {
       schema: z.object({
         requiredUsers: RequirementCreateSchema.shape.requiredUsers,
         endsAt: RequirementCreateSchema.shape.endsAt,
-        // Fixed typo: startsAt (added 's')
         startsAt: RequirementCreateSchema.shape.startsAt,
       }),
       component: (
@@ -109,7 +107,6 @@ export default function CreateRequirementForm({ data }: PanelProps) {
   ]
 
   return (
-    // Fixed: Replaced `w-dvw h-dvh` with fluid container bounds
     <section className="py-6 flex-1  centered-col text-else">
       <h2 className="text-3xl text-main mb-6">Create Requirement</h2>
       <div className=" rounded-xl w-full">

@@ -1,10 +1,10 @@
 "use client";
 
 import { useToast } from "@/context";
-import { createWeek } from "@/domains/scheduling/actions/week.actions";
-import { CalendarPlus, Loader2 } from "lucide-react"; // Example icons
+import { CalendarPlus, Loader2 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTransition } from "react";
+import { createWeek } from "../week.actions";
 
 export default function CreateWeekButton() {
   const [isPending, startTransition] = useTransition();
@@ -12,7 +12,6 @@ export default function CreateWeekButton() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // Grab the week directly from the URL parameters
   const currentWeek = searchParams.get("week");
 
   const handleCreateSchedule = () => {
@@ -23,18 +22,14 @@ export default function CreateWeekButton() {
 
     startTransition(async () => {
       try {
-        // Convert to ISO string to match your original backend expectation
         const isoWeek = new Date(currentWeek).toISOString();
         
-        // Trigger the server action
-        const result = await createWeek({ weekStart: isoWeek });
+        const result = await createWeek({ week: isoWeek });
 
         if (result?.error) {
           createError(result.error);
         } else {
           createSuccess("New schedule created successfully");
-          // Server action should call revalidatePath internally, 
-          // router.refresh ensures client-side cache updates instantly
           router.refresh();
         }
       } catch (error) {

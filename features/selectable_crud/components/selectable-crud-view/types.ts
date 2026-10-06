@@ -1,9 +1,7 @@
 import type { ReactNode } from "react";
 
 export type ContainerMode = "view" | "edit" | "delete";
-
-
-export type SelectionMode = "none" | "single" | "multiple";
+export type SelectionMode = "none" | "single" | "multiple" | undefined;
 
 export type RenderItemContext<T, K extends string> = {
   item: T;

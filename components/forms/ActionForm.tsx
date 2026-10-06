@@ -3,7 +3,7 @@
 import { FormStatusProvider } from "@/context/FormStatusProvider";
 import { ActionResponse } from "@/domains/identity/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { startTransition, useActionState, useEffect, useRef } from "react";
+import { startTransition, useActionState, useEffect, useLayoutEffect, useRef } from "react";
 import { DefaultValues, FieldValues, FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 import StatusButton from "./StatusButton";
@@ -62,7 +62,11 @@ export default function ActionForm<T, S extends z.ZodObject<FieldValues>>({
     };
 
     const onSuccessRef = useRef(onSuccess);
-    onSuccessRef.current = onSuccess;
+
+    // Keep the ref continuously updated safely inside an effect
+    useLayoutEffect(() => {
+      onSuccessRef.current = onSuccess;
+    }, [onSuccess]);
 
     useEffect(() => {
       // Check if the submission was successful

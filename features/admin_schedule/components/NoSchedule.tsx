@@ -7,8 +7,8 @@ export default function NoSchedule () {
         <div className="centered-col space-y-6 flex-1">
             <CalendarX2 strokeWidth={1} size={70} className="text-mid" />
             <p className="flex flex-col space-y-2 text-center">
-                <span className="text-main text-sm">No schedule for this week</span>
-                <span className="text-else text-xs">You haven't created a schedule for this week yet</span>
+                <span className="text-main text-sm">{`No schedule for this week`}</span>
+                <span className="text-else text-xs">{`You haven't created a schedule for this week yet`}</span>
             </p>
             <CreateWeekButton />
         </div>

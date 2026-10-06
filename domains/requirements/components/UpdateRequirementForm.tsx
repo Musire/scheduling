@@ -27,7 +27,7 @@ export default function UpdateRequirementForm({
 
   useEffect(() => {
     execute()
-  }, [])
+  }, [execute])
 
 
   const onSuccess = () => {

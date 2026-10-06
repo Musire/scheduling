@@ -21,7 +21,7 @@ export default function CreateShiftForm () {
 
     useEffect(() => {
         execute()
-    },[])
+    },[execute])
 
     if (isPending) {
         return (

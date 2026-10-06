@@ -27,7 +27,7 @@ export function useCalendarState() {
       params.set("week", formattedWeek);
       router.replace(`?${params.toString()}`, { scroll: false });
     }
-  }, [currentWeekStart, urlWeek]);
+  }, [currentWeekStart, urlWeek, router, searchParams]);
 
   return {
     currentWeekStart,
