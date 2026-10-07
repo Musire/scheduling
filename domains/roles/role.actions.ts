@@ -12,7 +12,9 @@ export const createRole = createSafeAction(
     
     async (_, formData: FormData) => {
         const validated = validateFormData(RoleCreateSchema, formData)
-        return await createRoleService(validated);
+        const res = await createRoleService(validated);
+        revalidatePath('/manage/areas')
+        return res
     }
 )
 

@@ -42,7 +42,7 @@ export default function AreaDetails ({ data }: Props) {
     }
 
     const handleCreation = () => {
-        loadSidepanel('create-role')
+        loadSidepanel('create-role', { areaSlug: data.name })
         clearDrawer()
     }
 

@@ -1,28 +1,33 @@
 "use client"
 
 import { ActionForm, Input } from "@/components/forms"
+import { useSidePanel } from "@/context/SidepanelProvider"
 import { createRole } from "@/domains/roles/role.actions"
 import { RoleCreateSchema } from "@/domains/roles/role.validations"
-import { useParams, useRouter } from "next/navigation"
 
-export default function CreateRoleForm() {
-  const router = useRouter()
-  const { areaSlug } = useParams()
+type Props = {
+  data: {
+    areaSlug: string
+  }
+}
+
+export default function CreateRoleForm({ data }: Props) {
+  const { clearModal: clearSidepanel } = useSidePanel()
 
   const onSuccess = () => {
-    router.push(`/manage/areas/${areaSlug}`)
+    clearSidepanel()
   }
 
-  const area = Array.isArray(areaSlug) 
-    ? areaSlug[0] 
-    : (areaSlug ?? "");
+  
+  if (!data) return;
+
 
   return (
     <div className=" bg-background xs:max-md:w-dvw xs:max-md:h-dvh xs:px-6 centered-col space-y-6 py-6 text-else">
       <h2 className="text-3xl text-main">Create Role</h2>
       <div className="w-full rounded-xl">
         <ActionForm 
-          initialValues={{ name: "", areaSlug: area }}
+          initialValues={{ name: "", areaSlug: data.areaSlug }}
           actionFn={createRole}
           schema={RoleCreateSchema}
           onSuccess={onSuccess}
