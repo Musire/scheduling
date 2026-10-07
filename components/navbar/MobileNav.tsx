@@ -61,7 +61,16 @@ export default function MobileNav({ items }: MobileNavProps) {
 
       {/* 🔹 MAIN NAVIGATION BAR */}
       <div className="centered rounded-xl surface-1 w-full px-6 justify-around h-16 shadow-lg">
-        {items.map(item => {
+        {items.map((item, idx) => {
+          if (item.spacer) {
+            return (
+              <div
+                key={`mobile-spacer-${idx}`}
+                className="px-3 py-2 flex centered-col space-y-1 relative"
+                aria-hidden="true"
+              />
+            );
+          }
           // 1️⃣ Handle Modal Action Buttons
           if (item.isAction) {
             return (

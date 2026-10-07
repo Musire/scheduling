@@ -22,6 +22,16 @@ export default function PanelNav({ items }: PanelNavProps) {
       {items.map((item, idx) => {
         const { label, href, index, isAction, children } = item;
 
+        if (item.spacer) {
+          return (
+            <div
+              key={`spacer-${idx}`}
+              className="px-3 py-2 flex centered-col space-y-1 relative"
+              aria-hidden="true"
+            />
+          );
+        }
+
         // 1️⃣ Action Button (Modal trigger)
         if (isAction) {
           return (

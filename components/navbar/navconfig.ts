@@ -5,12 +5,13 @@ export type Role = 'MANAGER' | 'ENDUSER'
 
 export type NavItem = {
   label?: string;
-  href?: string; 
+  href?: string;
   icon?: string;
   index?: boolean;
-  isAction?: boolean; 
-  children?: { label: string; href: string }[]; // 👈 Added for dropdown menus
-}
+  isAction?: boolean;
+  spacer?: boolean;
+  children?: { label: string; href: string }[];
+};
 
 export const navByRole: Record<UserRole, NavItem[]> = {
   MANAGER: [
@@ -51,12 +52,14 @@ export const navByRole: Record<UserRole, NavItem[]> = {
       href: `/schedule`,
     },
     {
-      href: 'tinkering'
+      spacer: true,
     },
     {
-      href: 'tinkering2'
+      spacer: true,
     },
-    {},
+    {
+      spacer: true,
+    },
     { 
       label: 'Messages',
       icon: 'messages',
