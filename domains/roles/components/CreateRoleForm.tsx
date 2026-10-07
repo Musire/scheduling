@@ -6,7 +6,7 @@ import { createRole } from "@/domains/roles/role.actions"
 import { RoleCreateSchema } from "@/domains/roles/role.validations"
 
 type Props = {
-  data: {
+  data?: {
     areaSlug: string
   }
 }
