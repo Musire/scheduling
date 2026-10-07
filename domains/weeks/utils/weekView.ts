@@ -78,3 +78,16 @@ export const generateDayTabs = (startOfWeek: Date): DayTab[] => {
 
   return tabs;
 };
+
+
+export function getWeekday(digit: number) {
+  const days = [
+    "sunday", 
+    "monday", 
+    "tuesday", 
+    "wednesday", 
+    "thursday", 
+    "friday", 
+    "saturday"];
+  return days[digit] || "invalid day";
+}

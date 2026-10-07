@@ -9,6 +9,7 @@ import { toAppTime } from "@/lib/timeUtils";
 import { MouseEvent, useTransition } from "react";
 import { deleteRequirement } from "../requirement.actions";
 import { requirementWithMeta } from "../requirement.types";
+import { getWeekday } from "@/domains/weeks/utils/weekView";
 
 type Props = {
   data: requirementWithMeta
@@ -43,13 +44,17 @@ export default function RequirementCard ({ data }: Props) {
         loadSidepanel('update-requirement', {data})
     }
 
+    console.log(data)
+
     return (
         <article
             onClick={toggleDrawer}
             className="flex flex-col h-fit grow-0 p-6 border-border border rounded-lg cursor-pointer grid-cols-[5fr_1fr] gap-4 relative"
         >
             <p className="spaced">
-                <span className=" rounded-full w-24 bg-alternate centered py-1 text-deep capitalize">monday</span>
+                <span className=" rounded-full w-24 bg-alternate/20 centered py-1 text-alternate capitalize text-xs">
+                    {getWeekday(data.dayOfWeek)}
+                </span>
                 <span className="text-sm">{`${data._count} /  ${data.requiredUsers}`}</span>
             </p>
             <p className="capitalize text-xl truncate">
