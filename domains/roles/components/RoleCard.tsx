@@ -3,8 +3,6 @@ import { useToast } from "@/context";
 import { useBottomDrawer } from "@/context/BottomDrawerProvider";
 import { useSidePanel } from "@/context/SidepanelProvider";
 import { useDrawer } from "@/hooks";
-import { convertParamToString } from "@/lib/manipulateParam";
-import { useParams } from "next/navigation";
 import { MouseEvent, useTransition } from "react";
 import { deleteRole } from "../role.actions";
 
@@ -20,7 +18,6 @@ export default function RoleCard({ data }: Props) {
   const { loadModal: loadSidepanel } = useSidePanel();
   const { clearModal: clearDrawer } = useBottomDrawer();
   const { createSuccess, createError } = useToast();
-  const { areaSlug } = useParams();
 
   // 1. Hook instance for controlling the card/drawer buttons expansion
   const { isMounted: isButtonsVisible, toggleDrawer: toggleButtons } = useDrawer();
@@ -39,7 +36,6 @@ export default function RoleCard({ data }: Props) {
       if (data?.id) {
         const res = await deleteRole({
           id: data.id,
-          areaSlug: convertParamToString(areaSlug),
         });
         if (!res.success && res.error) {
           createError(res.error);

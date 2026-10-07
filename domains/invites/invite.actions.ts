@@ -1,9 +1,10 @@
 'use server'
 
+import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 import { createRegAction, createSafeAction, validateFormData, validateSchema } from "../identity/auth/safeAction"
-import { createPasswordService, inviteStaffService, validateEmailService } from "./invite.services"
-import { EmailValildationSchema, InviteCreationSchema, InviteCreationType, PasswordCreationSchema } from "./invite.validation"
+import { createPasswordService, inviteStaffService, reinviteStaffService, revokeInviteService, validateEmailService } from "./invite.services"
+import { EmailValildationSchema, InviteCreationSchema, InviteCreationType, InviteUpdateSchema, InviteUpdateType, PasswordCreationSchema } from "./invite.validation"
 
 export const inviteStaff = createSafeAction(
     {
@@ -12,6 +13,31 @@ export const inviteStaff = createSafeAction(
     async (input: InviteCreationType) => {
         const validated = validateSchema(InviteCreationSchema , input)
         const res = inviteStaffService(validated)
+        revalidatePath('/manage/users')
+        return res
+    }
+)
+
+export const reinviteStaff = createSafeAction(
+    {
+        allowedRoles: ['MANAGER']
+    },
+    async (input: InviteUpdateType) => {
+        const validated = validateSchema(InviteUpdateSchema, input)
+        const res = reinviteStaffService(validated)
+        revalidatePath('/manage/users')
+        return res
+    }
+)
+
+export const revokeInvite = createSafeAction(
+    {
+        allowedRoles: ['MANAGER']
+    },
+    async (input: InviteUpdateType) => {
+        const validated = validateSchema(InviteUpdateSchema , input)
+        const res = revokeInviteService(validated)
+        revalidatePath('/manage/users')
         return res
     }
 )

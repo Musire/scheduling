@@ -5,6 +5,10 @@ export const InviteCreationSchema = z.object({
     email: z.string().min(1, ''),
 })
 
+export const InviteUpdateSchema = z.object({
+    id: z.uuid(),
+})
+
 export const EmailValildationSchema = z.object({
     email: z.email()
 })
@@ -21,5 +25,6 @@ export const PasswordCreationSchema = z
   });
 
 export type InviteCreationType = z.infer<typeof InviteCreationSchema>
+export type InviteUpdateType = z.infer<typeof InviteUpdateSchema>
 export type EmailValildationType = z.infer<typeof EmailValildationSchema>
 export type PasswordCreationType = z.infer<typeof PasswordCreationSchema>

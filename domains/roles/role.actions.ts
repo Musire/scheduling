@@ -39,7 +39,7 @@ export const deleteRole = createSafeAction(
         console.log(validated)
 
         const res = await deleteRoleService(validated)
-        revalidatePath(`/manage/areas/${validated.areaSlug}`)
+        revalidatePath(`/manage/areas`)
         return res
     }
 )

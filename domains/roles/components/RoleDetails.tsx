@@ -4,8 +4,6 @@ import { useToast } from "@/context";
 import { useBottomDrawer } from "@/context/BottomDrawerProvider";
 import { useSidePanel } from "@/context/SidepanelProvider";
 import { useDrawer } from "@/hooks";
-import { convertParamToString } from "@/lib/manipulateParam";
-import { useParams } from "next/navigation";
 import { useTransition } from "react";
 import { deleteRole } from "../role.actions";
 
@@ -14,7 +12,6 @@ type Props = {
 }
 
 export default function RoleDetails ({ data }: Props) {
-    const { areaSlug } = useParams()
     const [pending, startTransition] = useTransition();
     const { loadModal: loadSidepanel,  } = useSidePanel()
     const { clearModal: clearDrawer } = useBottomDrawer()
@@ -24,8 +21,7 @@ export default function RoleDetails ({ data }: Props) {
     const handleDelete = () => {
         startTransition(async () => {
             if (data?.id) {
-                const cleanSlug = convertParamToString(areaSlug)
-                const res = await deleteRole({ id: data.id, areaSlug: cleanSlug });
+                const res = await deleteRole({ id: data.id });
 
                 if (!res.success && res.error) {
                     createError(res.error);

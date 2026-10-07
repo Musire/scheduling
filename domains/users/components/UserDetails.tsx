@@ -3,49 +3,25 @@ import { DeleteModal } from "@/components/modal";
 import { useToast } from "@/context";
 import { useBottomDrawer } from "@/context/BottomDrawerProvider";
 import { useSidePanel } from "@/context/SidepanelProvider";
-import { inviteStaff } from "@/domains/invites/invite.actions";
 import { useDrawer } from "@/hooks";
 import { formatCurrency } from "@/lib/manipulateString";
 import { useTransition } from "react";
+import { InviteActionButton } from "../../invites/components/InviteActionButton";
 import { deleteUser } from "../user.actions";
+import { ExpectedUser } from "../user.types";
 
 type Props = {
-  data?: {
-    id: string;
-    name: string;
-    email: string;
-    payRate: number;
-  }
+  data?: ExpectedUser
 }
 
 export default function UserDetails ({ data }: Props) {
     const [pending, startTransition] = useTransition();
-    const [invitePending, inviteTransition] = useTransition();
     const { loadModal: loadSidepanel,  } = useSidePanel()
     const { clearModal: clearDrawer } = useBottomDrawer()
     const { createSuccess, createError } = useToast();
     const { isMounted, openDrawer, closeDrawer } = useDrawer()
     
     if (!data) return null
-
-    const handleInvite = () => {
-        inviteTransition(async() => {
-            const res = await inviteStaff({
-                id: data.id,
-                email: data.email,
-            })
-
-            console.log(res)
-
-            if (!res.success && res.error) {
-                createError(res.error)
-                return;
-            }
-
-            createSuccess('invite created')
-
-        })
-    }
 
     const handleDelete = () => {
         startTransition(async () => {
@@ -74,20 +50,21 @@ export default function UserDetails ({ data }: Props) {
         >
             <div className="grid grid-cols-2 items-center gap-x-6">
                 <div className="bg-surface-2 size-32 rounded-full row-span-2" />
-                <p   className="text-xs text-alternate  text-right">{`${formatCurrency(data.payRate)} / hr - 35 / 40 hrs`}</p>
+                <p   className="text-xs text-alternate  text-right">{`${formatCurrency(data.payRate ?? 0)} / hr - 35 / 40 hrs`}</p>
                 <p className="stacked space-y-2 self-end ">
                     <span className="text-xl">{data.name}</span>
                     <span className="text-sm text-else ">{data.email}</span>
                 </p>
             </div>
             <div className="w-full flex justify-end">
-                <button 
-                    type="button"
-                    onClick={handleInvite}
-                    disabled={invitePending}
-                    className=" disabled:cursor-not-allowed pr-6 normal-space bg-main rounded-lg text-deep text-centered cursor-pointer hover:bg-whitesmoke/75">
-                        {`${invitePending ? "...submitting" : "submit"}`}
-                    </button>
+                <InviteActionButton  
+                    invitation={{ 
+                        id: data.invitation?.id, 
+                        status: data.invitation?.status}}
+                    target={{ 
+                        email: data.email, 
+                        id: data.id }}
+                />
             </div>
             <div className="w-full">
                 <p className="text-else text-left text-xs">Availability</p>

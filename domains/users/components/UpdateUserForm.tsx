@@ -4,10 +4,10 @@ import { ActionForm, Input } from "@/components/forms";
 import { createUser } from "@/domains/users/user.actions";
 import { UserUpdateSchema } from "@/domains/users/user.validations";
 import { useRouter } from "next/navigation";
-import { ModifiedUser } from "./UserManagement";
+import { ExpectedUser } from "../user.types";
 
 type Props = {
-  data?: ModifiedUser
+  data?: ExpectedUser
 }
 
 export default function UpdateUserForm ({ data }: Props) {

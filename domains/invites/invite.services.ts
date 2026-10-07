@@ -3,8 +3,8 @@ import { prisma } from "@/lib/prisma";
 import { supabaseAdminClient } from "@/lib/supabase/admin";
 import { addHours } from "date-fns";
 import { getPrismaUserId } from "../identity/actions/auth.actions";
-import { InviteRepositories } from "./invite.repositories";
-import { EmailValildationType, InviteCreationType, PasswordCreationType } from "./invite.validation";
+import { InviteRepository } from "./invite.repositories";
+import { EmailValildationType, InviteCreationType, InviteUpdateType, PasswordCreationType } from "./invite.validation";
 
 export async function inviteStaffService(data: InviteCreationType) {
 
@@ -28,17 +28,17 @@ export async function inviteStaffService(data: InviteCreationType) {
       expiresAt: expiresAt,
       invitedById: userId
   }
-  return InviteRepositories.createInvitation(invitationData)
+  return InviteRepository.createInvitation(invitationData)
   
 }
 
 export async function validateEmailService(data: EmailValildationType) {
-  const invitation = await InviteRepositories.getInvite(data.email);
+  const invitation = await InviteRepository.getInvite(data.email);
   if (!invitation) return null;
 
   const isExpired = new Date() > new Date(invitation.expiresAt);
   if (invitation.status === "PENDING" && isExpired) {
-    const updated = await InviteRepositories.expireInvitation(invitation.id);
+    const updated = await InviteRepository.expireInvitation(invitation.id);
     return updated;
   }
 
@@ -108,4 +108,12 @@ export async function createPasswordService (data: PasswordCreationType) {
     
     throw error;
   }
+}
+
+export async function reinviteStaffService(data: InviteUpdateType) {
+	return InviteRepository.reinviteStaff(data.id)
+}
+
+export async function revokeInviteService(data: InviteUpdateType) {
+	return InviteRepository.revokeInvite(data.id)
 }

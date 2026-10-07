@@ -2,14 +2,11 @@
 
 import { useSidePanel } from "@/context/SidepanelProvider";
 import UserCard from "@/domains/users/components/UserCard";
-import { User } from "@/generated/prisma/client";
+import { ExpectedUser } from "../user.types";
 
-export type ModifiedUser = Omit<User, 'payRate'> & {
-    payRate: number | null;
-};
 
 type Props =  {
-  users: ModifiedUser[]
+  users: ExpectedUser[]
 }
 
 export default function UserMangement ({ users }: Props) {

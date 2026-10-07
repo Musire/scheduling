@@ -1,7 +1,6 @@
 import { prisma } from "@/lib/prisma";
 
-
-export const InviteRepositories = {
+export const InviteRepository = {
     async createInvitation (input: {
         invitedById: string;
         email: string;
@@ -24,6 +23,24 @@ export const InviteRepositories = {
             where: {id},
             data: {
                 status: 'EXPIRED'
+            }
+        })
+        return invite
+    },
+    async reinviteStaff (id: string) {
+        const invite = await prisma.invitation.update({
+            where: { id },
+            data: {
+                status: 'PENDING'
+            }
+        })
+        return invite
+    },
+    async revokeInvite (id: string) {
+        const invite = await prisma.invitation.update({
+            where: { id },
+            data: {
+                status: 'REVOKED'
             }
         })
         return invite
