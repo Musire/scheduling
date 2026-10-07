@@ -37,7 +37,6 @@ export default function RequirementCard ({ data }: Props) {
         });
         clearDrawer();
     };
-    
 
     const handleEdit = (e: MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation()
@@ -49,20 +48,24 @@ export default function RequirementCard ({ data }: Props) {
             onClick={toggleDrawer}
             className="flex flex-col h-fit grow-0 p-6 border-border border rounded-lg cursor-pointer grid-cols-[5fr_1fr] gap-4 relative"
         >
+            <p className="spaced">
+                <span className=" rounded-full w-24 bg-alternate centered py-1 text-deep capitalize">monday</span>
+                <span className="text-sm">{`${data._count} /  ${data.requiredUsers}`}</span>
+            </p>
             <p className="capitalize text-xl truncate">
-                {`${data.area.name} · ${data.role.name}`}
+                <span className="text-base ">
+                    {data.area.name}
+                </span>
+                <span className="text-else">
+                    {` · `}
+                </span>
+                <span className="text-else text-base">
+                    {data.role.name}
+                </span>
             </p>
 
-            <p className="flex items-center text-else text-sm">
+            <p className="flex items-center text-else text-sm self-end">
                 {`${toAppTime(data.startsAt)} - ${toAppTime(data.endsAt)}`}
-            </p>
-            <p className="spaced">
-            <span className="text-else text-xs">
-                Scheduled
-            </span>
-            <span className="justify-self-end rounded-full normal-space">
-                {`${data._count} /  ${data.requiredUsers}`}
-            </span>
             </p>
             {isMounted && <div className="w-full spaced">
                 <button type="button" onClick={openModal} className="normal-space rounded-full cursor-pointer text-error w-20 hover:bg-surface-2">Delete</button>

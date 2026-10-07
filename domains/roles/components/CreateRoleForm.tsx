@@ -7,7 +7,7 @@ import { RoleCreateSchema } from "@/domains/roles/role.validations"
 
 type Props = {
   data?: {
-    areaSlug: string
+    areaId: string
   }
 }
 
@@ -21,13 +21,12 @@ export default function CreateRoleForm({ data }: Props) {
   
   if (!data) return;
 
-
   return (
     <div className=" bg-background xs:max-md:w-dvw xs:max-md:h-dvh xs:px-6 centered-col space-y-6 py-6 text-else">
       <h2 className="text-3xl text-main">Create Role</h2>
       <div className="w-full rounded-xl">
         <ActionForm 
-          initialValues={{ name: "", areaSlug: data.areaSlug }}
+          initialValues={{ name: "", areaId: data.areaId }}
           actionFn={createRole}
           schema={RoleCreateSchema}
           onSuccess={onSuccess}
@@ -37,7 +36,7 @@ export default function CreateRoleForm({ data }: Props) {
             name="name"
           />
           <Input 
-            name="areaSlug"
+            name="areaId"
             type="hidden"
           />
       </ActionForm>

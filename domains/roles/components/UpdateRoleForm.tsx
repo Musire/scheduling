@@ -1,33 +1,29 @@
 "use client"
 
 import { ActionForm, Input } from "@/components/forms"
-import { createRole, updateRole } from "@/domains/roles/role.actions"
-import { RoleCreateSchema, RoleUpdateSchema, RoleUpdateType } from "@/domains/roles/role.validations"
-import { convertParamToString } from "@/lib/manipulateParam"
-import { useParams, useRouter } from "next/navigation"
+import { useSidePanel } from "@/context/SidepanelProvider"
+import { updateRole } from "@/domains/roles/role.actions"
+import { RoleUpdateSchema, RoleUpdateType } from "@/domains/roles/role.validations"
 
 type Props = {
   data?: RoleUpdateType
 }
 
 export default function CreateRoleForm({ data }: Props) {
-  const router = useRouter()
-  const { areaSlug } = useParams()
+  const { clearModal: clearSidepanel } = useSidePanel()
 
   const onSuccess = () => {
-    router.push(`/manage/areas/${areaSlug}`)
+    clearSidepanel()
   }
 
-  const area = convertParamToString(areaSlug)
-
-  const defaultData = data ?? { name: "", areaSlug: area, id: "" }
+  if (!data) return;
 
   return (
     <div className=" bg-background xs:max-md:w-dvw xs:max-md:h-dvh xs:px-6 centered-col space-y-6 py-6 text-else">
       <h2 className="text-3xl text-main">Update Role</h2>
       <div className="w-full rounded-xl">
         <ActionForm 
-          initialValues={defaultData}
+          initialValues={data}
           actionFn={updateRole}
           schema={RoleUpdateSchema  }
           onSuccess={onSuccess}
@@ -37,7 +33,7 @@ export default function CreateRoleForm({ data }: Props) {
             name="name"
           />
           <Input 
-            name="areaSlug"
+            name="id"
             type="hidden"
           />
       </ActionForm>

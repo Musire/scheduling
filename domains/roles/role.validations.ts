@@ -1,18 +1,16 @@
 import z from "zod";
 
 export const RoleCreateSchema = z.object({
-  name: z.string().min(1, "role name is required"),
-  areaSlug: z.string().min(1, "Area credential missing")
+  name: z.string().min(1, "role name missing"),
+  areaId: z.string().min(1, "Area id missing")
 });
 
 export const RoleUpdateSchema = z.object({
   id: z.string().min(1, 'original id is needed for update'),
   name: z.string().min(1, "role name is required"),
-  areaSlug: z.string().min(1, "Area credential missing")
 });
 
 export const DeleteRoleSchema = z.object({
-  areaSlug: z.string().min(1, 'areaSlug is needed'),
   id: z.string().min(1, 'id is missing')
 });
 

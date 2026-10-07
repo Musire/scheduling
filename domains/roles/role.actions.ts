@@ -20,12 +20,12 @@ export const createRole = createSafeAction(
 
 export const updateRole = createSafeAction(
     {
-        allowedRoles: ['ADMIN']
+        allowedRoles: ['MANAGER']
     },
     async (_:any, formData: FormData) => {
         const validated = validateFormData(RoleUpdateSchema, formData)
         const res = updateRoleService(validated)
-        revalidatePath(`/manage/areas/${validated.areaSlug}`)
+        revalidatePath('/manage/areas')
         return res
     }
 )

@@ -1,14 +1,9 @@
-import { AreaRepository } from "../areas/area.repositories";
 import { RoleRepository } from "./role.repositories";
-import { DeleteRoleType, RoleUpdateType } from "./role.validations";
+import { DeleteRoleType, RoleCreateType, RoleUpdateType } from "./role.validations";
 
 
-export async function createRoleService (data: { name: string, areaSlug: string }) {
-    const area = await AreaRepository.getAreaByName(data.areaSlug)
-    if (!area || !area.id) {
-        throw new Error("Area not found")
-    }
-    return RoleRepository.createRole({ areaId: area.id, name: data.name})
+export async function createRoleService (data: RoleCreateType) {
+    return RoleRepository.createRole(data)
 }
 
 export async function updateRoleService (data: RoleUpdateType) {
