@@ -388,3 +388,8 @@ export const createDenverCityTimestamp = (): string => {
     "yyyy-MM-dd'T'HH:mm:ssXXX"
   );
 };
+
+export const toUtcMidnight = (dateInput: Date | string | number) => {
+    const d = new Date(dateInput);
+    return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), 0, 0, 0, 0));
+};

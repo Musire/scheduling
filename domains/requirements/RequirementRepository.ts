@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { addDays, setHours, setMinutes, startOfDay } from "date-fns";
 import { CreateRequirementType, UpdateRequirementType } from "./RequirementSchema";
+import { calculateCoverage } from "./coverage-util";
 
 
 export const RequirementRepository = {
@@ -15,48 +16,81 @@ export const RequirementRepository = {
             }
         });
 
-        const requirementsWithCounts = await Promise.all(
+        const requirementsWithCoverage = await Promise.all(
             requirements.map(async (req) => {
                 try {
-                    const targetDate = addDays(weekStart, req.dayOfWeek);
-                    const shiftDateToMatch = startOfDay(targetDate);
+                    const targetDate = addDays(
+                        weekStart,
+                        req.dayOfWeek - 1
+                    );
 
-                    // Ensure they are proper Date objects before calling UTC methods
+                    const shiftDateToMatch = new Date(
+                        Date.UTC(
+                            targetDate.getUTCFullYear(),
+                            targetDate.getUTCMonth(),
+                            targetDate.getUTCDate()
+                        )
+                    );
+
                     const startsAtDate = new Date(req.startsAt);
                     const endsAtDate = new Date(req.endsAt);
 
-                    const reqStartDateTime = setMinutes(
-                        setHours(new Date(targetDate), startsAtDate.getUTCHours()),
-                        startsAtDate.getUTCMinutes()
+                    const reqStartDateTime = new Date(
+                        Date.UTC(
+                            targetDate.getUTCFullYear(),
+                            targetDate.getUTCMonth(),
+                            targetDate.getUTCDate(),
+                            startsAtDate.getUTCHours(),
+                            startsAtDate.getUTCMinutes()
+                        )
                     );
 
-                    const reqEndDateTime = setMinutes(
-                        setHours(new Date(targetDate), endsAtDate.getUTCHours()),
-                        endsAtDate.getUTCMinutes()
+                    const reqEndDateTime = new Date(
+                        Date.UTC(
+                            targetDate.getUTCFullYear(),
+                            targetDate.getUTCMonth(),
+                            targetDate.getUTCDate(),
+                            endsAtDate.getUTCHours(),
+                            endsAtDate.getUTCMinutes()
+                        )
                     );
 
-                    const shiftCount = await prisma.shift.count({
+                    const candidates = await prisma.shift.findMany({
                         where: {
                             areaId: req.areaId,
                             roleId: req.roleId,
                             shiftDate: shiftDateToMatch,
                             startsAt: { lt: reqEndDateTime },
                             endsAt: { gt: reqStartDateTime }
+                        },
+                        select: {
+                            startsAt: true,
+                            endsAt: true
                         }
                     });
 
+                    const coverage = calculateCoverage(
+                        reqStartDateTime,
+                        reqEndDateTime,
+                        candidates,
+                        req.requiredUsers
+                    );
+                    
                     return {
                         ...req,
-                        _count: shiftCount
+                        _count: coverage.average.toFixed(1)
                     };
                 } catch (err) {
-                    console.error(`Error processing requirement ID ${req.id}:`, err);
+                    console.error(
+                        `Error processing requirement ID ${req.id}:`,
+                        err
+                    );
                     throw err;
                 }
             })
         );
 
-        return requirementsWithCounts;
+        return requirementsWithCoverage;
     },
     async getRequirementDetails(startOfWeek: string, id: string) {
         const weekStart = new Date(startOfWeek);

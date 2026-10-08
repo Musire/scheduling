@@ -4,12 +4,12 @@ import { DeleteModal } from "@/components/modal";
 import { useToast } from "@/context";
 import { useBottomDrawer } from "@/context/BottomDrawerProvider";
 import { useSidePanel } from "@/context/SidepanelProvider";
+import { getWeekday } from "@/domains/weeks/utils/weekView";
 import { useDrawer } from "@/hooks";
 import { toAppTime } from "@/lib/timeUtils";
 import { MouseEvent, useTransition } from "react";
 import { deleteRequirement } from "../requirement.actions";
 import { requirementWithMeta } from "../requirement.types";
-import { getWeekday } from "@/domains/weeks/utils/weekView";
 
 type Props = {
   data: requirementWithMeta
@@ -43,8 +43,6 @@ export default function RequirementCard ({ data }: Props) {
         e.stopPropagation()
         loadSidepanel('update-requirement', {data})
     }
-
-    console.log(data)
 
     return (
         <article

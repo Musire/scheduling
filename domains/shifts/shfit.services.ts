@@ -1,3 +1,4 @@
+import { toUtcMidnight } from "@/lib/timeUtils";
 import { getCurrentUser } from "../identity/actions/auth.actions";
 import { ShiftRepository } from "./shift.repositories";
 import { ShiftCreationType, ShiftDbSchema, ShiftDbType } from "./shift.validations.ts";
@@ -16,7 +17,7 @@ export async function createShiftService(data: ShiftCreationType) {
   
   const databasePayload: ShiftDbType = {
     ...data,
-    shiftDate: new Date(data.shiftDate),
+    shiftDate: toUtcMidnight(data.shiftDate),
     startsAt: new Date(data.startsAt), 
     endsAt: new Date(data.endsAt),    
   };
