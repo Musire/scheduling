@@ -4,7 +4,7 @@ import { parseTo24H } from "@/lib/timeUtils";
 import clsx from "clsx";
 import { format } from "date-fns";
 import { Clock } from "lucide-react";
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { Modal } from "../modal";
 
@@ -29,7 +29,6 @@ export default function TimePicker({
 }: TimePickerProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [internalValue, setInternalValue] = useState<string>("");
-  
   const [showHourList, setShowHourList] = useState(false);
   const [showMinuteList, setShowMinuteList] = useState(false);
 
@@ -40,36 +39,47 @@ export default function TimePicker({
   const [tempMinute, setTempMinute] = useState<number>(0);
   const [tempModifier, setTempModifier] = useState<string>("AM");
 
-  // Sync internal UI states with the committed selected value when modal opens
-  useEffect(() => {
-    if (isOpen) {
-      const targetTime = selectedValue || "12:00 AM";
-      const [time, mod = "AM"] = targetTime.trim().split(" ");
-      const [h, m] = time.split(":").map(Number);
-      
-      setTempHour(h || 12);
-      setTempMinute(m || 0);
-      setTempModifier(mod.toUpperCase());
-    }
-  }, [isOpen, selectedValue]);
+  // Initialize temporary values when opening the modal.
+  const handleOpen = () => {
+    const targetTime = selectedValue || "12:00 AM";
+    const [time, mod = "AM"] = targetTime.trim().split(" ");
+    const [h, m] = time.split(":").map(Number);
+
+    setTempHour(h || 12);
+    setTempMinute(m || 0);
+    setTempModifier(mod.toUpperCase());
+
+    setShowHourList(false);
+    setShowMinuteList(false);
+    setIsOpen(true);
+  };
 
   const getMinutesFrom24H = (time24: string): number => {
     const [h, m] = time24.split(":").map(Number);
     return h * 60 + m;
   };
 
-  const hoursList = useMemo(() => Array.from({ length: 12 }, (_, i) => i + 1), []);
-  
+  const hoursList = useMemo(
+    () => Array.from({ length: 12 }, (_, i) => i + 1),
+    []
+  );
+
   const minutesList = useMemo(() => {
     const mins: number[] = [];
-    for (let m = 0; m < 60; m += interval) mins.push(m);
+
+    for (let m = 0; m < 60; m += interval) {
+      mins.push(m);
+    }
+
     return mins;
   }, [interval]);
 
-  // Validates boundaries and applies the selected time
+  // Validates boundaries and applies the selected time.
   const handleSetTime = () => {
-    const formatted12H = `${String(tempHour).padStart(2, "0")}:${String(tempMinute).padStart(2, "0")} ${tempModifier}`;
-    
+    const formatted12H = `${String(tempHour).padStart(2, "0")}:${String(
+      tempMinute
+    ).padStart(2, "0")} ${tempModifier}`;
+
     try {
       const time24 = parseTo24H(formatted12H);
       const currentMins = getMinutesFrom24H(time24);
@@ -77,8 +87,8 @@ export default function TimePicker({
       const endMins = getMinutesFrom24H(parseTo24H(endTime));
 
       if (currentMins < startMins || currentMins > endMins) {
-        // Optional: Could display an out-of-bounds error message here
-        return; 
+        // Optional: Display an out-of-bounds error message here.
+        return;
       }
 
       if (onChange) {
@@ -86,6 +96,7 @@ export default function TimePicker({
       } else {
         setInternalValue(formatted12H);
       }
+
       closeModal();
     } catch (error) {
       console.error("Invalid time format processed", error);
@@ -94,11 +105,13 @@ export default function TimePicker({
 
   const handleNow = () => {
     const now = new Date();
-    const snappedMinute = Math.floor(Number(format(now, "mm")) / interval) * interval;
-    
+    const snappedMinute =
+      Math.floor(Number(format(now, "mm")) / interval) * interval;
+
     setTempHour(Number(format(now, "h")));
     setTempMinute(snappedMinute);
     setTempModifier(format(now, "a").toUpperCase());
+
     setShowHourList(false);
     setShowMinuteList(false);
   };
@@ -109,6 +122,7 @@ export default function TimePicker({
     } else {
       setInternalValue("");
     }
+
     closeModal();
   };
 
@@ -123,7 +137,7 @@ export default function TimePicker({
       {/* Trigger Button */}
       <button
         type="button"
-        onClick={() => setIsOpen(true)}
+        onClick={handleOpen}
         className={twMerge(
           "flex items-center justify-between w-full px-3 py-2 text-sm bg-background border border-border rounded-lg text-else hover:border-adjust focus:outline-none focus:ring-2 focus:ring-alternate",
           buttonStyle
@@ -132,6 +146,7 @@ export default function TimePicker({
         <span className={clsx(!selectedValue && "text-muted-foreground")}>
           {selectedValue || "HH:MM"}
         </span>
+
         <Clock className="w-4 h-4 text-muted-foreground" />
       </button>
 
@@ -146,7 +161,6 @@ export default function TimePicker({
 
           {/* Time Picker Controls Grid */}
           <div className="grid grid-cols-[80px_auto_80px_auto] grid-rows-[auto_auto] items-start justify-center gap-2">
-            
             {/* Hour Picker */}
             <TimeListSelection
               showList={showHourList}
@@ -186,6 +200,7 @@ export default function TimePicker({
             <div className="flex flex-col border border-border rounded-lg overflow-hidden h-13 w-14">
               {["AM", "PM"].map((mod) => {
                 const isSelected = tempModifier === mod;
+
                 return (
                   <button
                     key={mod}
@@ -207,14 +222,28 @@ export default function TimePicker({
 
           {/* Footer Action Buttons */}
           <div className="flex items-center justify-between pt-2 border-t border-border text-sm">
-            <button type="button" onClick={handleNow} className="text-primary font-medium hover:underline">
+            <button
+              type="button"
+              onClick={handleNow}
+              className="text-primary font-medium hover:underline"
+            >
               Now
             </button>
+
             <div className="flex items-center gap-3">
-              <button type="button" onClick={handleClear} className="text-muted-foreground hover:text-destructive font-medium">
+              <button
+                type="button"
+                onClick={handleClear}
+                className="text-muted-foreground hover:text-destructive font-medium"
+              >
                 Clear
               </button>
-              <button type="button" onClick={handleSetTime} className="bg-primary text-primary-foreground px-3 py-1.5 rounded-md font-medium hover:bg-primary/90 transition-colors">
+
+              <button
+                type="button"
+                onClick={handleSetTime}
+                className="bg-primary text-primary-foreground px-3 py-1.5 rounded-md font-medium hover:bg-primary/90 transition-colors"
+              >
                 Set
               </button>
             </div>
@@ -226,6 +255,7 @@ export default function TimePicker({
 }
 
 /* Local Sub-component helper to keep formatting cleaner */
+
 interface TimeListSelectionProps {
   showList: boolean;
   currentValue: number;
@@ -247,6 +277,7 @@ function TimeListSelection({
         <div className="flex flex-col items-center bg-surface-1 border border-border rounded-lg max-h-45.5 overflow-y-auto scrollbar-none shadow-sm">
           {items.map((val) => {
             const isSelected = currentValue === val;
+
             return (
               <button
                 key={val}
@@ -254,7 +285,9 @@ function TimeListSelection({
                 onClick={() => onSelect(val)}
                 className={clsx(
                   "w-full h-13 flex items-center justify-center text-2xl font-medium rounded transition-colors shrink-0",
-                  isSelected ? "bg-primary text-primary-foreground font-semibold" : "text-else hover:bg-surface-2"
+                  isSelected
+                    ? "bg-primary text-primary-foreground font-semibold"
+                    : "text-else hover:bg-surface-2"
                 )}
               >
                 {String(val).padStart(2, "0")}
