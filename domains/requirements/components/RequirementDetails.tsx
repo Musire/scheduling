@@ -4,7 +4,7 @@ import { useToast } from "@/context";
 import { useBottomDrawer } from "@/context/BottomDrawerProvider";
 import { useSidePanel } from "@/context/SidepanelProvider";
 import { useDrawer } from "@/hooks";
-import { toAppTime } from "@/lib/timeUtils";
+import { toMeridiem } from "@/lib/utils/timeConversion";
 import { useTransition } from "react";
 import { deleteRequirement } from "../requirement.actions";
 import { requirementWithMeta } from "../requirement.types";
@@ -54,7 +54,7 @@ export default function RequirmentDetails ({ data }: Props) {
             <div className="w-5/6 h-20 capitalize grid grid-cols-2 gap-x-4">
                 <p className="stacked space-y-2">
                   <span className="">Range</span>
-                  <span className="">{`${toAppTime(data.startsAt)} - ${toAppTime(data.endsAt)}`}</span>
+                  <span className="">{`${toMeridiem(data.startsAt)} - ${toMeridiem(data.endsAt)}`}</span>
                 </p>
                 <p className="stacked items-end space-y-2">
                   <span className="">Shifts</span>

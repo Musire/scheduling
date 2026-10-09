@@ -1,23 +1,10 @@
 "use client";
 
 import { useCalendarState } from "@/hooks/useCalendarState";
-import { useScheduleData } from "@/hooks/useScheduleData";
+import { Shift, useScheduleData } from "@/hooks/useScheduleData";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-export interface Shift {
-  id: string;
-  scheduleId: string;
-  userId: string;
-  areaId: string;
-  roleId: string;
-  startsAt: number;
-  endsAt: number;
-  createdAt: string;
-  updatedAt: string;
-  user: { name: string } | null;
-  area: { id: string; name: string };
-  role: { name: string };
-}
+
 
 interface CalendarContextType {
   currentWeekStart: Date;

@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { addDays, setHours, setMinutes, startOfDay } from "date-fns";
+import { addDays } from "date-fns";
 import { CreateRequirementType, UpdateRequirementType } from "./RequirementSchema";
 import { calculateCoverage } from "./coverage-util";
 
@@ -77,8 +77,6 @@ export const RequirementRepository = {
         return requirementsWithCoverage;
     },
     async getRequirementDetails(startOfWeek: string, id: string) {
-        const weekStart = new Date(startOfWeek);
-
         const req = await prisma.coverageRequirement.findUnique({
             where: {
                 id
@@ -89,38 +87,7 @@ export const RequirementRepository = {
             }
         })
         
-        if (!req) return;
-
-        const targetDate = addDays(weekStart, req.dayOfWeek);
-        const shiftDateToMatch = startOfDay(targetDate);
-
-        const startsAtDate = new Date(req.startsAt);
-        const endsAtDate = new Date(req.endsAt);
-
-        const reqStartDateTime = setMinutes(
-            setHours(new Date(targetDate), startsAtDate.getUTCHours()),
-            startsAtDate.getUTCMinutes()
-        );
-
-        const reqEndDateTime = setMinutes(
-            setHours(new Date(targetDate), endsAtDate.getUTCHours()),
-            endsAtDate.getUTCMinutes()
-        );
-
-        const shiftCount = await prisma.shift.count({
-            where: {
-                areaId: req.areaId,
-                roleId: req.roleId,
-                shiftDate: shiftDateToMatch,
-                startsAt: { lt: reqEndDateTime },
-                endsAt: { gt: reqStartDateTime }
-            }
-        });
-
-        return {
-            ...req,
-            _count: shiftCount
-        }
+        return req
 
         
     },

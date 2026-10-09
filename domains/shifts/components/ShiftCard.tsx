@@ -1,4 +1,4 @@
-import { Shift } from "@/context/CalanderProvider";
+import { Shift } from "@/hooks/useScheduleData";
 import { getShiftDuration } from "@/lib/timeUtils";
 import { formatToAppTime } from "@/lib/utils/timeConversion";
 
@@ -7,6 +7,8 @@ type Props = {
 }
 
 export default function ShiftCard ({shift}: Props) {
+    if (!shift) return; 
+
     return (
         <li
             key={shift.id}
@@ -18,11 +20,11 @@ export default function ShiftCard ({shift}: Props) {
             </span>
             <div className="flex items-center space-x-2 text-xs text-neutral-400">
                 <span className="text-else">
-                    {shift.area.name.toLowerCase()}
+                    {shift.area?.name.toLowerCase()}
                 </span>
                 <span>•</span>
                 <span className="">
-                    {shift.role.name.toLowerCase()}
+                    {shift.role?.name.toLowerCase()}
                 </span>
             </div>
             </div>

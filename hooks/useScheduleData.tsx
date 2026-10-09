@@ -4,36 +4,41 @@ import { format, parseISO } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
 import { useEffect, useState, useTransition } from "react";
 
+export type UserRole = string;   // Replace with your actual UserRole enum or type if imported
+export type UserStatus = string; // Replace with your actual UserStatus enum or type if imported
+
 export interface Shift {
   id: string;
   scheduleId: string;
   userId: string;
   areaId: string;
   roleId: string;
-  startsAt: number; // Keep as integer seconds since midnight
-  endsAt: number;   // Keep as integer seconds since midnight
-  shiftDate: string; // Serialized ISO string
-  createdAt: string; // Serialized ISO string
-  updatedAt: string; // Serialized ISO string
+  startsAt: number; 
+  endsAt: number;   
+  shiftDate: string; 
+  createdAt: string ; // 🔑 Accepts both database Date objects and serialized strings
+  updatedAt: string | Date; // 🔑 Accepts both database Date objects and serialized strings
   
-  // Update relations to allow 'null' and include the extra database fields
   user: {
     id: string;
     name: string;
     email: string;
     authUserId: string | null;
     avatarUrl: string | null;
-    createdAt: string;
-    updatedAt: string;
-    payRate: number | null;
+    createdAt: string | Date;       // 🔑 Accepts string | Date
+    updatedAt: string | Date;       // 🔑 Accepts string | Date
+    payRate: number | null | undefined; // 🔑 Accepts both null and undefined variants
+    role: UserRole;                
+    status: UserStatus;            
+    maxHours: number;              
   } | null;
 
   area: {
     id: string;
     name: string;
     active: boolean;
-    createdAt: string;
-    updatedAt: string;
+    createdAt: string | Date; // 🔑 Accepts string | Date
+    updatedAt: string | Date; // 🔑 Accepts string | Date
   } | null;
 
   role: {
@@ -41,11 +46,10 @@ export interface Shift {
     areaId: string;
     name: string;
     active: boolean;
-    createdAt: string;
-    updatedAt: string;
+    createdAt: string | Date; // 🔑 Accepts string | Date
+    updatedAt: string | Date; // 🔑 Accepts string | Date
   } | null;
 }
-
 
 export function useScheduleData(
   currentWeekStart: Date,
@@ -60,7 +64,6 @@ export function useScheduleData(
   const formattedWeek = format(currentWeekStart, "yyyy-MM-dd");
 
   useEffect(() => {
-    // Early return if no schedule exists — do not invoke setShifts synchronously here
     if (!scheduleId) {
       return;
     }
