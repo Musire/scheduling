@@ -1,4 +1,3 @@
-import { isHourAfter } from "@/lib/timeUtils"; // Adjust this import path to your helper file
 import z from "zod";
 
 /**
@@ -29,12 +28,12 @@ export const ShiftCreationSchema = BaseShiftSchema.extend({
   shiftDate: z.coerce.date({
     error: "Shift date is required.",
   }),
-  // Captured from FormTimePicker as strict UTC ISO strings
-  startsAt: UtcIsoStringSchema,
-  endsAt: UtcIsoStringSchema,
+  // Both fields coerced to numbers tracking total seconds
+  startsAt: z.coerce.number(),
+  endsAt: z.coerce.number(),
 }).superRefine((data, ctx) => {
-  // Leverage your helper to verify if endsAt is at least 59 minutes after startsAt
-  if (!isHourAfter(data.startsAt, data.endsAt)) {
+  // 59 minutes * 60 seconds = 3540 seconds
+  if (data.endsAt - data.startsAt < 3540) {
     ctx.addIssue({
       code: "custom",
       path: ["endsAt"],
@@ -51,8 +50,8 @@ export type ShiftCreationType = z.infer<typeof ShiftCreationSchema>;
    ========================================================= */
 export const ShiftDbSchema = BaseShiftSchema.extend({
   shiftDate: z.instanceof(Date),
-  startsAt: z.instanceof(Date),
-  endsAt: z.instanceof(Date),
+  startsAt: z.coerce.number(),
+  endsAt: z.coerce.number(),
 });
 
 export type ShiftDbType = z.infer<typeof ShiftDbSchema>;

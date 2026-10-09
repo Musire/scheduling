@@ -347,11 +347,16 @@ export function getWeekRange(): string[] {
 }
 
 export function getWeekLimits(weekStart: string): Date[] {
-  const startDate = parseISO(weekStart);
-  const endDate = addDays(startDate, 6);
+  // 1. Force the input to be parsed as strict UTC midnight (e.g., "2026-10-05T00:00:00.000Z")
+  const startDate = parseISO(`${weekStart}T00:00:00.000Z`);
+  
+  // 2. Add 6 days to get to the end date of the week (2026-10-11)
+  const baseEndDate = addDays(startDate, 6);
+  
+  // 3. Force the end boundary to include the full final day in strict UTC (2026-10-11T23:59:59.999Z)
+  const endDate = parseISO(`${baseEndDate.toISOString().split('T')[0]}T23:59:59.999Z`);
 
-  return [startDate, endDate]
-
+  return [startDate, endDate];
 }
 
 export function formatToAppTime(startsAt: string, endsAt: string): string {
@@ -361,12 +366,10 @@ export function formatToAppTime(startsAt: string, endsAt: string): string {
   return `${startTime} - ${endTime}`;
 }
 
-export function getShiftDuration(isoString1: string, isoString2: string) {
-  const date1 = parseISO(isoString1);
-  const date2 = parseISO(isoString2);
-  
-  // Get total difference in minutes (absolute value handles any argument order)
-  const diffMins = Math.abs(differenceInMinutes(date1, date2));
+export function getShiftDuration(startsAtSeconds: number, endsAtSeconds: number) {
+  // Get absolute difference in seconds, then convert to total minutes
+  const diffSeconds = Math.abs(endsAtSeconds - startsAtSeconds);
+  const diffMins = Math.floor(diffSeconds / 60);
   
   // Under 60 minutes -> show minutes
   if (diffMins < 60) {
@@ -377,9 +380,8 @@ export function getShiftDuration(isoString1: string, isoString2: string) {
   const diffHours = Math.round((diffMins / 60) * 10) / 10;
   const unit = diffHours === 1 ? 'hr' : 'hrs';
   
-  return `${diffHours}${unit}`;
+  return `${diffHours} ${unit}`;
 }
-
 
 export const createDenverCityTimestamp = (): string => {
   return formatInTimeZone(

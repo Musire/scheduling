@@ -1,6 +1,7 @@
 import { useToast } from "@/context";
 import { getShifts } from "@/domains/shifts/shift.queries";
 import { format, parseISO } from "date-fns";
+import { formatInTimeZone } from "date-fns-tz";
 import { useEffect, useState, useTransition } from "react";
 
 export interface Shift {
@@ -9,14 +10,42 @@ export interface Shift {
   userId: string;
   areaId: string;
   roleId: string;
-  startsAt: string;
-  endsAt: string;
-  createdAt: string;
-  updatedAt: string;
-  user: { name: string } | null;
-  area: { id: string; name: string };
-  role: { name: string };
+  startsAt: number; // Keep as integer seconds since midnight
+  endsAt: number;   // Keep as integer seconds since midnight
+  shiftDate: string; // Serialized ISO string
+  createdAt: string; // Serialized ISO string
+  updatedAt: string; // Serialized ISO string
+  
+  // Update relations to allow 'null' and include the extra database fields
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    authUserId: string | null;
+    avatarUrl: string | null;
+    createdAt: string;
+    updatedAt: string;
+    payRate: number | null;
+  } | null;
+
+  area: {
+    id: string;
+    name: string;
+    active: boolean;
+    createdAt: string;
+    updatedAt: string;
+  } | null;
+
+  role: {
+    id: string;
+    areaId: string;
+    name: string;
+    active: boolean;
+    createdAt: string;
+    updatedAt: string;
+  } | null;
 }
+
 
 export function useScheduleData(
   currentWeekStart: Date,
@@ -63,7 +92,7 @@ export function useScheduleData(
   const activeShifts = scheduleId ? shifts : [];
 
   const filteredShifts = activeShifts.filter((shift) => {
-    const shiftDate = format(parseISO(shift.startsAt), "yyyy-MM-dd");
+    const shiftDate = formatInTimeZone(parseISO(shift.shiftDate), 'UTC', 'yyyy-MM-dd')
     const matchesDate = shiftDate === selectedDate;
     const matchesArea =
       selectedAreaId === "all" || shift.areaId === selectedAreaId;

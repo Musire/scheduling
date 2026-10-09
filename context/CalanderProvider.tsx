@@ -10,8 +10,8 @@ export interface Shift {
   userId: string;
   areaId: string;
   roleId: string;
-  startsAt: string;
-  endsAt: string;
+  startsAt: number;
+  endsAt: number;
   createdAt: string;
   updatedAt: string;
   user: { name: string } | null;

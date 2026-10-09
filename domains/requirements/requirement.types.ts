@@ -12,8 +12,8 @@ export type requirementWithMeta = {
     areaId: string;
     roleId: string;
     dayOfWeek: number;
-    startsAt: Date;
-    endsAt: Date;
+    startsAt: number;
+    endsAt: number;
     requiredUsers: number;
     active: boolean;
     createdAt: Date;

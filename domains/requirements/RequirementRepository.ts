@@ -32,36 +32,13 @@ export const RequirementRepository = {
                         )
                     );
 
-                    const startsAtDate = new Date(req.startsAt);
-                    const endsAtDate = new Date(req.endsAt);
-
-                    const reqStartDateTime = new Date(
-                        Date.UTC(
-                            targetDate.getUTCFullYear(),
-                            targetDate.getUTCMonth(),
-                            targetDate.getUTCDate(),
-                            startsAtDate.getUTCHours(),
-                            startsAtDate.getUTCMinutes()
-                        )
-                    );
-
-                    const reqEndDateTime = new Date(
-                        Date.UTC(
-                            targetDate.getUTCFullYear(),
-                            targetDate.getUTCMonth(),
-                            targetDate.getUTCDate(),
-                            endsAtDate.getUTCHours(),
-                            endsAtDate.getUTCMinutes()
-                        )
-                    );
-
                     const candidates = await prisma.shift.findMany({
                         where: {
                             areaId: req.areaId,
                             roleId: req.roleId,
                             shiftDate: shiftDateToMatch,
-                            startsAt: { lt: reqEndDateTime },
-                            endsAt: { gt: reqStartDateTime }
+                            startsAt: { lte: req.startsAt },
+                            endsAt: { gte: req.endsAt }
                         },
                         select: {
                             startsAt: true,
@@ -69,16 +46,23 @@ export const RequirementRepository = {
                         }
                     });
 
+                    console.log({
+                        candidates,
+                        req
+                    })
+
                     const coverage = calculateCoverage(
-                        reqStartDateTime,
-                        reqEndDateTime,
+                        req.startsAt,
+                        req.endsAt,
                         candidates,
                         req.requiredUsers
                     );
+
+                    
                     
                     return {
                         ...req,
-                        _count: coverage.average.toFixed(1)
+                        _count: coverage.average
                     };
                 } catch (err) {
                     console.error(

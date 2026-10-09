@@ -15,16 +15,13 @@ export async function getShiftsService (weekStart: string) {
 
 export async function createShiftService(data: ShiftCreationType) {
   
-  const databasePayload: ShiftDbType = {
+  const payload: ShiftDbType = {
     ...data,
     shiftDate: toUtcMidnight(data.shiftDate),
-    startsAt: new Date(data.startsAt), 
-    endsAt: new Date(data.endsAt),    
   };
 
-  console.log(databasePayload)
 
-  const validatedDbData = ShiftDbSchema.parse(databasePayload);
+  const validatedDbData = ShiftDbSchema.parse(payload);
   return ShiftRepository.createShift(validatedDbData);
 }
 

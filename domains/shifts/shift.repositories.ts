@@ -6,32 +6,49 @@ import { ShiftDbType } from "./shift.validations.ts";
 
 export const ShiftRepository = {
     async getShifts(weekStart: string) {
-        const [startDate, endDate] = getWeekLimits(weekStart)
+    const [startDate, endDate] = getWeekLimits(weekStart);
 
-        const shifts = await prisma.shift.findMany({
-            where: {
-                shiftDate: {
-                    gte: startDate, 
-                    lte: endDate
-                }
-            },
-            include: {
-                user: true,
-                area: true,
-                role: true
+    const shifts = await prisma.shift.findMany({
+        where: {
+            shiftDate: {
+                gte: startDate, 
+                lte: endDate
             }
-        });
+        },
+        include: {
+            user: true,
+            area: true,
+            role: true
+        }
+    });
+    
+    return shifts.map(shift => ({
+        ...shift,
+        // 1. Serialize root-level Dates
+        shiftDate: shift.shiftDate.toISOString(),
+        createdAt: shift.createdAt.toISOString(),
+        updatedAt: shift.updatedAt.toISOString(),
         
-        return shifts.map(shift => ({
-            ...shift,
-            shiftDate: shift.shiftDate.toISOString(),
-            startsAt: shift.startsAt.toISOString(),
-            endsAt: shift.endsAt.toISOString(),
-            createdAt: shift.createdAt.toISOString(),
-            updatedAt: shift.updatedAt.toISOString(),
-            user: shift.user ? {
+        // 2. Serialize nested Area Dates
+        area: shift.area ? {
+            ...shift.area,
+            createdAt: shift.area.createdAt.toISOString(),
+            updatedAt: shift.area.updatedAt.toISOString(),
+        } : null,
+
+        // 3. Serialize nested Role Dates
+        role: shift.role ? {
+            ...shift.role,
+            createdAt: shift.role.createdAt.toISOString(),
+            updatedAt: shift.role.updatedAt.toISOString(),
+        } : null,
+
+        // 4. Serialize nested User Dates & Decimals
+        user: shift.user ? {
                 ...shift.user,
-                payRate: shift?.user?.payRate?.toNumber() 
+                createdAt: shift.user.createdAt.toISOString(),
+                updatedAt: shift.user.updatedAt.toISOString(),
+                payRate: shift.user.payRate ? shift.user.payRate.toNumber() : null
             } : null
         }));
     },
@@ -111,8 +128,6 @@ export const ShiftRepository = {
         return shifts.map(shift => ({
             ...shift,
             shiftDate: shift.shiftDate.toISOString(),
-            startsAt: shift.startsAt.toISOString(),
-            endsAt: shift.endsAt.toISOString(),
             createdAt: shift.createdAt.toISOString(),
             updatedAt: shift.updatedAt.toISOString(),
             user: shift.user ? {

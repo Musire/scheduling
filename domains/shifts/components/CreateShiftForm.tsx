@@ -37,8 +37,8 @@ export default function CreateShiftForm () {
         roleId: '',
         shiftDate: new Date(),
         userId: '',
-        startsAt: '',
-        endsAt: '',
+        startsAt: 0,
+        endsAt: 0,
     }
 
     const onSuccess = () => {

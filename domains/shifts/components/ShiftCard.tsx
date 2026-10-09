@@ -1,5 +1,6 @@
 import { Shift } from "@/context/CalanderProvider";
-import { formatToAppTime, getShiftDuration } from "@/lib/timeUtils";
+import { getShiftDuration } from "@/lib/timeUtils";
+import { formatToAppTime } from "@/lib/utils/timeConversion";
 
 type Props = {
   shift: Shift

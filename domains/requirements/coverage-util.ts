@@ -1,6 +1,6 @@
 type CoverageCandidate = {
-    startsAt: Date;
-    endsAt: Date;
+    startsAt: number; // Seconds since midnight
+    endsAt: number;   // Seconds since midnight
 };
 
 type CoverageResult = {
@@ -8,12 +8,13 @@ type CoverageResult = {
     ratio: number;
 };
 
-const BLOCK_MINUTES = 15;
+// 15 minutes converted to seconds (15 * 60)
+const BLOCK_SECONDS = 15 * 60; 
 
 function isOverlapping(
     candidate: CoverageCandidate,
-    blockStart: Date,
-    blockEnd: Date
+    blockStart: number,
+    blockEnd: number
 ): boolean {
     return (
         candidate.startsAt < blockEnd &&
@@ -23,8 +24,8 @@ function isOverlapping(
 
 function countOverlappingCandidates(
     candidates: CoverageCandidate[],
-    blockStart: Date,
-    blockEnd: Date
+    blockStart: number,
+    blockEnd: number
 ): number {
     return candidates.reduce(
         (count, candidate) =>
@@ -34,29 +35,24 @@ function countOverlappingCandidates(
 }
 
 export function calculateCoverage(
-    start: Date,
-    end: Date,
+    start: number, // Seconds since midnight (e.g., 28800 for 08:00)
+    end: number,   // Seconds since midnight (e.g., 61200 for 17:00)
     candidates: CoverageCandidate[],
     requiredStaff: number
 ): CoverageResult {
-    if (end <= start) {
-        throw new Error('Coverage end must be after coverage start.');
+    // If you need to handle empty ranges or division by zero guardrails:
+    if (end <= start || requiredStaff <= 0) {
+        return { average: 0, ratio: 0 };
     }
 
-    if (requiredStaff <= 0) {
-        throw new Error('Required staff must be greater than zero.');
-    }
-
-    let blockStart = new Date(start);
+    let blockStart = start;
     let totalStaffing = 0;
     let blockCount = 0;
 
     while (blockStart < end) {
-        const blockEnd = new Date(
-            Math.min(
-                blockStart.getTime() + BLOCK_MINUTES * 60 * 1000,
-                end.getTime()
-            )
+        const blockEnd = Math.min(
+            blockStart + BLOCK_SECONDS,
+            end
         );
 
         totalStaffing += countOverlappingCandidates(
@@ -66,11 +62,11 @@ export function calculateCoverage(
         );
 
         blockCount++;
-
         blockStart = blockEnd;
     }
 
-    const average = totalStaffing / blockCount;
+    const rawAverage = totalStaffing / blockCount;
+    const average = Number(rawAverage.toFixed(1))
     const ratio = average / requiredStaff;
 
     return {

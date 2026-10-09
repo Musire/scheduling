@@ -48,8 +48,8 @@ model User {
   status UserStatus @default(PENDING)
 
   // Hourly pay rate for EndUsers.
-  payRate Decimal? @db.Decimal(10, 2)
-  maxHours Int @default(40)
+  payRate  Decimal? @db.Decimal(10, 2)
+  maxHours Int      @default(40)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -223,8 +223,8 @@ model CoverageRequirement {
   // 6 = Saturday
   dayOfWeek Int
 
-  startsAt DateTime
-  endsAt   DateTime
+  startsAt Int
+  endsAt   Int
 
   // Number of employees needed for this role.
   requiredUsers Int
@@ -255,7 +255,6 @@ model Schedule {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-
   shifts Shift[]
 
   // Exactly one schedule per week.
@@ -271,8 +270,8 @@ model Shift {
   roleId     String
 
   shiftDate DateTime
-  startsAt  DateTime
-  endsAt    DateTime
+  startsAt  Int // 🕒 Seconds since midnight (e.g., 34200 for 09:30 AM)
+  endsAt    Int // 🕒 Seconds since midnight (e.g., 77400 for 09:30 PM)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

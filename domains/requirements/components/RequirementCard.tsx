@@ -6,7 +6,7 @@ import { useBottomDrawer } from "@/context/BottomDrawerProvider";
 import { useSidePanel } from "@/context/SidepanelProvider";
 import { getWeekday } from "@/domains/weeks/utils/weekView";
 import { useDrawer } from "@/hooks";
-import { toAppTime } from "@/lib/timeUtils";
+import { toMeridiem } from "@/lib/utils/timeConversion";
 import { MouseEvent, useTransition } from "react";
 import { deleteRequirement } from "../requirement.actions";
 import { requirementWithMeta } from "../requirement.types";
@@ -44,6 +44,7 @@ export default function RequirementCard ({ data }: Props) {
         loadSidepanel('update-requirement', {data})
     }
 
+
     return (
         <article
             onClick={toggleDrawer}
@@ -68,7 +69,7 @@ export default function RequirementCard ({ data }: Props) {
             </p>
 
             <p className="flex items-center text-else text-sm self-end">
-                {`${toAppTime(data.startsAt)} - ${toAppTime(data.endsAt)}`}
+                {`${toMeridiem(data.startsAt)} - ${toMeridiem(data.endsAt)}`}
             </p>
             {isMounted && <div className="w-full spaced">
                 <button type="button" onClick={openModal} className="normal-space rounded-full cursor-pointer text-error w-20 hover:bg-surface-2">Delete</button>

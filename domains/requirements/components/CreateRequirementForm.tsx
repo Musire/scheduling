@@ -11,7 +11,6 @@ import { getAreaRoles } from "@/domains/areas/area.queries"
 import { createRequirement } from "@/domains/requirements/requirement.actions"
 import { RequirementCreateSchema } from "@/domains/requirements/RequirementSchema"
 import { useFetch } from "@/hooks/useFetch"
-import { getNow } from "@/lib/timeUtils"
 import { useEffect } from "react"
 import z from "zod"
 import AreaRoleInput from "../../../components/forms/inputs/AreaRoleInput"
@@ -35,8 +34,8 @@ export default function CreateRequirementForm({ data }: PanelProps) {
     roleId: '',
     dayOfWeek: 1,
     requiredUsers: 0,
-    startsAt: getNow(),
-    endsAt: getNow()
+    startsAt: 32400,
+    endsAt: 61200
   }
 
   const weekdays = [

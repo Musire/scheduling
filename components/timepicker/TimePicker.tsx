@@ -4,16 +4,16 @@ import { parseTo24H } from "@/lib/timeUtils";
 import clsx from "clsx";
 import { format } from "date-fns";
 import { Clock } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { twMerge } from "tailwind-merge";
 import { Modal } from "../modal";
 
 interface TimePickerProps {
-  value?: string;                    // Format: "HH:MM AM" (12-hour)
+  value?: string; // Format: "HH:MM AM" (12-hour)
   onChange?: (value: string) => void;
-  interval?: number;                 // e.g., 1, 5, 15, 30, 60
-  startTime?: string;                // e.g., "08:00 AM"
-  endTime?: string;                  // e.g., "06:00 PM"
+  interval?: number; // e.g., 1, 5, 15, 30, 60
+  startTime?: string; // e.g., "08:00 AM"
+  endTime?: string; // e.g., "06:00 PM"
   buttonStyle?: string;
   dropdownStyle?: string;
 }
@@ -29,99 +29,76 @@ export default function TimePicker({
 }: TimePickerProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [internalValue, setInternalValue] = useState<string>("");
-
+  
   const [showHourList, setShowHourList] = useState(false);
   const [showMinuteList, setShowMinuteList] = useState(false);
 
   const selectedValue = value !== undefined ? value : internalValue;
+
+  // Temporary picker states before "Set" is clicked
+  const [tempHour, setTempHour] = useState<number>(12);
+  const [tempMinute, setTempMinute] = useState<number>(0);
+  const [tempModifier, setTempModifier] = useState<string>("AM");
+
+  // Sync internal UI states with the committed selected value when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      const targetTime = selectedValue || "12:00 AM";
+      const [time, mod = "AM"] = targetTime.trim().split(" ");
+      const [h, m] = time.split(":").map(Number);
+      
+      setTempHour(h || 12);
+      setTempMinute(m || 0);
+      setTempModifier(mod.toUpperCase());
+    }
+  }, [isOpen, selectedValue]);
 
   const getMinutesFrom24H = (time24: string): number => {
     const [h, m] = time24.split(":").map(Number);
     return h * 60 + m;
   };
 
-  const parsedCurrent = useMemo(() => {
-    if (!selectedValue) return { hour: 7, minute: 0, modifier: "AM" };
-    const [time, mod = "AM"] = selectedValue.trim().split(" ");
-    const [h, m] = time.split(":").map(Number);
-    return { hour: h || 12, minute: m || 0, modifier: mod.toUpperCase() };
-  }, [selectedValue]);
-
-  const [activeHour, setActiveHour] = useState<number>(parsedCurrent.hour);
-  const [activeMinute, setActiveMinute] = useState<number>(parsedCurrent.minute);
-  const [activeModifier, setActiveModifier] = useState<string>(parsedCurrent.modifier);
-
-  const hoursList = useMemo(() => {
-    const hrs: number[] = [];
-    for (let h = 1; h <= 12; h++) {
-      hrs.push(h);
-    }
-    return hrs;
-  }, []);
-
+  const hoursList = useMemo(() => Array.from({ length: 12 }, (_, i) => i + 1), []);
+  
   const minutesList = useMemo(() => {
     const mins: number[] = [];
-    for (let m = 0; m < 60; m += interval) {
-      mins.push(m);
-    }
+    for (let m = 0; m < 60; m += interval) mins.push(m);
     return mins;
   }, [interval]);
 
-  const updateSelection = (h: number, m: number, mod: string) => {
-    const formatted12H = `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")} ${mod}`;
-
+  // Validates boundaries and applies the selected time
+  const handleSetTime = () => {
+    const formatted12H = `${String(tempHour).padStart(2, "0")}:${String(tempMinute).padStart(2, "0")} ${tempModifier}`;
+    
     try {
       const time24 = parseTo24H(formatted12H);
       const currentMins = getMinutesFrom24H(time24);
+      const startMins = getMinutesFrom24H(parseTo24H(startTime));
+      const endMins = getMinutesFrom24H(parseTo24H(endTime));
 
-      const start24 = parseTo24H(startTime);
-      const end24 = parseTo24H(endTime);
-
-      const startMins = getMinutesFrom24H(start24);
-      const endMins = getMinutesFrom24H(end24);
-
-      if (currentMins < startMins || currentMins > endMins) return;
+      if (currentMins < startMins || currentMins > endMins) {
+        // Optional: Could display an out-of-bounds error message here
+        return; 
+      }
 
       if (onChange) {
         onChange(formatted12H);
       } else {
         setInternalValue(formatted12H);
       }
+      closeModal();
     } catch (error) {
       console.error("Invalid time format processed", error);
     }
   };
 
-  const handleHourChange = (newHour: number) => {
-    setActiveHour(newHour);
-    updateSelection(newHour, activeMinute, activeModifier);
-    setShowHourList(false);
-  };
-
-  const handleMinuteChange = (newMinute: number) => {
-    setActiveMinute(newMinute);
-    updateSelection(activeHour, newMinute, activeModifier);
-    setShowMinuteList(false);
-  };
-
-  const handleModifierChange = (newMod: string) => {
-    setActiveModifier(newMod);
-    updateSelection(activeHour, activeMinute, newMod);
-  };
-
   const handleNow = () => {
     const now = new Date();
-    const currentHour12 = format(now, "h");
-    const currentMinute = Number(format(now, "mm"));
-    const currentMod = format(now, "a").toUpperCase();
-
-    const snappedMinute = Math.floor(currentMinute / interval) * interval;
-    const parsedH = Number(currentHour12);
-
-    setActiveHour(parsedH);
-    setActiveMinute(snappedMinute);
-    setActiveModifier(currentMod);
-    updateSelection(parsedH, snappedMinute, currentMod);
+    const snappedMinute = Math.floor(Number(format(now, "mm")) / interval) * interval;
+    
+    setTempHour(Number(format(now, "h")));
+    setTempMinute(snappedMinute);
+    setTempModifier(format(now, "a").toUpperCase());
     setShowHourList(false);
     setShowMinuteList(false);
   };
@@ -158,7 +135,7 @@ export default function TimePicker({
         <Clock className="w-4 h-4 text-muted-foreground" />
       </button>
 
-      {/* Modal Picker (Headless) */}
+      {/* Modal Picker */}
       <Modal isOpen={isOpen} onClose={closeModal}>
         <div className={twMerge("flex flex-col gap-4", dropdownStyle)}>
           <div className="flex items-center justify-between">
@@ -169,94 +146,51 @@ export default function TimePicker({
 
           {/* Time Picker Controls Grid */}
           <div className="grid grid-cols-[80px_auto_80px_auto] grid-rows-[auto_auto] items-start justify-center gap-2">
-            {/* Hour Toggle / Scrollable Box */}
-            <div className={clsx("relative w-20", showHourList && "row-span-2")}>
-              {showHourList ? (
-                <div className="flex flex-col items-center bg-surface-1 border border-border rounded-lg max-h-45.5 overflow-y-auto scrollbar-none shadow-sm">
-                  {hoursList.map((h) => {
-                    const isSelected = activeHour === h;
-                    return (
-                      <button
-                        key={h}
-                        type="button"
-                        onClick={() => handleHourChange(h)}
-                        className={clsx(
-                          "w-full h-13 flex items-center justify-center text-2xl font-medium rounded transition-colors shrink-0",
-                          isSelected
-                            ? "bg-primary text-primary-foreground font-semibold"
-                            : "text-else hover:bg-surface-2"
-                        )}
-                      >
-                        {String(h).padStart(2, "0")}
-                      </button>
-                    );
-                  })}
-                </div>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setShowHourList(true);
-                    setShowMinuteList(false);
-                  }}
-                  className="flex items-center justify-center bg-surface-1 border border-border rounded-lg w-20 h-13 text-2xl font-medium text-else hover:bg-surface-2 transition-all"
-                >
-                  {String(activeHour).padStart(2, "0")}
-                </button>
-              )}
-            </div>
+            
+            {/* Hour Picker */}
+            <TimeListSelection
+              showList={showHourList}
+              currentValue={tempHour}
+              items={hoursList}
+              onToggleVisibility={() => {
+                setShowHourList(true);
+                setShowMinuteList(false);
+              }}
+              onSelect={(h) => {
+                setTempHour(h);
+                setShowHourList(false);
+              }}
+            />
 
             {/* Colon Separator */}
             <span className="text-2xl font-bold text-else h-13 flex items-center justify-center">
               :
             </span>
 
-            {/* Minute Toggle / Scrollable Box */}
-            <div className={clsx("relative w-20", showMinuteList && "row-span-2")}>
-              {showMinuteList ? (
-                <div className="flex flex-col items-center bg-surface-1 border border-border rounded-lg max-h-45.5 overflow-y-auto scrollbar-none shadow-sm">
-                  {minutesList.map((m) => {
-                    const isSelected = activeMinute === m;
-                    return (
-                      <button
-                        key={m}
-                        type="button"
-                        onClick={() => handleMinuteChange(m)}
-                        className={clsx(
-                          "w-full h-13 flex items-center justify-center text-2xl font-medium rounded transition-colors shrink-0",
-                          isSelected
-                            ? "bg-primary text-primary-foreground font-semibold"
-                            : "text-else hover:bg-surface-2"
-                        )}
-                      >
-                        {String(m).padStart(2, "0")}
-                      </button>
-                    );
-                  })}
-                </div>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setShowMinuteList(true);
-                    setShowHourList(false);
-                  }}
-                  className="flex items-center justify-center bg-surface-1 border border-border rounded-lg w-20 h-13 text-2xl font-medium text-else hover:bg-surface-2 transition-all"
-                >
-                  {String(activeMinute).padStart(2, "0")}
-                </button>
-              )}
-            </div>
+            {/* Minute Picker */}
+            <TimeListSelection
+              showList={showMinuteList}
+              currentValue={tempMinute}
+              items={minutesList}
+              onToggleVisibility={() => {
+                setShowMinuteList(true);
+                setShowHourList(false);
+              }}
+              onSelect={(m) => {
+                setTempMinute(m);
+                setShowMinuteList(false);
+              }}
+            />
 
             {/* AM/PM Toggle Stack */}
             <div className="flex flex-col border border-border rounded-lg overflow-hidden h-13 w-14">
               {["AM", "PM"].map((mod) => {
-                const isSelected = activeModifier === mod;
+                const isSelected = tempModifier === mod;
                 return (
                   <button
                     key={mod}
                     type="button"
-                    onClick={() => handleModifierChange(mod)}
+                    onClick={() => setTempModifier(mod)}
                     className={clsx(
                       "flex-1 flex items-center justify-center text-[10px] font-bold transition-colors",
                       isSelected
@@ -273,23 +207,70 @@ export default function TimePicker({
 
           {/* Footer Action Buttons */}
           <div className="flex items-center justify-between pt-2 border-t border-border text-sm">
-            <button
-              type="button"
-              onClick={handleNow}
-              className="text-primary font-medium hover:underline"
-            >
+            <button type="button" onClick={handleNow} className="text-primary font-medium hover:underline">
               Now
             </button>
-            <button
-              type="button"
-              onClick={handleClear}
-              className="text-muted-foreground hover:text-destructive font-medium"
-            >
-              Clear
-            </button>
+            <div className="flex items-center gap-3">
+              <button type="button" onClick={handleClear} className="text-muted-foreground hover:text-destructive font-medium">
+                Clear
+              </button>
+              <button type="button" onClick={handleSetTime} className="bg-primary text-primary-foreground px-3 py-1.5 rounded-md font-medium hover:bg-primary/90 transition-colors">
+                Set
+              </button>
+            </div>
           </div>
         </div>
       </Modal>
+    </div>
+  );
+}
+
+/* Local Sub-component helper to keep formatting cleaner */
+interface TimeListSelectionProps {
+  showList: boolean;
+  currentValue: number;
+  items: number[];
+  onToggleVisibility: () => void;
+  onSelect: (val: number) => void;
+}
+
+function TimeListSelection({
+  showList,
+  currentValue,
+  items,
+  onToggleVisibility,
+  onSelect,
+}: TimeListSelectionProps) {
+  return (
+    <div className={clsx("relative w-20", showList && "row-span-2")}>
+      {showList ? (
+        <div className="flex flex-col items-center bg-surface-1 border border-border rounded-lg max-h-45.5 overflow-y-auto scrollbar-none shadow-sm">
+          {items.map((val) => {
+            const isSelected = currentValue === val;
+            return (
+              <button
+                key={val}
+                type="button"
+                onClick={() => onSelect(val)}
+                className={clsx(
+                  "w-full h-13 flex items-center justify-center text-2xl font-medium rounded transition-colors shrink-0",
+                  isSelected ? "bg-primary text-primary-foreground font-semibold" : "text-else hover:bg-surface-2"
+                )}
+              >
+                {String(val).padStart(2, "0")}
+              </button>
+            );
+          })}
+        </div>
+      ) : (
+        <button
+          type="button"
+          onClick={onToggleVisibility}
+          className="flex items-center justify-center bg-surface-1 border border-border rounded-lg w-20 h-13 text-2xl font-medium text-else hover:bg-surface-2 transition-all"
+        >
+          {String(currentValue).padStart(2, "0")}
+        </button>
+      )}
     </div>
   );
 }

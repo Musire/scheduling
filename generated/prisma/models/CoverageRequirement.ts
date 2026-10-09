@@ -28,11 +28,15 @@ export type AggregateCoverageRequirement = {
 
 export type CoverageRequirementAvgAggregateOutputType = {
   dayOfWeek: number | null
+  startsAt: number | null
+  endsAt: number | null
   requiredUsers: number | null
 }
 
 export type CoverageRequirementSumAggregateOutputType = {
   dayOfWeek: number | null
+  startsAt: number | null
+  endsAt: number | null
   requiredUsers: number | null
 }
 
@@ -41,8 +45,8 @@ export type CoverageRequirementMinAggregateOutputType = {
   areaId: string | null
   roleId: string | null
   dayOfWeek: number | null
-  startsAt: Date | null
-  endsAt: Date | null
+  startsAt: number | null
+  endsAt: number | null
   requiredUsers: number | null
   active: boolean | null
   createdAt: Date | null
@@ -54,8 +58,8 @@ export type CoverageRequirementMaxAggregateOutputType = {
   areaId: string | null
   roleId: string | null
   dayOfWeek: number | null
-  startsAt: Date | null
-  endsAt: Date | null
+  startsAt: number | null
+  endsAt: number | null
   requiredUsers: number | null
   active: boolean | null
   createdAt: Date | null
@@ -79,11 +83,15 @@ export type CoverageRequirementCountAggregateOutputType = {
 
 export type CoverageRequirementAvgAggregateInputType = {
   dayOfWeek?: true
+  startsAt?: true
+  endsAt?: true
   requiredUsers?: true
 }
 
 export type CoverageRequirementSumAggregateInputType = {
   dayOfWeek?: true
+  startsAt?: true
+  endsAt?: true
   requiredUsers?: true
 }
 
@@ -218,8 +226,8 @@ export type CoverageRequirementGroupByOutputType = {
   areaId: string
   roleId: string
   dayOfWeek: number
-  startsAt: Date
-  endsAt: Date
+  startsAt: number
+  endsAt: number
   requiredUsers: number
   active: boolean
   createdAt: Date
@@ -254,8 +262,8 @@ export type CoverageRequirementWhereInput = {
   areaId?: Prisma.StringFilter<"CoverageRequirement"> | string
   roleId?: Prisma.StringFilter<"CoverageRequirement"> | string
   dayOfWeek?: Prisma.IntFilter<"CoverageRequirement"> | number
-  startsAt?: Prisma.DateTimeFilter<"CoverageRequirement"> | Date | string
-  endsAt?: Prisma.DateTimeFilter<"CoverageRequirement"> | Date | string
+  startsAt?: Prisma.IntFilter<"CoverageRequirement"> | number
+  endsAt?: Prisma.IntFilter<"CoverageRequirement"> | number
   requiredUsers?: Prisma.IntFilter<"CoverageRequirement"> | number
   active?: Prisma.BoolFilter<"CoverageRequirement"> | boolean
   createdAt?: Prisma.DateTimeFilter<"CoverageRequirement"> | Date | string
@@ -287,8 +295,8 @@ export type CoverageRequirementWhereUniqueInput = Prisma.AtLeast<{
   areaId?: Prisma.StringFilter<"CoverageRequirement"> | string
   roleId?: Prisma.StringFilter<"CoverageRequirement"> | string
   dayOfWeek?: Prisma.IntFilter<"CoverageRequirement"> | number
-  startsAt?: Prisma.DateTimeFilter<"CoverageRequirement"> | Date | string
-  endsAt?: Prisma.DateTimeFilter<"CoverageRequirement"> | Date | string
+  startsAt?: Prisma.IntFilter<"CoverageRequirement"> | number
+  endsAt?: Prisma.IntFilter<"CoverageRequirement"> | number
   requiredUsers?: Prisma.IntFilter<"CoverageRequirement"> | number
   active?: Prisma.BoolFilter<"CoverageRequirement"> | boolean
   createdAt?: Prisma.DateTimeFilter<"CoverageRequirement"> | Date | string
@@ -323,8 +331,8 @@ export type CoverageRequirementScalarWhereWithAggregatesInput = {
   areaId?: Prisma.StringWithAggregatesFilter<"CoverageRequirement"> | string
   roleId?: Prisma.StringWithAggregatesFilter<"CoverageRequirement"> | string
   dayOfWeek?: Prisma.IntWithAggregatesFilter<"CoverageRequirement"> | number
-  startsAt?: Prisma.DateTimeWithAggregatesFilter<"CoverageRequirement"> | Date | string
-  endsAt?: Prisma.DateTimeWithAggregatesFilter<"CoverageRequirement"> | Date | string
+  startsAt?: Prisma.IntWithAggregatesFilter<"CoverageRequirement"> | number
+  endsAt?: Prisma.IntWithAggregatesFilter<"CoverageRequirement"> | number
   requiredUsers?: Prisma.IntWithAggregatesFilter<"CoverageRequirement"> | number
   active?: Prisma.BoolWithAggregatesFilter<"CoverageRequirement"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"CoverageRequirement"> | Date | string
@@ -334,8 +342,8 @@ export type CoverageRequirementScalarWhereWithAggregatesInput = {
 export type CoverageRequirementCreateInput = {
   id?: string
   dayOfWeek: number
-  startsAt: Date | string
-  endsAt: Date | string
+  startsAt: number
+  endsAt: number
   requiredUsers: number
   active?: boolean
   createdAt?: Date | string
@@ -349,8 +357,8 @@ export type CoverageRequirementUncheckedCreateInput = {
   areaId: string
   roleId: string
   dayOfWeek: number
-  startsAt: Date | string
-  endsAt: Date | string
+  startsAt: number
+  endsAt: number
   requiredUsers: number
   active?: boolean
   createdAt?: Date | string
@@ -360,8 +368,8 @@ export type CoverageRequirementUncheckedCreateInput = {
 export type CoverageRequirementUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   dayOfWeek?: Prisma.IntFieldUpdateOperationsInput | number
-  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startsAt?: Prisma.IntFieldUpdateOperationsInput | number
+  endsAt?: Prisma.IntFieldUpdateOperationsInput | number
   requiredUsers?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -375,8 +383,8 @@ export type CoverageRequirementUncheckedUpdateInput = {
   areaId?: Prisma.StringFieldUpdateOperationsInput | string
   roleId?: Prisma.StringFieldUpdateOperationsInput | string
   dayOfWeek?: Prisma.IntFieldUpdateOperationsInput | number
-  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startsAt?: Prisma.IntFieldUpdateOperationsInput | number
+  endsAt?: Prisma.IntFieldUpdateOperationsInput | number
   requiredUsers?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -388,8 +396,8 @@ export type CoverageRequirementCreateManyInput = {
   areaId: string
   roleId: string
   dayOfWeek: number
-  startsAt: Date | string
-  endsAt: Date | string
+  startsAt: number
+  endsAt: number
   requiredUsers: number
   active?: boolean
   createdAt?: Date | string
@@ -399,8 +407,8 @@ export type CoverageRequirementCreateManyInput = {
 export type CoverageRequirementUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   dayOfWeek?: Prisma.IntFieldUpdateOperationsInput | number
-  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startsAt?: Prisma.IntFieldUpdateOperationsInput | number
+  endsAt?: Prisma.IntFieldUpdateOperationsInput | number
   requiredUsers?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -412,8 +420,8 @@ export type CoverageRequirementUncheckedUpdateManyInput = {
   areaId?: Prisma.StringFieldUpdateOperationsInput | string
   roleId?: Prisma.StringFieldUpdateOperationsInput | string
   dayOfWeek?: Prisma.IntFieldUpdateOperationsInput | number
-  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startsAt?: Prisma.IntFieldUpdateOperationsInput | number
+  endsAt?: Prisma.IntFieldUpdateOperationsInput | number
   requiredUsers?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -445,6 +453,8 @@ export type CoverageRequirementCountOrderByAggregateInput = {
 
 export type CoverageRequirementAvgOrderByAggregateInput = {
   dayOfWeek?: Prisma.SortOrder
+  startsAt?: Prisma.SortOrder
+  endsAt?: Prisma.SortOrder
   requiredUsers?: Prisma.SortOrder
 }
 
@@ -476,6 +486,8 @@ export type CoverageRequirementMinOrderByAggregateInput = {
 
 export type CoverageRequirementSumOrderByAggregateInput = {
   dayOfWeek?: Prisma.SortOrder
+  startsAt?: Prisma.SortOrder
+  endsAt?: Prisma.SortOrder
   requiredUsers?: Prisma.SortOrder
 }
 
@@ -566,8 +578,8 @@ export type CoverageRequirementUncheckedUpdateManyWithoutRoleNestedInput = {
 export type CoverageRequirementCreateWithoutAreaInput = {
   id?: string
   dayOfWeek: number
-  startsAt: Date | string
-  endsAt: Date | string
+  startsAt: number
+  endsAt: number
   requiredUsers: number
   active?: boolean
   createdAt?: Date | string
@@ -579,8 +591,8 @@ export type CoverageRequirementUncheckedCreateWithoutAreaInput = {
   id?: string
   roleId: string
   dayOfWeek: number
-  startsAt: Date | string
-  endsAt: Date | string
+  startsAt: number
+  endsAt: number
   requiredUsers: number
   active?: boolean
   createdAt?: Date | string
@@ -621,8 +633,8 @@ export type CoverageRequirementScalarWhereInput = {
   areaId?: Prisma.StringFilter<"CoverageRequirement"> | string
   roleId?: Prisma.StringFilter<"CoverageRequirement"> | string
   dayOfWeek?: Prisma.IntFilter<"CoverageRequirement"> | number
-  startsAt?: Prisma.DateTimeFilter<"CoverageRequirement"> | Date | string
-  endsAt?: Prisma.DateTimeFilter<"CoverageRequirement"> | Date | string
+  startsAt?: Prisma.IntFilter<"CoverageRequirement"> | number
+  endsAt?: Prisma.IntFilter<"CoverageRequirement"> | number
   requiredUsers?: Prisma.IntFilter<"CoverageRequirement"> | number
   active?: Prisma.BoolFilter<"CoverageRequirement"> | boolean
   createdAt?: Prisma.DateTimeFilter<"CoverageRequirement"> | Date | string
@@ -632,8 +644,8 @@ export type CoverageRequirementScalarWhereInput = {
 export type CoverageRequirementCreateWithoutRoleInput = {
   id?: string
   dayOfWeek: number
-  startsAt: Date | string
-  endsAt: Date | string
+  startsAt: number
+  endsAt: number
   requiredUsers: number
   active?: boolean
   createdAt?: Date | string
@@ -645,8 +657,8 @@ export type CoverageRequirementUncheckedCreateWithoutRoleInput = {
   id?: string
   areaId: string
   dayOfWeek: number
-  startsAt: Date | string
-  endsAt: Date | string
+  startsAt: number
+  endsAt: number
   requiredUsers: number
   active?: boolean
   createdAt?: Date | string
@@ -683,8 +695,8 @@ export type CoverageRequirementCreateManyAreaInput = {
   id?: string
   roleId: string
   dayOfWeek: number
-  startsAt: Date | string
-  endsAt: Date | string
+  startsAt: number
+  endsAt: number
   requiredUsers: number
   active?: boolean
   createdAt?: Date | string
@@ -694,8 +706,8 @@ export type CoverageRequirementCreateManyAreaInput = {
 export type CoverageRequirementUpdateWithoutAreaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   dayOfWeek?: Prisma.IntFieldUpdateOperationsInput | number
-  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startsAt?: Prisma.IntFieldUpdateOperationsInput | number
+  endsAt?: Prisma.IntFieldUpdateOperationsInput | number
   requiredUsers?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -707,8 +719,8 @@ export type CoverageRequirementUncheckedUpdateWithoutAreaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   roleId?: Prisma.StringFieldUpdateOperationsInput | string
   dayOfWeek?: Prisma.IntFieldUpdateOperationsInput | number
-  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startsAt?: Prisma.IntFieldUpdateOperationsInput | number
+  endsAt?: Prisma.IntFieldUpdateOperationsInput | number
   requiredUsers?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -719,8 +731,8 @@ export type CoverageRequirementUncheckedUpdateManyWithoutAreaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   roleId?: Prisma.StringFieldUpdateOperationsInput | string
   dayOfWeek?: Prisma.IntFieldUpdateOperationsInput | number
-  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startsAt?: Prisma.IntFieldUpdateOperationsInput | number
+  endsAt?: Prisma.IntFieldUpdateOperationsInput | number
   requiredUsers?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -731,8 +743,8 @@ export type CoverageRequirementCreateManyRoleInput = {
   id?: string
   areaId: string
   dayOfWeek: number
-  startsAt: Date | string
-  endsAt: Date | string
+  startsAt: number
+  endsAt: number
   requiredUsers: number
   active?: boolean
   createdAt?: Date | string
@@ -742,8 +754,8 @@ export type CoverageRequirementCreateManyRoleInput = {
 export type CoverageRequirementUpdateWithoutRoleInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   dayOfWeek?: Prisma.IntFieldUpdateOperationsInput | number
-  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startsAt?: Prisma.IntFieldUpdateOperationsInput | number
+  endsAt?: Prisma.IntFieldUpdateOperationsInput | number
   requiredUsers?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -755,8 +767,8 @@ export type CoverageRequirementUncheckedUpdateWithoutRoleInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   areaId?: Prisma.StringFieldUpdateOperationsInput | string
   dayOfWeek?: Prisma.IntFieldUpdateOperationsInput | number
-  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startsAt?: Prisma.IntFieldUpdateOperationsInput | number
+  endsAt?: Prisma.IntFieldUpdateOperationsInput | number
   requiredUsers?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -767,8 +779,8 @@ export type CoverageRequirementUncheckedUpdateManyWithoutRoleInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   areaId?: Prisma.StringFieldUpdateOperationsInput | string
   dayOfWeek?: Prisma.IntFieldUpdateOperationsInput | number
-  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startsAt?: Prisma.IntFieldUpdateOperationsInput | number
+  endsAt?: Prisma.IntFieldUpdateOperationsInput | number
   requiredUsers?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -860,8 +872,8 @@ export type $CoverageRequirementPayload<ExtArgs extends runtime.Types.Extensions
     areaId: string
     roleId: string
     dayOfWeek: number
-    startsAt: Date
-    endsAt: Date
+    startsAt: number
+    endsAt: number
     requiredUsers: number
     active: boolean
     createdAt: Date
@@ -1295,8 +1307,8 @@ export interface CoverageRequirementFieldRefs {
   readonly areaId: Prisma.FieldRef<"CoverageRequirement", 'String'>
   readonly roleId: Prisma.FieldRef<"CoverageRequirement", 'String'>
   readonly dayOfWeek: Prisma.FieldRef<"CoverageRequirement", 'Int'>
-  readonly startsAt: Prisma.FieldRef<"CoverageRequirement", 'DateTime'>
-  readonly endsAt: Prisma.FieldRef<"CoverageRequirement", 'DateTime'>
+  readonly startsAt: Prisma.FieldRef<"CoverageRequirement", 'Int'>
+  readonly endsAt: Prisma.FieldRef<"CoverageRequirement", 'Int'>
   readonly requiredUsers: Prisma.FieldRef<"CoverageRequirement", 'Int'>
   readonly active: Prisma.FieldRef<"CoverageRequirement", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"CoverageRequirement", 'DateTime'>

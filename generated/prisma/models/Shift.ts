@@ -20,8 +20,20 @@ export type ShiftModel = runtime.Types.Result.DefaultSelection<Prisma.$ShiftPayl
 
 export type AggregateShift = {
   _count: ShiftCountAggregateOutputType | null
+  _avg: ShiftAvgAggregateOutputType | null
+  _sum: ShiftSumAggregateOutputType | null
   _min: ShiftMinAggregateOutputType | null
   _max: ShiftMaxAggregateOutputType | null
+}
+
+export type ShiftAvgAggregateOutputType = {
+  startsAt: number | null
+  endsAt: number | null
+}
+
+export type ShiftSumAggregateOutputType = {
+  startsAt: number | null
+  endsAt: number | null
 }
 
 export type ShiftMinAggregateOutputType = {
@@ -31,8 +43,8 @@ export type ShiftMinAggregateOutputType = {
   areaId: string | null
   roleId: string | null
   shiftDate: Date | null
-  startsAt: Date | null
-  endsAt: Date | null
+  startsAt: number | null
+  endsAt: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -44,8 +56,8 @@ export type ShiftMaxAggregateOutputType = {
   areaId: string | null
   roleId: string | null
   shiftDate: Date | null
-  startsAt: Date | null
-  endsAt: Date | null
+  startsAt: number | null
+  endsAt: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -64,6 +76,16 @@ export type ShiftCountAggregateOutputType = {
   _all: number
 }
 
+
+export type ShiftAvgAggregateInputType = {
+  startsAt?: true
+  endsAt?: true
+}
+
+export type ShiftSumAggregateInputType = {
+  startsAt?: true
+  endsAt?: true
+}
 
 export type ShiftMinAggregateInputType = {
   id?: true
@@ -143,6 +165,18 @@ export type ShiftAggregateArgs<ExtArgs extends runtime.Types.Extensions.Internal
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: ShiftAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: ShiftSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: ShiftMinAggregateInputType
@@ -173,6 +207,8 @@ export type ShiftGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   _count?: ShiftCountAggregateInputType | true
+  _avg?: ShiftAvgAggregateInputType
+  _sum?: ShiftSumAggregateInputType
   _min?: ShiftMinAggregateInputType
   _max?: ShiftMaxAggregateInputType
 }
@@ -184,11 +220,13 @@ export type ShiftGroupByOutputType = {
   areaId: string
   roleId: string
   shiftDate: Date
-  startsAt: Date
-  endsAt: Date
+  startsAt: number
+  endsAt: number
   createdAt: Date
   updatedAt: Date
   _count: ShiftCountAggregateOutputType | null
+  _avg: ShiftAvgAggregateOutputType | null
+  _sum: ShiftSumAggregateOutputType | null
   _min: ShiftMinAggregateOutputType | null
   _max: ShiftMaxAggregateOutputType | null
 }
@@ -218,8 +256,8 @@ export type ShiftWhereInput = {
   areaId?: Prisma.StringFilter<"Shift"> | string
   roleId?: Prisma.StringFilter<"Shift"> | string
   shiftDate?: Prisma.DateTimeFilter<"Shift"> | Date | string
-  startsAt?: Prisma.DateTimeFilter<"Shift"> | Date | string
-  endsAt?: Prisma.DateTimeFilter<"Shift"> | Date | string
+  startsAt?: Prisma.IntFilter<"Shift"> | number
+  endsAt?: Prisma.IntFilter<"Shift"> | number
   createdAt?: Prisma.DateTimeFilter<"Shift"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Shift"> | Date | string
   schedule?: Prisma.XOR<Prisma.ScheduleScalarRelationFilter, Prisma.ScheduleWhereInput>
@@ -255,8 +293,8 @@ export type ShiftWhereUniqueInput = Prisma.AtLeast<{
   areaId?: Prisma.StringFilter<"Shift"> | string
   roleId?: Prisma.StringFilter<"Shift"> | string
   shiftDate?: Prisma.DateTimeFilter<"Shift"> | Date | string
-  startsAt?: Prisma.DateTimeFilter<"Shift"> | Date | string
-  endsAt?: Prisma.DateTimeFilter<"Shift"> | Date | string
+  startsAt?: Prisma.IntFilter<"Shift"> | number
+  endsAt?: Prisma.IntFilter<"Shift"> | number
   createdAt?: Prisma.DateTimeFilter<"Shift"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Shift"> | Date | string
   schedule?: Prisma.XOR<Prisma.ScheduleScalarRelationFilter, Prisma.ScheduleWhereInput>
@@ -277,8 +315,10 @@ export type ShiftOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ShiftCountOrderByAggregateInput
+  _avg?: Prisma.ShiftAvgOrderByAggregateInput
   _max?: Prisma.ShiftMaxOrderByAggregateInput
   _min?: Prisma.ShiftMinOrderByAggregateInput
+  _sum?: Prisma.ShiftSumOrderByAggregateInput
 }
 
 export type ShiftScalarWhereWithAggregatesInput = {
@@ -291,8 +331,8 @@ export type ShiftScalarWhereWithAggregatesInput = {
   areaId?: Prisma.StringWithAggregatesFilter<"Shift"> | string
   roleId?: Prisma.StringWithAggregatesFilter<"Shift"> | string
   shiftDate?: Prisma.DateTimeWithAggregatesFilter<"Shift"> | Date | string
-  startsAt?: Prisma.DateTimeWithAggregatesFilter<"Shift"> | Date | string
-  endsAt?: Prisma.DateTimeWithAggregatesFilter<"Shift"> | Date | string
+  startsAt?: Prisma.IntWithAggregatesFilter<"Shift"> | number
+  endsAt?: Prisma.IntWithAggregatesFilter<"Shift"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Shift"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Shift"> | Date | string
 }
@@ -300,8 +340,8 @@ export type ShiftScalarWhereWithAggregatesInput = {
 export type ShiftCreateInput = {
   id?: string
   shiftDate: Date | string
-  startsAt: Date | string
-  endsAt: Date | string
+  startsAt: number
+  endsAt: number
   createdAt?: Date | string
   updatedAt?: Date | string
   schedule: Prisma.ScheduleCreateNestedOneWithoutShiftsInput
@@ -317,8 +357,8 @@ export type ShiftUncheckedCreateInput = {
   areaId: string
   roleId: string
   shiftDate: Date | string
-  startsAt: Date | string
-  endsAt: Date | string
+  startsAt: number
+  endsAt: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -326,8 +366,8 @@ export type ShiftUncheckedCreateInput = {
 export type ShiftUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   shiftDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startsAt?: Prisma.IntFieldUpdateOperationsInput | number
+  endsAt?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   schedule?: Prisma.ScheduleUpdateOneRequiredWithoutShiftsNestedInput
@@ -343,8 +383,8 @@ export type ShiftUncheckedUpdateInput = {
   areaId?: Prisma.StringFieldUpdateOperationsInput | string
   roleId?: Prisma.StringFieldUpdateOperationsInput | string
   shiftDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startsAt?: Prisma.IntFieldUpdateOperationsInput | number
+  endsAt?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -356,8 +396,8 @@ export type ShiftCreateManyInput = {
   areaId: string
   roleId: string
   shiftDate: Date | string
-  startsAt: Date | string
-  endsAt: Date | string
+  startsAt: number
+  endsAt: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -365,8 +405,8 @@ export type ShiftCreateManyInput = {
 export type ShiftUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   shiftDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startsAt?: Prisma.IntFieldUpdateOperationsInput | number
+  endsAt?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -378,8 +418,8 @@ export type ShiftUncheckedUpdateManyInput = {
   areaId?: Prisma.StringFieldUpdateOperationsInput | string
   roleId?: Prisma.StringFieldUpdateOperationsInput | string
   shiftDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startsAt?: Prisma.IntFieldUpdateOperationsInput | number
+  endsAt?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -407,6 +447,11 @@ export type ShiftCountOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
+export type ShiftAvgOrderByAggregateInput = {
+  startsAt?: Prisma.SortOrder
+  endsAt?: Prisma.SortOrder
+}
+
 export type ShiftMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   scheduleId?: Prisma.SortOrder
@@ -431,6 +476,11 @@ export type ShiftMinOrderByAggregateInput = {
   endsAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type ShiftSumOrderByAggregateInput = {
+  startsAt?: Prisma.SortOrder
+  endsAt?: Prisma.SortOrder
 }
 
 export type ShiftCreateNestedManyWithoutUserInput = {
@@ -604,8 +654,8 @@ export type ShiftUncheckedUpdateManyWithoutScheduleNestedInput = {
 export type ShiftCreateWithoutUserInput = {
   id?: string
   shiftDate: Date | string
-  startsAt: Date | string
-  endsAt: Date | string
+  startsAt: number
+  endsAt: number
   createdAt?: Date | string
   updatedAt?: Date | string
   schedule: Prisma.ScheduleCreateNestedOneWithoutShiftsInput
@@ -619,8 +669,8 @@ export type ShiftUncheckedCreateWithoutUserInput = {
   areaId: string
   roleId: string
   shiftDate: Date | string
-  startsAt: Date | string
-  endsAt: Date | string
+  startsAt: number
+  endsAt: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -661,8 +711,8 @@ export type ShiftScalarWhereInput = {
   areaId?: Prisma.StringFilter<"Shift"> | string
   roleId?: Prisma.StringFilter<"Shift"> | string
   shiftDate?: Prisma.DateTimeFilter<"Shift"> | Date | string
-  startsAt?: Prisma.DateTimeFilter<"Shift"> | Date | string
-  endsAt?: Prisma.DateTimeFilter<"Shift"> | Date | string
+  startsAt?: Prisma.IntFilter<"Shift"> | number
+  endsAt?: Prisma.IntFilter<"Shift"> | number
   createdAt?: Prisma.DateTimeFilter<"Shift"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Shift"> | Date | string
 }
@@ -670,8 +720,8 @@ export type ShiftScalarWhereInput = {
 export type ShiftCreateWithoutAreaInput = {
   id?: string
   shiftDate: Date | string
-  startsAt: Date | string
-  endsAt: Date | string
+  startsAt: number
+  endsAt: number
   createdAt?: Date | string
   updatedAt?: Date | string
   schedule: Prisma.ScheduleCreateNestedOneWithoutShiftsInput
@@ -685,8 +735,8 @@ export type ShiftUncheckedCreateWithoutAreaInput = {
   userId: string
   roleId: string
   shiftDate: Date | string
-  startsAt: Date | string
-  endsAt: Date | string
+  startsAt: number
+  endsAt: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -720,8 +770,8 @@ export type ShiftUpdateManyWithWhereWithoutAreaInput = {
 export type ShiftCreateWithoutRoleInput = {
   id?: string
   shiftDate: Date | string
-  startsAt: Date | string
-  endsAt: Date | string
+  startsAt: number
+  endsAt: number
   createdAt?: Date | string
   updatedAt?: Date | string
   schedule: Prisma.ScheduleCreateNestedOneWithoutShiftsInput
@@ -735,8 +785,8 @@ export type ShiftUncheckedCreateWithoutRoleInput = {
   userId: string
   areaId: string
   shiftDate: Date | string
-  startsAt: Date | string
-  endsAt: Date | string
+  startsAt: number
+  endsAt: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -770,8 +820,8 @@ export type ShiftUpdateManyWithWhereWithoutRoleInput = {
 export type ShiftCreateWithoutScheduleInput = {
   id?: string
   shiftDate: Date | string
-  startsAt: Date | string
-  endsAt: Date | string
+  startsAt: number
+  endsAt: number
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutShiftsInput
@@ -785,8 +835,8 @@ export type ShiftUncheckedCreateWithoutScheduleInput = {
   areaId: string
   roleId: string
   shiftDate: Date | string
-  startsAt: Date | string
-  endsAt: Date | string
+  startsAt: number
+  endsAt: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -823,8 +873,8 @@ export type ShiftCreateManyUserInput = {
   areaId: string
   roleId: string
   shiftDate: Date | string
-  startsAt: Date | string
-  endsAt: Date | string
+  startsAt: number
+  endsAt: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -832,8 +882,8 @@ export type ShiftCreateManyUserInput = {
 export type ShiftUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   shiftDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startsAt?: Prisma.IntFieldUpdateOperationsInput | number
+  endsAt?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   schedule?: Prisma.ScheduleUpdateOneRequiredWithoutShiftsNestedInput
@@ -847,8 +897,8 @@ export type ShiftUncheckedUpdateWithoutUserInput = {
   areaId?: Prisma.StringFieldUpdateOperationsInput | string
   roleId?: Prisma.StringFieldUpdateOperationsInput | string
   shiftDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startsAt?: Prisma.IntFieldUpdateOperationsInput | number
+  endsAt?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -859,8 +909,8 @@ export type ShiftUncheckedUpdateManyWithoutUserInput = {
   areaId?: Prisma.StringFieldUpdateOperationsInput | string
   roleId?: Prisma.StringFieldUpdateOperationsInput | string
   shiftDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startsAt?: Prisma.IntFieldUpdateOperationsInput | number
+  endsAt?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -871,8 +921,8 @@ export type ShiftCreateManyAreaInput = {
   userId: string
   roleId: string
   shiftDate: Date | string
-  startsAt: Date | string
-  endsAt: Date | string
+  startsAt: number
+  endsAt: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -880,8 +930,8 @@ export type ShiftCreateManyAreaInput = {
 export type ShiftUpdateWithoutAreaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   shiftDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startsAt?: Prisma.IntFieldUpdateOperationsInput | number
+  endsAt?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   schedule?: Prisma.ScheduleUpdateOneRequiredWithoutShiftsNestedInput
@@ -895,8 +945,8 @@ export type ShiftUncheckedUpdateWithoutAreaInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   roleId?: Prisma.StringFieldUpdateOperationsInput | string
   shiftDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startsAt?: Prisma.IntFieldUpdateOperationsInput | number
+  endsAt?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -907,8 +957,8 @@ export type ShiftUncheckedUpdateManyWithoutAreaInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   roleId?: Prisma.StringFieldUpdateOperationsInput | string
   shiftDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startsAt?: Prisma.IntFieldUpdateOperationsInput | number
+  endsAt?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -919,8 +969,8 @@ export type ShiftCreateManyRoleInput = {
   userId: string
   areaId: string
   shiftDate: Date | string
-  startsAt: Date | string
-  endsAt: Date | string
+  startsAt: number
+  endsAt: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -928,8 +978,8 @@ export type ShiftCreateManyRoleInput = {
 export type ShiftUpdateWithoutRoleInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   shiftDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startsAt?: Prisma.IntFieldUpdateOperationsInput | number
+  endsAt?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   schedule?: Prisma.ScheduleUpdateOneRequiredWithoutShiftsNestedInput
@@ -943,8 +993,8 @@ export type ShiftUncheckedUpdateWithoutRoleInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   areaId?: Prisma.StringFieldUpdateOperationsInput | string
   shiftDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startsAt?: Prisma.IntFieldUpdateOperationsInput | number
+  endsAt?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -955,8 +1005,8 @@ export type ShiftUncheckedUpdateManyWithoutRoleInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   areaId?: Prisma.StringFieldUpdateOperationsInput | string
   shiftDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startsAt?: Prisma.IntFieldUpdateOperationsInput | number
+  endsAt?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -967,8 +1017,8 @@ export type ShiftCreateManyScheduleInput = {
   areaId: string
   roleId: string
   shiftDate: Date | string
-  startsAt: Date | string
-  endsAt: Date | string
+  startsAt: number
+  endsAt: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -976,8 +1026,8 @@ export type ShiftCreateManyScheduleInput = {
 export type ShiftUpdateWithoutScheduleInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   shiftDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startsAt?: Prisma.IntFieldUpdateOperationsInput | number
+  endsAt?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutShiftsNestedInput
@@ -991,8 +1041,8 @@ export type ShiftUncheckedUpdateWithoutScheduleInput = {
   areaId?: Prisma.StringFieldUpdateOperationsInput | string
   roleId?: Prisma.StringFieldUpdateOperationsInput | string
   shiftDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startsAt?: Prisma.IntFieldUpdateOperationsInput | number
+  endsAt?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1003,8 +1053,8 @@ export type ShiftUncheckedUpdateManyWithoutScheduleInput = {
   areaId?: Prisma.StringFieldUpdateOperationsInput | string
   roleId?: Prisma.StringFieldUpdateOperationsInput | string
   shiftDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startsAt?: Prisma.IntFieldUpdateOperationsInput | number
+  endsAt?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1110,8 +1160,8 @@ export type $ShiftPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     areaId: string
     roleId: string
     shiftDate: Date
-    startsAt: Date
-    endsAt: Date
+    startsAt: number
+    endsAt: number
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["shift"]>
@@ -1547,8 +1597,8 @@ export interface ShiftFieldRefs {
   readonly areaId: Prisma.FieldRef<"Shift", 'String'>
   readonly roleId: Prisma.FieldRef<"Shift", 'String'>
   readonly shiftDate: Prisma.FieldRef<"Shift", 'DateTime'>
-  readonly startsAt: Prisma.FieldRef<"Shift", 'DateTime'>
-  readonly endsAt: Prisma.FieldRef<"Shift", 'DateTime'>
+  readonly startsAt: Prisma.FieldRef<"Shift", 'Int'>
+  readonly endsAt: Prisma.FieldRef<"Shift", 'Int'>
   readonly createdAt: Prisma.FieldRef<"Shift", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Shift", 'DateTime'>
 }
