@@ -1,6 +1,7 @@
 "use client"
 
 import { ActionForm, Input } from "@/components/forms"
+import { useSidePanel } from "@/context/SidepanelProvider"
 import { updateArea } from "@/domains/areas/area.actions"
 import { AreaUpdateSchema, UpdateAreaType } from "@/domains/areas/area.validation"
 import { useRouter } from "next/navigation"
@@ -10,6 +11,7 @@ type Props = {
 }
 
 export default function UpdateAreaForm({ data }: Props) {
+  const { clearModal: clearSidepanel } = useSidePanel()
   const router = useRouter()
 
   const defaultData = data ?? {
@@ -18,7 +20,7 @@ export default function UpdateAreaForm({ data }: Props) {
   }
 
   const onSuccess = () => {
-    router.push('/manage/areas')
+    clearSidepanel()
   }
 
   return (

@@ -1,15 +1,17 @@
 "use client"
 
 import { ActionForm, Input } from "@/components/forms"
+import { useSidePanel } from "@/context/SidepanelProvider"
 import { createArea } from "@/domains/areas/area.actions"
 import { AreaCreateSchema } from "@/domains/areas/area.validation"
 import { useRouter } from "next/navigation"
 
 export default function CreateAreaForm() {
+  const { clearModal: clearSidepanel } = useSidePanel()
   const router = useRouter()
 
   const onSuccess = () => {
-    router.push('/manage/areas')
+    clearSidepanel()
   }
 
   return (

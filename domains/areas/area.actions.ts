@@ -12,7 +12,9 @@ export const createArea = createSafeAction(
     
     async (_, formData: FormData) => {
         const validated = validateFormData(AreaCreateSchema, formData)
-        return await createAreaService(validated);
+        const res = await createAreaService(validated);
+        revalidatePath('/manage/areas')
+        return res
     }
 )
 
@@ -22,7 +24,9 @@ export const updateArea = createSafeAction(
     },
     async (_, formData: FormData) => {
         const validated = validateFormData(AreaUpdateSchema, formData)
-        return await updateAreaService(validated);
+        const res = await updateAreaService(validated);
+        revalidatePath('/manage/areas')
+        return res
     }
 )
 
