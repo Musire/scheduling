@@ -1,9 +1,12 @@
 'use client'
 
 import { ActionForm, Input } from "@/components/forms";
-import { createUser } from "@/domains/users/user.actions";
+import FormStepper from "@/components/forms/FormStepper";
+import { useToast } from "@/context";
+import { useSidePanel } from "@/context/SidepanelProvider";
+import { updateUser } from "@/domains/users/user.actions";
 import { UserUpdateSchema } from "@/domains/users/user.validations";
-import { useRouter } from "next/navigation";
+import z from "zod";
 import { ExpectedUser } from "../user.types";
 
 type Props = {
@@ -11,7 +14,9 @@ type Props = {
 }
 
 export default function UpdateUserForm ({ data }: Props) {
-    const router = useRouter()
+    const { clearModal: clearSidepanel } = useSidePanel()
+    const { createSuccess } = useToast()
+
     const defaultData = {
         id: data?.id ?? '',
         name: data?.name ?? '',
@@ -20,31 +25,61 @@ export default function UpdateUserForm ({ data }: Props) {
 
     }
     const onSuccess = () => {
-        router.push('/manage/users')
+        clearSidepanel()
+        createSuccess('successfully updated a user')
     }
+
+    const slides = [
+            {
+                schema: z.object({
+                    name: UserUpdateSchema.shape.name,
+                    email: UserUpdateSchema.shape.email
+                }), 
+                component: (
+                    <>
+                        <Input 
+                            label="employee name"
+                            name="name"
+                        />
+                        <Input 
+                            label="email address"
+                            name="email"
+                        />
+                    </>
+                )
+            },
+            {
+                schema: z.object({
+                    payRate: UserUpdateSchema.shape.payRate
+                }),
+                component: (
+                    <>
+                        <Input 
+                            label="Pay Per Hour"
+                            name="payRate"
+                            type="number"
+                        />
+                        <Input 
+                            label="Weekly Hours"
+                            name="maxHours"
+                            type="number"
+                        />
+                    </>
+                )
+            }
+        ]
     
     return (
         <section className="py-6 centered-col flex-1">
             <h2 className="text-xl">Update User</h2>
             <ActionForm
-                actionFn={createUser}
+                isMulti
+                actionFn={updateUser}
                 schema={UserUpdateSchema}
                 initialValues={defaultData}
                 onSuccess={onSuccess}
             >
-                <Input 
-                    label="email address"
-                    name="email"
-                />
-                <Input 
-                    label="employee name"
-                    name="name"
-                />
-                <Input 
-                    label="Pay Rate"
-                    name="payRate"
-                    type="number"
-                />
+                <FormStepper slides={slides} />
                 <Input 
                     name="id"
                     type="hidden"

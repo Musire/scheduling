@@ -11,7 +11,9 @@ export const createRequirement = createSafeAction(
     },
     async(_, formData: FormData) => {
         const validated = validateFormData(RequirementCreateSchema, formData)
-        return createRequirementService(validated)
+        const res = createRequirementService(validated)
+        revalidatePath('/manage/requirements')
+        return res
     } 
 )
 
@@ -21,7 +23,9 @@ export const updateRequirement = createSafeAction(
     },
     async(_, formData: FormData) => {
         const validated = validateFormData(RequirementUpdateSchema, formData)
-        return updateRequirementService(validated)
+        const res =  updateRequirementService(validated)
+        revalidatePath('/manage/requirements')
+        return res
     } 
 )
 

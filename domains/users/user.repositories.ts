@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma"
-import { UserCreationType } from "./user.validations"
+import { UserCreationType, UserUpdateType } from "./user.validations"
 
 
 export const UserRepository = {
@@ -52,6 +52,18 @@ export const UserRepository = {
         const {payRate, ...rest} = user 
         return {
             ...rest,
+            payRate: payRate ? payRate.toNumber() : null, 
+        };
+    },
+    async updateUser(data: UserUpdateType) {
+        const { id, ...rest} = data
+        const user = await prisma.user.update({
+            where: {id},
+            data: rest
+        })
+        const {payRate, ...all} = user 
+        return {
+            ...all,
             payRate: payRate ? payRate.toNumber() : null, 
         };
     },

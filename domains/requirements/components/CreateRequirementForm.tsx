@@ -93,12 +93,12 @@ export default function CreateRequirementForm({ data }: PanelProps) {
             type="number"
           />
           <FormTimePicker 
-            label="endsAt"
-            name="endsAt"
-          />
-          <FormTimePicker 
             label="startsAt"
             name="startsAt"
+          />
+          <FormTimePicker 
+            label="endsAt"
+            name="endsAt"
           />
         </>
       )

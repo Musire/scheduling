@@ -2,8 +2,8 @@
 
 import { createSafeAction, validateFormData, validateSchema } from "@/domains/identity/auth/safeAction";
 import { revalidatePath } from "next/cache";
-import { createUserService, deleteUsersService } from "./user.services";
-import { UserCreationSchema, UserDeleteSchema, UserDeleteType } from "./user.validations";
+import { createUserService, deleteUsersService, updateUserService } from "./user.services";
+import { UserCreationSchema, UserDeleteSchema, UserDeleteType, UserUpdateSchema } from "./user.validations";
 
 export const createUser = createSafeAction(
     {
@@ -14,6 +14,19 @@ export const createUser = createSafeAction(
         const res = createUserService(validated)
         revalidatePath('/manage/users')
         return res
+    }
+)
+
+export const updateUser = createSafeAction(
+    {
+        allowedRoles: ['MANAGER']
+    },
+    async (_:any, formData: FormData) => {
+        const validated = validateFormData(UserUpdateSchema, formData)
+        const res = updateUserService(validated)
+        revalidatePath('/manage/')
+        return res
+
     }
 )
 

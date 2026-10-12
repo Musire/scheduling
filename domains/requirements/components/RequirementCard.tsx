@@ -41,7 +41,7 @@ export default function RequirementCard ({ data }: Props) {
 
     const handleEdit = (e: MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation()
-        loadSidepanel('update-requirement', {data})
+        loadSidepanel('update-requirement', data)
     }
 
 

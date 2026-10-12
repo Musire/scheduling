@@ -6,11 +6,11 @@ import FormStepper from "@/components/forms/FormStepper"
 import FormTimePicker from "@/components/forms/inputs/FormTimepicker"
 import { PanelProps } from "@/components/sidepanel/PanelRegistry"
 import { useToast } from "@/context"
+import { useSidePanel } from "@/context/SidepanelProvider"
 import { getAreaRoles } from "@/domains/areas/area.queries"
 import { updateRequirement } from "@/domains/requirements/requirement.actions"
 import { RequirementUpdateSchema } from "@/domains/requirements/RequirementSchema"
 import { useFetch } from "@/hooks/useFetch"
-import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 import z from "zod"
 import AreaRoleInput from "../../../components/forms/inputs/AreaRoleInput"
@@ -21,9 +21,9 @@ export default function UpdateRequirementForm({
   data,
 }: PanelProps) {
 
-  const router = useRouter()
   const { createSuccess } = useToast()
   const { data: areaRoles, error, execute} = useFetch(getAreaRoles)
+  const { clearModal: clearSidepanel } = useSidePanel()
 
   useEffect(() => {
     execute()
@@ -31,7 +31,7 @@ export default function UpdateRequirementForm({
 
 
   const onSuccess = () => {
-    router.push('/manage/requirements')
+    clearSidepanel()
     createSuccess('updated shift requirement')
   }
 
