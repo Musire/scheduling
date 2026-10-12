@@ -46,11 +46,6 @@ export const RequirementRepository = {
                         }
                     });
 
-                    console.log({
-                        candidates,
-                        req
-                    })
-
                     const coverage = calculateCoverage(
                         req.startsAt,
                         req.endsAt,

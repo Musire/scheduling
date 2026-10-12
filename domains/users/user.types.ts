@@ -9,7 +9,7 @@ export interface ExpectedUser {
   avatarUrl: string | null;
   role: UserRole;
   status: UserStatus;
-  payRate: number | null; 
+  payRate: number ; 
   maxHours: number;
   createdAt: Date;
   updatedAt: Date;

@@ -5,18 +5,15 @@ import FormStepper from "@/components/forms/FormStepper";
 import { useSidePanel } from "@/context/SidepanelProvider";
 import { createUser } from "@/domains/users/user.actions";
 import { UserCreationSchema } from "@/domains/users/user.validations";
-import { useRouter } from "next/navigation";
 import z from "zod";
 
 export default function CreateUserForm () {
     const { clearModal: clearSidepanel } = useSidePanel()
-    const router = useRouter()
     const defaultData = {
         name: '',
         email: '',
         payRate: 0,
         maxHours: 40
-
     }
     const onSuccess = () => {
         clearSidepanel()

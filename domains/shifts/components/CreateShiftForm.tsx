@@ -49,6 +49,8 @@ export default function CreateShiftForm () {
         {
             schema: z.object({
                 shiftDate: ShiftCreationSchema.shape.shiftDate,
+                startsAt: ShiftCreationSchema.shape.startsAt,
+                endsAt: ShiftCreationSchema.shape.endsAt,
             }).superRefine((data, ctx) => {
                 if (!data.shiftDate) return;
 
@@ -78,36 +80,6 @@ export default function CreateShiftForm () {
                         name="shiftDate"
                         label="Pick Date"
                     />
-                </>
-            )
-        },
-        {
-            schema: z.object({
-                areaId: ShiftCreationSchema.shape.areaId,
-                roleId: ShiftCreationSchema.shape.roleId,
-            }),
-            component: (
-            <>
-                <AreaRoleInput areaRoles={schedulingData?.areaRoles ?? []} />
-            </>
-            )
-        },
-        
-        {
-            schema: z.object({
-                userId: ShiftCreationSchema.shape.userId,
-                startsAt: ShiftCreationSchema.shape.startsAt,
-                endsAt: ShiftCreationSchema.shape.endsAt,
-            }),
-            component: (
-                <>
-                    <FormDropdown
-                        name="userId"
-                        label="select employee"
-                        options={schedulingData?.users ?? []}
-                        getOptionLabel={(item) => item.name}  
-                        getOptionValue={(item) => item.id}    
-                    />
                     <FormTimePicker 
                         name="startsAt"
                         label="start time"
@@ -119,7 +91,25 @@ export default function CreateShiftForm () {
                 </>
             )
         },
-        
+        {
+            schema: z.object({
+                areaId: ShiftCreationSchema.shape.areaId,
+                roleId: ShiftCreationSchema.shape.roleId,
+                userId: ShiftCreationSchema.shape.userId,
+            }),
+            component: (
+            <div className="flex flex-col space-y-6">
+                <AreaRoleInput areaRoles={schedulingData?.areaRoles ?? []} />
+                <FormDropdown
+                    name="userId"
+                    label="select employee"
+                    options={schedulingData?.users ?? []}
+                    getOptionLabel={(item) => item.name}  
+                    getOptionValue={(item) => item.id}    
+                />
+            </div>
+            )
+        },
     ]
 
     return (

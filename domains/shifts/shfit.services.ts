@@ -1,7 +1,7 @@
 import { toUtcMidnight } from "@/lib/timeUtils";
 import { getCurrentUser } from "../identity/actions/auth.actions";
 import { ShiftRepository } from "./shift.repositories";
-import { ShiftCreationType, ShiftDbSchema, ShiftDbType } from "./shift.validations.ts";
+import { ShiftCreationType, ShiftDbSchema, ShiftDbType, ShiftDeleteType, ShiftUpdateType } from "./shift.validations.ts";
 
 
 export async function getShiftsService (weekStart: string) {
@@ -25,10 +25,26 @@ export async function createShiftService(data: ShiftCreationType) {
   return ShiftRepository.createShift(validatedDbData);
 }
 
+export async function updateShiftService(data: ShiftUpdateType) {
+  
+  const payload = {
+    ...data,
+    shiftDate: toUtcMidnight(data.shiftDate),
+  };
+
+  console.log('payload: ',payload)
+
+  return ShiftRepository.updateShift(payload);
+}
+
 export async function getSchedulingService () {
     return ShiftRepository.getSchedulingData()
 }
 
 export async function getScheduleService (week: string) {
     return ShiftRepository.getSchedule(week)
+}
+
+export async function deleteShiftService(data: ShiftDeleteType) {
+  return ShiftRepository.deleteShift(data)
 }

@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { getWeekLimits } from "@/lib/timeUtils";
-import { ShiftDbType } from "./shift.validations.ts";
+import { ShiftDbType, ShiftDeleteType, ShiftUpdateType } from "./shift.validations.ts";
 
 
 
@@ -57,6 +57,14 @@ export const ShiftRepository = {
             data
         })
         return newShift
+    },
+    async updateShift(data: ShiftUpdateType) {
+        const { id, ...rest} = data
+        const shift = await prisma.shift.update({
+            where: {id},
+            data: rest
+        })
+        return shift
     },
     async getSchedulingData() {
         const [schedules, areaRoles, users] = await Promise.all([
@@ -135,5 +143,11 @@ export const ShiftRepository = {
                 payRate: shift?.user?.payRate?.toNumber() 
             } : null
         }));
+    },
+    async deleteShift (data: ShiftDeleteType) {
+        const shift = await prisma.shift.delete({
+            where: { id: data.id },
+        })
+        return shift
     }
 }

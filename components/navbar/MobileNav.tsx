@@ -34,8 +34,8 @@ export default function MobileNav({ items }: MobileNavProps) {
     <nav className="relative w-full z-100">
       {/* 🔹 DROPDOWN DRAWER PANEL */}
       {isDropdownOpen && manageItem?.children && (
-        <div className="fixed bottom-24 z-110 left-12 w-48 surface-1 rounded-xl shadow-xl p-4 border border-border animate-in slide-in-from-bottom-2 duration-200">
-          <ul className="flex flex-col space-y-2">
+        <div className="fixed bottom-24 z-110 left-12 w-48 bg-surface-1 rounded-xl shadow-xl p-4 border border-border animate-in slide-in-from-bottom-2 duration-200">
+          <ul className="flex flex-col space-y-2 ">
             {manageItem.children.map(subItem => {
               const isSubActive = pathname === subItem.href;
               return (

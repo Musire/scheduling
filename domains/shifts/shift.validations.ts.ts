@@ -42,7 +42,32 @@ export const ShiftCreationSchema = BaseShiftSchema.extend({
   }
 });
 
+export const ShiftUpdateSchema = BaseShiftSchema.extend({
+  id: z.uuid(),
+  shiftDate: z.coerce.date({
+    error: "Shift date is required.",
+  }),
+  // Both fields coerced to numbers tracking total seconds
+  startsAt: z.coerce.number(),
+  endsAt: z.coerce.number(),
+}).superRefine((data, ctx) => {
+  // 59 minutes * 60 seconds = 3540 seconds
+  if (data.endsAt - data.startsAt < 3540) {
+    ctx.addIssue({
+      code: "custom",
+      path: ["endsAt"],
+      message: "Shift must be at least 59 minutes long.",
+    });
+  }
+});
+
+export const ShiftDeleteSchema = z.object({
+  id: z.uuid()
+})
+
 export type ShiftCreationType = z.infer<typeof ShiftCreationSchema>;
+export type ShiftUpdateType = z.infer<typeof ShiftUpdateSchema>;
+export type ShiftDeleteType = z.infer<typeof ShiftDeleteSchema>;
 
 
 /* =========================================================

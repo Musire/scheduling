@@ -34,8 +34,8 @@ export default function NavDropdownButton({
       {Icon && (
         <div
           className={cn(
-            "centered size-8 rounded-full transition-transform",
-            isActiveState ? "bg-primary/20 text-primary" : "bg-background/40",
+            "centered size-8 z-30 rounded-full transition-transform",
+            isActiveState ? "bg-primary/20 text-primary" : "bg-surface-1",
             isOpen && "scale-110"
           )}
         >

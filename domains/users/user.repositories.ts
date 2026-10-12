@@ -20,7 +20,7 @@ export const UserRepository = {
             const { payRate, ...rest } = u
             return {
                 ...rest,
-                payRate: payRate ? payRate.toNumber() : null,
+                payRate: payRate ? payRate.toNumber() : 0,
             }
         })
         return formattedUsers

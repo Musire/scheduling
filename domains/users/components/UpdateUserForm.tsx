@@ -18,12 +18,12 @@ export default function UpdateUserForm ({ data }: Props) {
     const { createSuccess } = useToast()
 
     const defaultData = {
-        id: data?.id ?? '',
-        name: data?.name ?? '',
-        email: data?.email ?? '',
-        payRate: data?.payRate ?? 0
-
+        id: '',
+        name: '',
+        email: '',
+        payRate: 0
     }
+    
     const onSuccess = () => {
         clearSidepanel()
         createSuccess('successfully updated a user')
@@ -76,7 +76,7 @@ export default function UpdateUserForm ({ data }: Props) {
                 isMulti
                 actionFn={updateUser}
                 schema={UserUpdateSchema}
-                initialValues={defaultData}
+                initialValues={data ?? defaultData}
                 onSuccess={onSuccess}
             >
                 <FormStepper slides={slides} />
