@@ -3,13 +3,18 @@ import UserDataLayer from "@/domains/users/components/UserDataLayer";
 import { Suspense } from "react";
 import ManagementSkeleton from "../loading";
 
-export default async function UserMangementPage () {
+type Props = {
+  searchParams: Promise<{ week: string}>
+}
+
+export default async function UserMangementPage ({ searchParams }: Props) {
+    const { week } = await searchParams 
     return (
         <RoleRenderer 
             roles={{
                 MANAGER: (
                     <Suspense fallback={<ManagementSkeleton/>}>
-                        <UserDataLayer />
+                        <UserDataLayer week={week} />
                     </Suspense>
                 )   
             }}

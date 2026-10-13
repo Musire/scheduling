@@ -1,29 +1,63 @@
-import { prisma } from "@/lib/prisma"
-import { UserCreationType, UserUpdateType } from "./user.validations"
+import { prisma } from "@/lib/prisma";
+import { addDays, endOfDay, isWithinInterval, parseISO } from "date-fns";
+import { UserCreationType, UserUpdateType } from "./user.validations";
 
 
 export const UserRepository = {
-    async getUsers() {
-        const users = await prisma.user.findMany({ 
+    async getUsers(weekString: string) {
+        const startDate = parseISO(weekString); 
+        const endDate = endOfDay(addDays(startDate, 6));   
+
+        const users = await prisma.user.findMany({
             where: { 
                 role: "END_USER", 
                 status: { not: "DISABLED" } 
-            }, 
+            },
             include: { 
                 invitation: { 
                     select: { id: true, status: true } 
-                } 
-            } 
-        })
+                },
+                shifts: {
+                    select: {
+                        shiftDate: true, // Need this to filter in JavaScript
+                        startsAt: true, 
+                        endsAt: true
+                    }
+                }
+            }
+        });
 
-        const formattedUsers = users.map(u => {
-            const { payRate, ...rest } = u
+        // 2. Filter shifts and aggregate hours using post-processing
+        return users.map(({ payRate, shifts, ...rest }) => {
+            const scheduledHours = shifts.reduce((total, shift) => {
+                const shiftDateObj = new Date(shift.shiftDate);
+
+                // 1. Verify if the shift falls within the target week interval
+                const isThisWeek = isWithinInterval(shiftDateObj, { 
+                    start: startDate, 
+                    end: endDate 
+                });
+
+                if (!isThisWeek) return total;
+
+                // 2. Direct mathematical difference of seconds since midnight
+                let durationSeconds = shift.endsAt - shift.startsAt;
+
+                // Handle shifts crossing midnight (e.g., endsAt is smaller than startsAt)
+                if (durationSeconds < 0) {
+                    durationSeconds += 24 * 60 * 60; // Add a full day's worth of seconds
+                }
+
+                const hours = durationSeconds / 3600; // 3600 seconds in an hour
+                return total + hours;
+            }, 0);
+
             return {
                 ...rest,
                 payRate: payRate ? payRate.toNumber() : 0,
-            }
-        })
-        return formattedUsers
+                scheduledHours: Math.round(scheduledHours * 100) / 100, 
+            };
+        });
     },
     async getUserBySlug(name: string) {
         const user = await prisma.user.findUnique({

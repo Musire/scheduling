@@ -13,6 +13,7 @@ export interface ExpectedUser {
   maxHours: number;
   createdAt: Date;
   updatedAt: Date;
+  scheduledHours: number;
   invitation: {
     id: string;
     status: InvitationStatus;

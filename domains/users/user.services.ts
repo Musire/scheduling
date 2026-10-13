@@ -1,8 +1,8 @@
 import { UserRepository } from "./user.repositories";
 import { UserCreationType, UserDeleteType, UserUpdateType } from "./user.validations";
 
-export async function getUsersService () {
-    return UserRepository.getUsers()
+export async function getUsersService (weekString: string) {
+    return UserRepository.getUsers(weekString)
 }
 
 export async function updateUserService (data: UserUpdateType) {

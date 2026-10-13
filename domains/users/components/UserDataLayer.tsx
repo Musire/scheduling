@@ -1,8 +1,12 @@
 import { getUsers } from "../user.queries";
 import UserMangement from "./UserManagement";
 
-export default async function UserDataLayer () {
-    const { data: users } = await getUsers()
+type Props = {
+  week: string
+}
+
+export default async function UserDataLayer ({ week }: Props) {
+    const { data: users } = await getUsers(week)
 
     if (!users) {
         return (
