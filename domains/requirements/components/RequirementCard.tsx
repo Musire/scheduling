@@ -48,26 +48,22 @@ export default function RequirementCard ({ data }: Props) {
     return (
         <article
             onClick={toggleDrawer}
-            className="flex flex-col h-fit grow-0 p-6 border-border border rounded-lg cursor-pointer grid-cols-[5fr_1fr] gap-4 relative"
+            className="flex flex-col h-fit divide-y-border divide-y-2 grow-0 p-6 border-border border rounded-lg cursor-pointer grid-cols-[5fr_1fr] gap-4 relative"
         >
-            <p className="spaced">
+            <p className="spaced pb-4">
                 <span className=" rounded-full w-24 bg-alternate/20 centered py-1 text-alternate capitalize text-xs">
                     {getWeekday(data.dayOfWeek)}
                 </span>
                 <span className="text-sm">{`${data._count} /  ${data.requiredUsers}`}</span>
             </p>
-            <p className="capitalize text-xl truncate">
+            <p className="capitalize text-xl truncate stacked items-center space-y-2 pb-4">
                 <span className="text-base ">
                     {data.area.name}
                 </span>
-                <span className="text-else">
-                    {` · `}
-                </span>
-                <span className="text-else text-base">
+                <span className="text-else text-xs">
                     {data.role.name}
                 </span>
             </p>
-
             <p className="flex items-center text-else text-sm self-end">
                 {`${toMeridiem(data.startsAt)} - ${toMeridiem(data.endsAt)}`}
             </p>

@@ -6,15 +6,23 @@ import { Check } from "lucide-react";
 import { ElementType, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
-interface DropdownButtonProps<T extends string> {
+type DropdownButtonProps<T extends string> = {
   Icon?: ElementType;
   buttonStyle?: string;
   drawerStyle?: string;
   options: T[];
-  value?: T; // Keep single value for SetStateAction<string> compatibility
-  onChange?: (value: string) => void; 
-  multiple?: boolean; // Note: multiple true usually breaks SetStateAction<string> logic
-}
+} & (
+  | {
+      multiple: true;
+      value?: T[];
+      onChange?: (value: T[]) => void;
+    }
+  | {
+      multiple?: false;
+      value?: T;
+      onChange?: (value: T) => void;
+    }
+);
 
 export default function DropdownButton<T extends string>({
   Icon,
@@ -26,24 +34,38 @@ export default function DropdownButton<T extends string>({
   multiple = false,
 }: DropdownButtonProps<T>) {
   const { isMounted, animation, closeDrawer, toggleDrawer } = useDrawer();
-
-  // Fallback state if no value/onChange is passed
   const [internalState, setInternalState] = useState<T>("" as T);
   
   const selected = value !== undefined ? value : internalState;
 
   const handleSelect = (option: T) => {
     if (multiple) {
-      // Logic for multiple if needed, but note this conflicts with SetStateAction<string>
-      // If you strictly need Dispatch<SetStateAction<string>>, 'multiple' should likely be false
-    } else {
+      const currentValues = Array.isArray(value)
+        ? value
+        : Array.isArray(internalState)
+          ? internalState
+          : [];
+
+      const nextValues = currentValues.includes(option)
+        ? currentValues.filter((item) => item !== option)
+        : [...currentValues, option];
+
       if (onChange) {
-        onChange(option as string); 
+        onChange(nextValues as T[]);
       } else {
-        setInternalState(option);
+        setInternalState(nextValues);
       }
-      closeDrawer();
+
+      return;
     }
+
+    if (onChange) {
+      onChange(option as T);
+    } else {
+      setInternalState(option);
+    }
+
+    closeDrawer();
   };
 
   const getDisplayText = () => {

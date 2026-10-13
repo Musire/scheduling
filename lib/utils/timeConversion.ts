@@ -34,7 +34,6 @@ export function toMeridiem(totalSeconds: number): string {
   return `${paddedHours}:${paddedMinutes} ${meridiem}`;
 }
 
-
 export function formatToAppTime(startsAt: number, endsAt: number): string {
   const startTime = toMeridiem(startsAt);
   const endTime = toMeridiem(endsAt);
