@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-
+import { useCallback, useMemo, useState } from "react";
 
 export interface RequirementFilters {
   areas: string[];    
@@ -11,8 +10,6 @@ export const initialFilters: RequirementFilters = {
   weekdays: [], 
 };
 
-
-
 export function useMultiFilter<T, F extends Record<string, unknown>>(
   data: T[],
   initialFilters: F,
@@ -20,13 +17,7 @@ export function useMultiFilter<T, F extends Record<string, unknown>>(
 ) {
   const [filters, setFilters] = useState<F>(initialFilters);
 
-  // 1. Keep a mutable ref of the filter function to prevent unnecessary re-filtering
-  const filterFnRef = useRef(filterFn);
-  useEffect(() => {
-    filterFnRef.current = filterFn;
-  }, [filterFn]);
-
-  // 2. Allow functional updates (e.g., setFilter('count', prev => prev + 1))
+  // 1. Fixed @typescript-eslint/no-unsafe-function-type
   const setFilter = useCallback(
     <K extends keyof F>(
       key: K, 
@@ -35,7 +26,7 @@ export function useMultiFilter<T, F extends Record<string, unknown>>(
       setFilters((prev) => ({
         ...prev,
         [key]: typeof value === "function" 
-          ? (value as Function)(prev[key]) 
+          ? (value as (prevValue: F[K]) => F[K])(prev[key]) 
           : value,
       }));
     },
@@ -46,10 +37,10 @@ export function useMultiFilter<T, F extends Record<string, unknown>>(
     setFilters(initialFilters);
   }, [initialFilters]);
 
-  // 3. filterFn is omitted here because we read from filterFnRef.current
+  // 2. Fixed 'Cannot access refs during render' by using filterFn directly 
   const filteredData = useMemo(
-    () => data.filter((item) => filterFnRef.current(item, filters)),
-    [data, filters] 
+    () => data.filter((item) => filterFn(item, filters)),
+    [data, filters, filterFn] 
   );
 
   return {

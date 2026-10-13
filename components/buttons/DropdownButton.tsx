@@ -34,12 +34,15 @@ export default function DropdownButton<T extends string>({
   multiple = false,
 }: DropdownButtonProps<T>) {
   const { isMounted, animation, closeDrawer, toggleDrawer } = useDrawer();
-  const [internalState, setInternalState] = useState<T>("" as T);
+  
+  // 1. Fixed State Initialization: Allow state to hold either a single string or an array of strings
+  const [internalState, setInternalState] = useState<T | T[]>(multiple ? [] : ("" as T));
   
   const selected = value !== undefined ? value : internalState;
 
   const handleSelect = (option: T) => {
     if (multiple) {
+      // 2. Safely grab current values knowing they must be an array contextually
       const currentValues = Array.isArray(value)
         ? value
         : Array.isArray(internalState)
@@ -51,16 +54,16 @@ export default function DropdownButton<T extends string>({
         : [...currentValues, option];
 
       if (onChange) {
-        onChange(nextValues as T[]);
+        // 3. Typecast to expected types to fulfill the discriminated union contract
+        (onChange as (val: T[]) => void)(nextValues);
       } else {
         setInternalState(nextValues);
       }
-
       return;
     }
 
     if (onChange) {
-      onChange(option as T);
+      (onChange as (val: T) => void)(option);
     } else {
       setInternalState(option);
     }
@@ -69,6 +72,10 @@ export default function DropdownButton<T extends string>({
   };
 
   const getDisplayText = () => {
+    // 4. Handle rendering text properly when 'selected' is an array
+    if (Array.isArray(selected)) {
+      return selected.length > 0 ? selected.join(", ") : "Select Options";
+    }
     if (!selected || selected === "") return "Select Option";
     return String(selected);
   };
@@ -103,7 +110,10 @@ export default function DropdownButton<T extends string>({
           >
             <ul className="flex flex-col w-full">
               {options.map((option) => {
-                const isSelected = selected === option;
+                // 5. Fixed selection check to handle both arrays and strings cleanly
+                const isSelected = Array.isArray(selected)
+                  ? selected.includes(option)
+                  : selected === option;
 
                 return (
                   <li key={String(option)}>
@@ -112,11 +122,10 @@ export default function DropdownButton<T extends string>({
                       onClick={() => handleSelect(option)}
                       className="flex items-center text-else w-full text-sm text-left capitalize px-3 py-1  hover:bg-surface-1 hover:text-main easy-transition gap-x-2"
                     >
-                      {multiple && (
-                        <span className="w-4">
-                          {isSelected && <Check className="w-4 h-4 text-primary" />}
-                        </span>
-                      )}
+                      {/* Show checkmarks for selected items in single or multi mode */}
+                      <span className="w-4">
+                        {isSelected && <Check className="w-4 h-4 text-primary" />}
+                      </span>
                       <span>{String(option)}</span>
                     </button>
                   </li>
